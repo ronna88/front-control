@@ -20,8 +20,8 @@ import LastPageIcon from '@mui/icons-material/LastPage';
 import {IconEdit, IconTrash} from '@tabler/icons';
 import Modal from '@mui/material/Modal';
 import { Typography } from '@mui/material';
-import PJForm from './PJForm';
-import { getPJData } from '../../../api/Api';
+import LocalForm from './LocalForm';
+import { getLocaisData } from '../../../api/Api';
 import { toast } from 'react-toastify';
 
 
@@ -103,20 +103,42 @@ TablePaginationActions.propTypes = {
 };
 
 
-const PJTable = ({rows, setRows, loading, setLoading, edit, setEdit,
-    erase, setErase}) => {
+const LocalTable = ({rows, setRows, loading, setLoading, edit, setEdit,
+    erase, setErase, PJSelected, setPJSelected}) => {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
-    const [sort, setSort] = useState("clienteNome")
+    const [sort, setSort] = useState("localNome")
     const [loadingKey, setLoadingKey] = useState(0);
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-    const [selectedPJ, setSelectedPJ] = useState();
+    const [selectedLocal, setSelectedLocal] = useState();
+    
+    useEffect(()=> {
+        getLocaisData(
+            PJSelected,
+            page,
+            rowsPerPage,
+            sort
+            )
+      .then((response) => {
+          setRows(response.data);
+          console.log(response.data.content)
+      })
+      .catch((error) => {
+          toast.error(`${error.response.data}`)
+          console.log("Erro ao recuperar dados. " + error);
+      });
+    },[])
     
     useEffect(() => {
-        if(rows.length === 0){
-            getPJData(page, rowsPerPage, sort)
+        if(rows?.length === 0){
+            getLocaisData(
+                PJSelected,
+                page,
+                rowsPerPage,
+                sort
+                )
       .then((response) => {
           setRows(response.data);
       })
@@ -135,7 +157,8 @@ const PJTable = ({rows, setRows, loading, setLoading, edit, setEdit,
 }, [rows]);
 
     useEffect(()=>{
-        getPJData(
+        getLocaisData(
+            PJSelected,
             page,
             rowsPerPage,
             sort
@@ -150,7 +173,8 @@ const PJTable = ({rows, setRows, loading, setLoading, edit, setEdit,
         },[page])
 
     useEffect(()=>{
-        getPJData(
+        getLocaisData(
+            PJSelected,
             page,
             rowsPerPage,
             sort
@@ -159,7 +183,7 @@ const PJTable = ({rows, setRows, loading, setLoading, edit, setEdit,
           setRows(response.data);
       })
       .catch((error) => {
-          toast.error(`${error.response.data}`)
+          toast.error(`${error.response?.data}`)
           console.log("Erro ao recuperar dados. " + error);
       });
         },[rowsPerPage])
@@ -173,14 +197,14 @@ const PJTable = ({rows, setRows, loading, setLoading, edit, setEdit,
         setPage(0);
     };
     
-    function handleEditClick(pj){
-        setSelectedPJ(pj)
+    function handleEditClick(local){
+        setSelectedLocal(local)
         setEdit(true)
         setErase(false)
         handleOpen()
     }
-    function handleDeleteClick(pj){
-        setSelectedPJ(pj)
+    function handleDeleteClick(local){
+        setSelectedLocal(local)
         setErase(true)
         setEdit(false)
         handleOpen()
@@ -202,9 +226,6 @@ const PJTable = ({rows, setRows, loading, setLoading, edit, setEdit,
             <TableHead>
                 <TableRow>
                     <TableCell><strong>Nome </strong></TableCell>
-                    <TableCell><strong>CNPJ </strong></TableCell>
-                    <TableCell><strong>Telefone</strong></TableCell>
-                    <TableCell><strong>Email</strong></TableCell>
                     <TableCell><strong>Status</strong></TableCell>
                     <TableCell><strong>Ações</strong></TableCell>
                 </TableRow>
@@ -215,12 +236,9 @@ const PJTable = ({rows, setRows, loading, setLoading, edit, setEdit,
                     <TableRow><TableCell colspan='4'>Sem dados...</TableCell></TableRow>
                     ) :
                   (rows?.content).map((row) => (
-                      <TableRow key={row.clienteId}>
-                          <TableCell>{row.clienteNome}</TableCell>
-                          <TableCell>{row.clienteCNPJ}</TableCell>
-                          <TableCell>{row.clienteTelefone}</TableCell>
-                          <TableCell>{row.clienteEmail}</TableCell>
-                          <TableCell><Chip label={row.clienteStatus} sx={row.clienteStatus === 'ATIVO' ? ativo : desativo } variant='outlined' /></TableCell>
+                      <TableRow key={row.localNome}>
+                          <TableCell>{row.localNome}</TableCell>
+                          <TableCell><Chip label={row.localStatus} sx={row.localStatus === 'ATIVO' ? ativo : desativo } variant='outlined' /></TableCell>
                           <TableCell><IconButton onClick={() => handleEditClick(row)}><IconEdit color="#5d87ff" /></IconButton>  <IconButton onClick={() => handleDeleteClick(row)}><IconTrash color="#5d87ff" /></IconButton></TableCell>
                       </TableRow>
                       ))
@@ -250,16 +268,16 @@ const PJTable = ({rows, setRows, loading, setLoading, edit, setEdit,
         >
         <Box sx={style}>
             <Typography sx={{marginBottom: '2rem'}} id="modal-modal-title" variant="h3" component="h2">
-                {edit ? 'Editar' : 'Apagar'} cliente PJ
+                {edit ? 'Editar' : 'Apagar'} Local
             </Typography>
-            <PJForm handleOpen={handleOpen} handleClose={handleClose}
+            <LocalForm handleOpen={handleOpen} handleClose={handleClose}
                 setRows={setRows} setLoading={setLoading} edit={edit} setEdit={setEdit}
-                erase={erase} selectedPJ={selectedPJ}
-                setSelectedPJ={setSelectedPJ}/>
+                erase={erase} selectedLocal={selectedLocal}
+                setSelectedLocal={setSelectedLocal} PJSelected={PJSelected} setSelectedPJ={setPJSelected}/>
         </Box>
     </Modal>
     </>
     )
 }
 
-export default PJTable;
+export default LocalTable;

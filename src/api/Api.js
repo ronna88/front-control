@@ -65,3 +65,23 @@ export async function deletePJ(pf) {
   return await axios.delete(`${urlBase}/cliente/pj/${pf.clienteId}`);
 }
 // ================ CLIENTE PJ API
+
+
+
+// ================ LOCAIS API
+export async function getLocaisData(clienteId, page, size, sort, direction){
+  return await axios.get(`${urlBase}/local/${clienteId}`, {params: {page,size,sort}});
+}
+
+export async function saveLocalData(clienteId, form) {
+  if (form.localId) {
+    return await axios.put(`${urlBase}/local/${clienteId}/${form.localId}`, form);
+  } else {
+    return await axios.post(`${urlBase}/local/${clienteId}`, form);
+  }
+}
+
+export async function deleteLocal(clienteId, localId) {
+  return await axios.delete(`${urlBase}/local/${clienteId}/${localId}`);
+}
+// ================ LOCAIS API

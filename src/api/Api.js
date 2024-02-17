@@ -45,3 +45,23 @@ export async function deletePF(pf) {
   return await axios.delete(`${urlBase}/cliente/pf/${pf.clienteId}`);
 }
 // ================ CLIENTE PF API
+
+
+
+// ================ CLIENTE PJ API
+export async function getPJData(page, size, sort, direction){
+  return await axios.get(`${urlBase}/cliente/pj`, {params: {page,size,sort}});
+}
+
+export async function savePJData(form) {
+  if (form.clienteId) {
+    return await axios.put(`${urlBase}/cliente/pj/${form.clienteId}`, form);
+  } else {
+    return await axios.post(`${urlBase}/cliente/pj/novo`, form);
+  }
+}
+
+export async function deletePJ(pf) {
+  return await axios.delete(`${urlBase}/cliente/pj/${pf.clienteId}`);
+}
+// ================ CLIENTE PJ API

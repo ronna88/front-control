@@ -31,6 +31,7 @@ const EmpresaForm = ({handleOpen, handleClose, setRows,
     };
     
     const handleSave = () => {
+        setForm({...form, empresaStatus: 'ATIVO'})
         saveEmpresaData(form)
             .then((response) => {
                 setRows([])

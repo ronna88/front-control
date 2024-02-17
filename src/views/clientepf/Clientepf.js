@@ -8,11 +8,11 @@ import PageContainer from 'src/components/container/PageContainer';
 import DashboardCard from '../../components/shared/DashboardCard';
 import BlankCard from '../../components/shared/BlankCard';
 
-import PFTable from '../../components/cliente/pf/PFTable'
-import PFFilterNew from '../../components/cliente/pf/PFFilterNew'
+import EmpresaTable from '../../components/empresa/EmpresaTable'
+import EmpresaFilterNew from '../../components/empresa/EmpresaFilterNew'
 
 
-const PF = () => {
+const Clientepf = () => {
   const [rows, setRows] = useState([])
   const [loading, setLoading] = useState(true)
   const [edit, setEdit] = useState(false)
@@ -20,18 +20,18 @@ const PF = () => {
 
 
   return (
-    <PageContainer title="Cliente PF" description="página para tratativa dos clientes PF">
-      <DashboardCard title="Clientes PF">
-        <Typography>Clientes PF Cadastrados</Typography>
+    <PageContainer title="Empresa" description="página para tratativa das empresas">
+      <DashboardCard title="Empresa">
+        <Typography>Empresas Cadastradas</Typography>
         <BlankCard>
-          <PFFilterNew setRows={setRows} loading={loading} setLoading={setLoading} />
+          <EmpresaFilterNew setRows={setRows} loading={loading} setLoading={setLoading} />
           <CardContent>
-            <PFTable rows={rows} setRows={setRows} loading={loading} setLoading={setLoading} edit={edit} setEdit={setEdit} erase={erase} setErase={setErase}/>
+            <EmpresaTable rows={rows} setRows={setRows} loading={loading} setLoading={setLoading} edit={edit} setEdit={setEdit} erase={erase} setErase={setErase}/>
           </CardContent>
         </BlankCard>
       </DashboardCard>
     </PageContainer>
-    );
+  );
 };
 
-export default PF;
+export default Empresa;

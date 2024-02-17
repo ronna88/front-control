@@ -3,10 +3,13 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import BlankCard from '../../components/shared/BlankCard';
 import Button from '@mui/material/Button';
-import {saveEmpresaData} from '../../api/Api';
+import {saveEmpresaData, deleteEmpresa} from '../../api/Api';
 import { useNavigate } from "react-router-dom";
+import { Typography } from '@mui/material';
+import { toast } from 'react-toastify';
 
-const EmpresaForm = ({handleOpen, handleClose, setRows, setLoading, edit, setEdit, erase, setErase, empresa}) => {
+const EmpresaForm = ({handleOpen, handleClose, setRows,
+    setLoading, edit, setEdit, erase, setErase, selectedEmpresa, setSelectedEmpresa}) => {
     const navigate = useNavigate();
         const [form, setForm] = useState({
             empresaNomeFantasia: '',
@@ -30,17 +33,19 @@ const EmpresaForm = ({handleOpen, handleClose, setRows, setLoading, edit, setEdi
     const handleSave = () => {
         saveEmpresaData(form)
             .then((response) => {
-                console.log(response);
                 setRows([])
                 setLoading(true)
-                setEdit(false)
-                setErase(false)
+                // setEdit(false)
+                // setErase(false)
                 handleClose()
+                toast.success('Empresa salva com sucesso!')
             })
             .catch((error) => {
-            console.log(error);
-        })
+                console.log(error)
+                toast.error(`${error.response.data}`)
+            })
     }
+
     const handleOnChangeNomeFantasia = (event) => {
         setForm({...form, empresaNomeFantasia: event.target.value});
     }
@@ -65,14 +70,40 @@ const EmpresaForm = ({handleOpen, handleClose, setRows, setLoading, edit, setEdi
         setForm({...form, empresaTelefone: event.target.value});
     }
     
+    const handleSim = (empresa) => {
+        deleteEmpresa(empresa)
+            .then((response) => {
+                setRows([])
+                setLoading(true)
+                setSelectedEmpresa()
+                handleClose()
+                toast.success('Empresa apagada com sucesso!')
+            })
+            .catch((error) => {
+                console.log(error);
+                toast.error(`${error.response.data}`)
+            })
+    }
+
+    const handleNao = () => {
+        console.log('close')
+        setRows([])
+        setSelectedEmpresa()
+        setLoading(true)
+        handleClose()
+    }
+
     useEffect(()=> {
-        console.log("edit: " + edit)
-        console.log("erase: " + erase)
-        if(edit) {
-            console.log('editar formulario')
-        }
-        if(erase) {
-            console.log('deletar formulario')
+        if (selectedEmpresa) {
+            setForm({
+                empresaId: selectedEmpresa.empresaId,
+                empresaNomeFantasia: selectedEmpresa.empresaNomeFantasia,
+                empresaCNPJ: selectedEmpresa.empresaCNPJ,
+                empresaInscricaoEstadual: selectedEmpresa.empresaInscricaoEstadual,
+                empresaEndereco: selectedEmpresa.empresaEndereco,
+                empresaEmail: selectedEmpresa.empresaEmail,
+                empresaTelefone: selectedEmpresa.empresaTelefone,
+            })
         }
     },[])
     
@@ -80,15 +111,27 @@ const EmpresaForm = ({handleOpen, handleClose, setRows, setLoading, edit, setEdi
     return (
         <BlankCard>
             <Box sx={style}>
-                {erase ? `Deseja realmente apagar a empresa x`: (
+                {erase ?
+                    (
+                        <>
+                            <Typography variant="h3" component="h3" sx={{marginBottom: '10px'}}>
+                                Deseja realmente apagar a empresa:  {selectedEmpresa.empresaNomeFantasia}?
+                            </Typography>
+                            <Box sx={{display: 'flex', gap: 5}}>
+                                <Button variant='contained' color='error' onClick={() => handleSim(selectedEmpresa)} >Sim</Button>
+                                <Button variant='contained' onClick={() => handleNao()}>Não</Button>
+                            </Box>
+                        </>
+
+                    ): (
                     <>
-                        <TextField onChange={handleOnChangeNomeFantasia} sx={{width:'300px'}} id='nomeFantasia' name='nomeFantasia' label="Nome Fantasia" />
-                        <TextField onChange={handleOnChangeCnpj} sx={{width:'300px'}} id='cnpj' name='cnpj' label="CNPJ" />
-                        <TextField onChange={handleOnChangeIe} sx={{width:'300px'}} id='inscricaoEstadual' name='nomeFantainscricaoEstadualsia' label="Inscrição Estadual" />
-                        <TextField onChange={handleOnChangeEndereco} sx={{width:'300px'}} id='endereco' name='endereco' label="Endereço" />
-                        <TextField onChange={handleOnChangeEmail} sx={{width:'300px'}} id='email' name='email' label="Email" />
-                        <TextField onChange={handleOnChangeTelefone} sx={{width:'300px'}} id='telefone' name='telefone' label="Telefone" />
-                        <Button sx={{margin: '20px'}} variant='contained' onClick={handleSave}>Salvar</Button>
+                        <TextField value={form.empresaNomeFantasia} onChange={handleOnChangeNomeFantasia} sx={{width:'300px'}} id='empresaNomeFantasia' name='empresaNomeFantasia' label="Nome Fantasia" />
+                        <TextField value={form.empresaCNPJ} onChange={handleOnChangeCnpj} sx={{width:'300px'}} id='empresaCNPJ' name='empresaCNPJ' label="CNPJ" />
+                        <TextField value={form.empresaInscricaoEstadual} onChange={handleOnChangeIe} sx={{width:'300px'}} id='empresaInscricaoEstadual' name='empresaInscricaoEstadual' label="Inscrição Estadual" />
+                        <TextField value={form.empresaEndereco} onChange={handleOnChangeEndereco} sx={{width:'300px'}} id='empresaEndereco' name='empresaEndereco' label="Endereço" />
+                        <TextField value={form.empresaEmail} onChange={handleOnChangeEmail} sx={{width:'300px'}} id='empresaEmail' name='empresaEmail' label="Email" />
+                        <TextField value={form.empresaTelefone} onChange={handleOnChangeTelefone} sx={{width:'300px'}} id='empresaTelefone' name='empresaTelefone' label="Telefone" />
+                        <Button sx={{margin: '20px'}} variant='contained' onClick={handleSave}>Atualizar</Button>
                     </>
                 )
             }

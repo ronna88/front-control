@@ -19,9 +19,7 @@ import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
 import {IconEdit, IconTrash} from '@tabler/icons';
 import Modal from '@mui/material/Modal';
-import {
-    Typography
-} from '@mui/material';
+import { Typography } from '@mui/material';
 import EmpresaForm from './EmpresaForm';
 
 import { getEmpresaData } from '../../api/Api';
@@ -105,7 +103,8 @@ TablePaginationActions.propTypes = {
 };
 
 
-const EmpresaTable = ({rows, setRows, loading, setLoading, edit, setEdit, erase, setErase}) => {
+const EmpresaTable = ({rows, setRows, loading, setLoading, edit, setEdit,
+    erase, setErase}) => {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [sort, setSort] = useState("empresaNomeFantasia")
@@ -175,28 +174,38 @@ const EmpresaTable = ({rows, setRows, loading, setLoading, edit, setEdit, erase,
         setPage(0);
     };
     
-    function handleEditClick(e){
-        setSelectedEmpresa(e)
+    function handleEditClick(empresa){
+        setSelectedEmpresa(empresa)
         setEdit(true)
         setErase(false)
         handleOpen()
     }
-    function handleDeleteClick(e){
-        setSelectedEmpresa(e)
+    function handleDeleteClick(empresa){
+        setSelectedEmpresa(empresa)
         setErase(true)
         setEdit(false)
         handleOpen()
     }
     
+    const ativo={
+        px: "4px",
+        backgroundColor: '#5d87ff',
+        color: "#fff"}
+    const desativo={
+        px: "4px",
+        backgroundColor: '#FA896B',
+        color: "#fff"
+    }
+
     return (
         <>
         <Table>
             <TableHead>
                 <TableRow>
-                    <TableCell>Nome Fantasia</TableCell>
-                    <TableCell>CNPJ</TableCell>
-                    <TableCell>Status</TableCell>
-                    <TableCell>Ações</TableCell>
+                    <TableCell><strong>Nome Fantasia</strong></TableCell>
+                    <TableCell><strong>CNPJ</strong></TableCell>
+                    <TableCell><strong>Status</strong></TableCell>
+                    <TableCell><strong>Ações</strong></TableCell>
                 </TableRow>
             </TableHead>
             <TableBody>
@@ -208,8 +217,8 @@ const EmpresaTable = ({rows, setRows, loading, setLoading, edit, setEdit, erase,
                       <TableRow key={row.empresaId}>
                           <TableCell>{row.empresaNomeFantasia}</TableCell>
                           <TableCell>{row.empresaCNPJ}</TableCell>
-                          <TableCell><Chip label={row.empresaStatus} color={row.empresaStatus === 'ATIVO' ? 'primary' : 'error'} variant='outlined' /></TableCell>
-                          <TableCell><IconButton onClick={handleEditClick}><IconEdit color="#5d87ff" /></IconButton>  <IconButton onClick={handleDeleteClick}><IconTrash color="#5d87ff" /></IconButton></TableCell>
+                          <TableCell><Chip label={row.empresaStatus} sx={row.empresaStatus === 'ATIVO' ? ativo : desativo } variant='outlined' /></TableCell>
+                          <TableCell><IconButton onClick={() => handleEditClick(row)}><IconEdit color="#5d87ff" /></IconButton>  <IconButton onClick={() => handleDeleteClick(row)}><IconTrash color="#5d87ff" /></IconButton></TableCell>
                       </TableRow>
                       ))
                       )
@@ -240,7 +249,10 @@ const EmpresaTable = ({rows, setRows, loading, setLoading, edit, setEdit, erase,
             <Typography sx={{marginBottom: '2rem'}} id="modal-modal-title" variant="h3" component="h2">
                 {edit ? 'Editar' : 'Apagar'} empresa
             </Typography>
-            <EmpresaForm handleOpen={handleOpen} handleClose={handleClose} setRows={setRows} setLoading={setLoading} edit={edit} erase={erase} />
+            <EmpresaForm handleOpen={handleOpen} handleClose={handleClose}
+                setRows={setRows} setLoading={setLoading} edit={edit} setEdit={setEdit}
+                erase={erase} selectedEmpresa={selectedEmpresa}
+                setSelectedEmpresa={setSelectedEmpresa}/>
         </Box>
     </Modal>
     </>

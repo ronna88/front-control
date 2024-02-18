@@ -9,7 +9,6 @@ const PJSelect = ({listaPJ, PJSelected, setPJSelected}) => {
     
     const handleChange = (event) => {
         setPJSelected(event.target.value)
-        // console.log(event.target.value)
     }
     
     return(
@@ -23,10 +22,10 @@ const PJSelect = ({listaPJ, PJSelected, setPJSelected}) => {
                 label='Cliente PJ'
                 onChange={handleChange}
             >
-                <MenuItem value={-1}>Selecione</MenuItem>
+                <MenuItem value={-1} >Selecione</MenuItem>
                 {listaPJ ? (
                     listaPJ.map((pj) => (
-                        <MenuItem value={pj.clienteId}>{pj.clienteNome}</MenuItem>
+                        <MenuItem key={pj.clienteId} value={pj.clienteId}>{pj.clienteNome}</MenuItem>
                     ))
                 ) : `Cliente PJ não carregadas` }
                    

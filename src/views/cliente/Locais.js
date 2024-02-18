@@ -8,6 +8,8 @@ import { toast } from 'react-toastify';
 
 import LocalTable from '../../components/cliente/local/LocalTable'
 import LocalFilterNew from '../../components/cliente/local/LocalFilterNew'
+import LocalTablePF from '../../components/cliente/local/LocalTablePF'
+import LocalFilterNewPF from '../../components/cliente/local/LocalFilterNewPF'
 
 import PJSelect from '../../components/cliente/PJSelect'
 import PFSelect from '../../components/cliente/PFSelect'
@@ -15,14 +17,19 @@ import PFSelect from '../../components/cliente/PFSelect'
 
 const Locais = () => {
   const [rows, setRows] = useState([])
+  const [rowsPF, setRowsPF] = useState([])
   const [loading, setLoading] = useState(true)
+  const [loadingPF, setLoadingPF] = useState(true)
   const [edit, setEdit] = useState(false)
   const [erase, setErase] = useState(false)
+  const [editPF, setEditPF] = useState(false)
+  const [erasePF, setErasePF] = useState(false)
 
   const [listaPF, setListaPF] = useState([])
-  const [PFSelected, setPFSelected] = useState([])
+  const [PFSelected, setPFSelected] = useState(-1)
   const [listaPJ, setListaPJ] = useState([])
-  const [PJSelected, setPJSelected] = useState([])
+  const [PJSelected, setPJSelected] = useState(-1)
+  const [selectedLocal, setSelectedLocal] = useState([])
 
   useEffect(() => {
     getPJData(0, 200, "")
@@ -33,11 +40,18 @@ const Locais = () => {
       console.log(error)
       toast.error(`${error}`)
     })
+
+    getPFData(0, 200, "")
+    .then((response) => {
+      setListaPF(response.data.content)
+    })
+    .catch((error) => {
+      console.log(error)
+      toast.error(`${error}`)
+    })
   },[])
 
   useEffect(()=>{
-   // console.log("effect mudou PJSelected")
-   // console.log(PJSelected)
   }, [PJSelected])
 
 
@@ -47,9 +61,11 @@ const Locais = () => {
         <Typography>Locais Cadastrados</Typography>
 
         <BlankCard>
-          <PJSelect listaPJ={listaPJ} PJSelected={PJSelected} setPJSelected={setPJSelected}/>
-          {PJSelected.length > 0 ? <LocalFilterNew setRows={setRows} loading={loading}
-            setLoading={setLoading} PJSelected={PJSelected} /> :
+          <div style={{padding:'10px'}}>
+            <PJSelect listaPJ={listaPJ} PJSelected={PJSelected} setPJSelected={setPJSelected} setRows={setRows}/>
+            {PJSelected.length > 0 ? <LocalFilterNew setRows={setRows} loading={loading} setLoading={setLoading}
+              PJSelected={PJSelected} edit={edit} setEdit={setEdit} erase={erase} setErase={setErase}
+              selectedLocal={selectedLocal} setSelectedLocal={setSelectedLocal} setPJSelected={setPJSelected}/> :
           (
             <>
             <Typography variant="h6" component="h3" sx={{margin: '40px'}}>
@@ -57,28 +73,45 @@ const Locais = () => {
             </Typography>
             </>) }
 
-          <CardContent>
-            {PJSelected.length > 0 ? (
-              <>
-              <LocalTable rows={rows} setRows={setRows}
-                loading={loading} setLoading={setLoading}
-                edit={edit} setEdit={setEdit} erase={erase} setErase={setErase} PJSelected={PJSelected} setPJSelected={setPJSelected} />
-              </>
-            ) : 'Sem dados de locais..' }
-          </CardContent>
+            <CardContent>
+              {PJSelected.length > 0 ? (
+                <>
+                <LocalTable rows={rows} setRows={setRows}
+                  loading={loading} setLoading={setLoading}
+                  edit={edit} setEdit={setEdit} erase={erase} setErase={setErase} PJSelected={PJSelected} setPJSelected={setPJSelected} />
+                </>
+                ) : 'Sem dados de locais..' }
+            </CardContent>
+          </div>
         </BlankCard>
 
-        { /*
+
         <BlankCard>
-          <PFSelect listaPF={listaPF} PFSelected={PFSelected}/>
-          <LocalFilterNew setRows={setRows} loading={loading} setLoading={setLoading} />
+          <div style={{padding:'10px'}}>
+          <PFSelect listaPF={listaPF} PFSelected={PFSelected} setPFSelected={setPFSelected} setRowsPF={setRowsPF}/>
+          {PFSelected.length > 0 ? <LocalFilterNewPF setRowsPF={setRowsPF} loadingPF={loadingPF} setLoadingPF={setLoadingPF}
+            PFSelected={PFSelected} editPF={editPF} setEditPF={setEditPF} erasePF={erasePF} setErasePF={setErasePF}
+            selectedLocal={selectedLocal} setSelectedLocal={setSelectedLocal} setPFSelected={setPFSelected} /> :
+          (
+            <>
+            <Typography variant="h6" component="h3" sx={{margin: '40px'}}>
+              Selecione um cliente PF para poder criar um novo local
+            </Typography>
+            </>) }
+
           <CardContent>
-
-            <LocalTable rows={rows} setRows={setRows} loading={loading} setLoading={setLoading} edit={edit} setEdit={setEdit} erase={erase} setErase={setErase}/>
-
-</CardContent>
+            {PFSelected.length > 0 ? (
+              <>
+              <LocalTablePF rowsPF={rowsPF} setRowsPF={setRowsPF}
+                loadingPF={loadingPF} setLoadingPF={setLoadingPF}
+                editPF={editPF} setEditPF={setEditPF} erasePF={erasePF} setErasePF={setErasePF} PFSelected={PFSelected}
+                setPFSelected={setPFSelected} />
+              </>
+              ) : 'Sem dados de locais..' }
+          </CardContent>
+            </div>
         </BlankCard>
- */}
+
       </DashboardCard>
 
     </PageContainer>

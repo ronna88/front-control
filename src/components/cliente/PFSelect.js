@@ -5,10 +5,11 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
 
-const PFSelect = ({listaPF, PFSelected}) => {
+const PFSelect = ({listaPF, PFSelected, setPFSelected, setRowsPF}) => {
     
     const handleChange = (event) => {
-        console.log(event.target.value)
+        // setRowsPF([])
+        setPFSelected(event.target.value)
     }
     
     return(
@@ -22,14 +23,12 @@ const PFSelect = ({listaPF, PFSelected}) => {
                 label='Cliente PF'
                 onChange={handleChange}
                 >
-                <MenuItem value={-1}>Selecione</MenuItem>
+                <MenuItem value={-1} >Selecione</MenuItem>
                 {listaPF ? (
                     listaPF.map((pf) => (
-                        <MenuItem value={pf.clienteId}>{pf.clienteNome}</MenuItem>
+                        <MenuItem key={pf.clienteId} value={pf.clienteId}>{pf.clienteNome}</MenuItem>
                         ))
                         ) : `Cliente PF não carregadas` }
-
-
             </Select>
         </FormControl>
         </>

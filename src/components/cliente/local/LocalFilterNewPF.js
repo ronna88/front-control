@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import {Typography} from '@mui/material';
-import LocalForm from './LocalForm';
+import LocalFormPF from './LocalFormPF';
 
 const style = {
     position: 'absolute',
@@ -22,7 +22,8 @@ const style = {
     gap: '3px',
 };
 
-const LocalFilterNew = ({setRows, loading, setLoading, PJSelected, edit, setEdit, erase, setErase, selectedLocal, setSelectedLocal, setPJSelected}) => {
+const LocalFilterNewPF = ({setRowsPF, loadingPF,
+    setLoadingPF, PFSelected}) => {
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -42,9 +43,8 @@ const LocalFilterNew = ({setRows, loading, setLoading, PJSelected, edit, setEdit
                 <Typography sx={{marginBottom: '2rem'}} id="modal-modal-title" variant="h3" component="h2">
                     Cadastrar novo local para o cliente selecionado
                 </Typography>
-                <LocalForm handleOpen={handleOpen} handleClose={handleClose} setRows={setRows}
-                    setLoading={setLoading} edit={edit} setEdit={setEdit} erase={erase} setErase={setErase} selectedLocal={selectedLocal}
-                    setSelectedLocal={setSelectedLocal} PJSelected={PJSelected} setPJSelected={setPJSelected}/>
+                <LocalFormPF handleOpen={handleOpen} handleClose={handleClose} setRowsPF={setRowsPF}
+                    setLoadingPF={setLoadingPF} PFSelected={PFSelected}/>
             </Box>
         </Modal>
         </>
@@ -52,4 +52,4 @@ const LocalFilterNew = ({setRows, loading, setLoading, PJSelected, edit, setEdit
     )
 }
 
-export default LocalFilterNew;
+export default LocalFilterNewPF;

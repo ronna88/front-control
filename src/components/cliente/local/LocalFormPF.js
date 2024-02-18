@@ -8,9 +8,9 @@ import { useNavigate } from "react-router-dom";
 import { Typography } from '@mui/material';
 import { toast } from 'react-toastify';
 
-const LocalForm = ({handleOpen, handleClose, setRows,
-    setLoading, edit, setEdit, erase, setErase, selectedLocal,
-    setSelectedLocal, PJSelected, setPJSelected}) => {
+const LocalFormPF =({handleOpen, handleClose, setRowsPF,
+    setLoadingPF, editPF, setEditPF, erasePF, selectedLocal,
+    setSelectedLocal, PFSelected, setSelectedPF}) => {
     const navigate = useNavigate();
         const [form, setForm] = useState({
             localNome: '',
@@ -27,12 +27,12 @@ const LocalForm = ({handleOpen, handleClose, setRows,
     };
     
     const handleSave = () => {
-        saveLocalData(PJSelected, form)
+        saveLocalData(PFSelected, form)
             .then((response) => {
-                setRows([])
-                setLoading(true)
-                setEdit(false)
-                setErase(false)
+                setRowsPF([])
+                setLoadingPF(true)
+                // setEdit(false)
+                // setErase(false)
                 handleClose()
                 toast.success('Local salvo com sucesso!')
             })
@@ -48,11 +48,11 @@ const LocalForm = ({handleOpen, handleClose, setRows,
             
     
     const handleSim = (local) => {
-        deleteLocal(PJSelected, local.localId)
+        deleteLocal(PFSelected, local.localId)
             .then((response) => {
-                setRows([])
-                setLoading(true)
-                // setPJSelected({})
+                setRowsPF([])
+                setLoadingPF(true)
+                // setSelectedPJ({})
                 setSelectedLocal({})
                 handleClose()
                 toast.success('Local apagado com sucesso!')
@@ -65,10 +65,10 @@ const LocalForm = ({handleOpen, handleClose, setRows,
 
     const handleNao = () => {
         console.log('close')
-        setRows([])
-        setPJSelected({})
+        setRowsPF([])
+        setSelectedPF({})
         setSelectedLocal({})
-        setLoading(true)
+        setLoadingPF(true)
         handleClose()
     }
 
@@ -85,7 +85,7 @@ const LocalForm = ({handleOpen, handleClose, setRows,
     return (
         <BlankCard>
             <Box sx={style}>
-                {erase ?
+                {erasePF ?
                     (
                         <>
                             <Typography variant="h3" component="h3" sx={{marginBottom: '10px'}}>
@@ -100,7 +100,7 @@ const LocalForm = ({handleOpen, handleClose, setRows,
                     ): (
                     <>
                     <TextField value={form.localNome} onChange={handleOnChangeNome} sx={{width:'300px'}} id='localNome' name='localNome' label="Nome" />
-                    <Button sx={{margin: '20px'}} variant='contained' onClick={handleSave}>{edit ? 'Atualizar' : 'Salvar'}</Button>
+                    <Button sx={{margin: '20px'}} variant='contained' onClick={handleSave}>{editPF ? 'Atualizar' : 'Salvar'}</Button>
                     </>
                 )
             }
@@ -109,4 +109,4 @@ const LocalForm = ({handleOpen, handleClose, setRows,
     );
 }
 
-export default LocalForm;
+export default LocalFormPF;

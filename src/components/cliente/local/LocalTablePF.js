@@ -20,7 +20,7 @@ import LastPageIcon from '@mui/icons-material/LastPage';
 import {IconEdit, IconTrash} from '@tabler/icons';
 import Modal from '@mui/material/Modal';
 import { Typography } from '@mui/material';
-import LocalForm from './LocalForm';
+import LocalFormPF from './LocalFormPF';
 import { getLocaisData } from '../../../api/Api';
 import { toast } from 'react-toastify';
 
@@ -103,8 +103,8 @@ TablePaginationActions.propTypes = {
 };
 
 
-const LocalTable = ({rows, setRows, loading, setLoading, edit, setEdit,
-    erase, setErase, PJSelected, setPJSelected}) => {
+const LocalTablePF = ({rowsPF, setRowsPF, loadingPF, setLoadingPF, editPF, setEditPF,
+    erasePF, setErasePF, PFSelected, setPFSelected}) => {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [sort, setSort] = useState("localNome")
@@ -116,14 +116,13 @@ const LocalTable = ({rows, setRows, loading, setLoading, edit, setEdit,
     
     useEffect(()=> {
         getLocaisData(
-            PJSelected,
+            PFSelected,
             page,
             rowsPerPage,
             sort
             )
       .then((response) => {
-          setRows(response.data);
-          console.log(response.data.content)
+          setRowsPF(response.data);
       })
       .catch((error) => {
           toast.error(`${error.response.data}`)
@@ -133,54 +132,54 @@ const LocalTable = ({rows, setRows, loading, setLoading, edit, setEdit,
     
     useEffect(()=> {
         getLocaisData(
-            PJSelected,
+            PFSelected,
             page,
             rowsPerPage,
             sort
             )
       .then((response) => {
-          setRows(response.data);
+          setRowsPF(response.data);
       })
       .catch((error) => {
           toast.error(`${error.response.data}`)
           console.log("Erro ao recuperar dados. " + error);
       });
-        },[PJSelected])
-
+        },[PFSelected])
+    
     useEffect(() => {
-        if(rows?.length === 0){
+        if(rowsPF?.length === 0){
             getLocaisData(
-                PJSelected,
+                PFSelected,
                 page,
                 rowsPerPage,
                 sort
                 )
       .then((response) => {
-          setRows(response.data);
+          setRowsPF(response.data);
       })
       .catch((error) => {
           toast.error(`${error.response.data}`)
           console.log("Erro ao recuperar dados. " + error);
       });
         }
-    if(loading){
-        if(rows?.content?.length > 0) {
-            setLoading(false);
+    if(loadingPF){
+        if(rowsPF?.content?.length > 0) {
+            setLoadingPF(false);
         }
     } else {
         setLoadingKey(prevKey => prevKey + 1);
     }
-}, [rows]);
+}, [rowsPF]);
 
     useEffect(()=>{
         getLocaisData(
-            PJSelected,
+            PFSelected,
             page,
             rowsPerPage,
             sort
             )
       .then((response) => {
-          setRows(response.data);
+          setRowsPF(response.data);
       })
       .catch((error) => {
           toast.error(`${error.response.data}`)
@@ -190,13 +189,13 @@ const LocalTable = ({rows, setRows, loading, setLoading, edit, setEdit,
 
     useEffect(()=>{
         getLocaisData(
-            PJSelected,
+            PFSelected,
             page,
             rowsPerPage,
             sort
             )
       .then((response) => {
-          setRows(response.data);
+          setRowsPF(response.data);
       })
       .catch((error) => {
           toast.error(`${error.response?.data}`)
@@ -215,14 +214,14 @@ const LocalTable = ({rows, setRows, loading, setLoading, edit, setEdit,
     
     function handleEditClick(local){
         setSelectedLocal(local)
-        setEdit(true)
-        setErase(false)
+        setEditPF(true)
+        setErasePF(false)
         handleOpen()
     }
     function handleDeleteClick(local){
         setSelectedLocal(local)
-        setErase(true)
-        setEdit(false)
+        setErasePF(true)
+        setEditPF(false)
         handleOpen()
     }
     
@@ -248,10 +247,10 @@ const LocalTable = ({rows, setRows, loading, setLoading, edit, setEdit,
             </TableHead>
             <TableBody>
                 {
-                (loading ? (
+                (loadingPF ? (
                     <TableRow><TableCell colSpan='4'>Sem dados...</TableCell></TableRow>
                     ) :
-                  (rows?.content).map((row) => (
+                  (rowsPF?.content).map((row) => (
                       <TableRow key={row.localNome}>
                           <TableCell>{row.localNome}</TableCell>
                           <TableCell><Chip label={row.localStatus} sx={row.localStatus === 'ATIVO' ? ativo : desativo } variant='outlined' /></TableCell>
@@ -264,9 +263,9 @@ const LocalTable = ({rows, setRows, loading, setLoading, edit, setEdit,
             <TableFooter>
                 <TableRow>
                     <TablePagination
-                        rowsPerPageOptions={[1, 5, 10, 20, { label: 'All', value: -1 }]}
+                        rowsPerPageOptions={[5, 10, 20, { label: 'All', value: -1 }]}
                         colSpan={4}
-                        count={(rows.totalElements ? rows.totalElements : -1)}
+                        count={(rowsPF.totalElements ? rowsPF.totalElements : -1)}
                         rowsPerPage={rowsPerPage}
                         page={page}
                         onPageChange={handleChangePage}
@@ -284,15 +283,16 @@ const LocalTable = ({rows, setRows, loading, setLoading, edit, setEdit,
         >
         <Box sx={style}>
             <Typography sx={{marginBottom: '2rem'}} id="modal-modal-title" variant="h3" component="h2">
-                {edit ? 'Editar' : 'Apagar'} Local
+                {editPF ? 'Editar' : 'Apagar'} Local
             </Typography>
-            <LocalForm handleOpen={handleOpen} handleClose={handleClose} setRows={setRows}
-                setLoading={setLoading} edit={edit} setEdit={setEdit} erase={erase} setErase={setErase} selectedLocal={selectedLocal}
-                setSelectedLocal={setSelectedLocal} PJSelected={PJSelected} setPJSelected={setPJSelected} />
+            <LocalFormPF handleOpen={handleOpen} handleClose={handleClose}
+                setRowsPF={setRowsPF} setLoadingPF={setLoadingPF} editPF={editPF} setEditPF={setEditPF}
+                erasePF={erasePF} selectedLocal={selectedLocal}
+                setSelectedLocal={setSelectedLocal} PFSelected={PFSelected} setSelectedPF={setPFSelected}/>
         </Box>
     </Modal>
     </>
     )
 }
 
-export default LocalTable;
+export default LocalTablePF;

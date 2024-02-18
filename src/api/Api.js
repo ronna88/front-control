@@ -85,3 +85,23 @@ export async function deleteLocal(clienteId, localId) {
   return await axios.delete(`${urlBase}/local/${clienteId}/${localId}`);
 }
 // ================ LOCAIS API
+
+
+
+// ================ ATIVOS API
+export async function getAtivoData(page, size, sort, direction){
+  return await axios.get(`${urlBase}/ativo`, {params: {page,size,sort}});
+}
+
+export async function saveAtivoData(form) {
+  if (form.ativoId) {
+    return await axios.put(`${urlBase}/ativo/${form.ativoId}`, form);
+  } else {
+    return await axios.post(`${urlBase}/ativo/novo`, form);
+  }
+}
+
+export async function deleteAtivo(ativoId) {
+  return await axios.delete(`${urlBase}/ativo/${ativoId}`);
+}
+// ================ ATIVOS API

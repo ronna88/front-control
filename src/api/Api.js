@@ -68,6 +68,14 @@ export async function deletePJ(pf) {
 
 
 
+// ================ CLIENTE API
+export async function getClienteData(page, size, sort, direction) {
+  return await axios.get(`${urlBase}/cliente`, {params: {page,size,sort}});
+}
+// ================ CLIENTE API
+
+
+
 // ================ LOCAIS API
 export async function getLocaisData(clienteId, page, size, sort, direction){
   return await axios.get(`${urlBase}/local/${clienteId}`, {params: {page,size,sort}});
@@ -105,3 +113,23 @@ export async function deleteAtivo(ativoId) {
   return await axios.delete(`${urlBase}/ativo/${ativoId}`);
 }
 // ================ ATIVOS API
+
+
+
+// ================ CONTRATOS API
+export async function getContratoData(page, size, sort, direction){
+  return await axios.get(`${urlBase}/contrato`, {params: {page,size,sort}});
+}
+
+export async function saveContratoData(form) {
+  if (form.contratoId) {
+    return await axios.put(`${urlBase}/contrato/${form.contratoId}`, form);
+  } else {
+    return await axios.post(`${urlBase}/contrato/novo`, form);
+  }
+}
+
+export async function deleteContrato(contratoId) {
+  return await axios.delete(`${urlBase}/contrato/${contratoId}`);
+}
+// ================ CONTRATOS API

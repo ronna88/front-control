@@ -125,6 +125,7 @@ export async function saveContratoData(form) {
   if (form.contratoId) {
     return await axios.put(`${urlBase}/contrato/${form.contratoId}`, form);
   } else {
+    console.log(form)
     return await axios.post(`${urlBase}/contrato/novo`, form);
   }
 }

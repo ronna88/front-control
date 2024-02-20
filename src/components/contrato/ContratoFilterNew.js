@@ -25,7 +25,8 @@ const style = {
     gap: '3px',
 };
 
-const ContratoFilterNew = ({setRows, setLoading}) => {
+const ContratoFilterNew = ({setRows, setLoading, listaClientes, setListaClientes,
+    listaAtivos, setListaAtivos, cliente, setCliente, ativos, setAtivos}) => {
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -45,7 +46,10 @@ const ContratoFilterNew = ({setRows, setLoading}) => {
                 <Typography sx={{marginBottom: '2rem'}} id="modal-modal-title" variant="h3" component="h2">
                     Cadastrar novo contrato
                 </Typography>
-                <ContratoForm handleOpen={handleOpen} handleClose={handleClose} setRows={setRows} setLoading={setLoading}/>
+                <ContratoForm handleOpen={handleOpen} handleClose={handleClose} setRows={setRows} setLoading={setLoading}
+                    listaClientes={listaClientes} setListaClientes={setListaClientes}
+                    listaAtivos={listaAtivos} setListaAtivos={setListaAtivos} cliente={cliente} setCliente={setCliente}
+                    ativos={ativos} setAtivos={setAtivos}/>
             </Box>
         </Modal>
         </>

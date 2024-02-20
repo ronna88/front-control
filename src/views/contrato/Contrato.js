@@ -12,8 +12,9 @@ import ContratoFilterNew from '../../components/contrato/ContratoFilterNew'
 
 const Contrato = () => {
   const [listaAtivos, setListaAtivos] = useState([])
+  const [ativos, setAtivos] =useState([])
   const [listaClientes, setListaClientes] = useState([])
-  const [cliente, setCliente] = useState([])
+  const [cliente, setCliente] = useState(-1)
   const [selectedContrato, setSelectedContrato] = useState([])
   const [rows, setRows] = useState([])
   const [loading, setLoading] = useState(true)
@@ -49,10 +50,14 @@ const Contrato = () => {
         <Typography>Contratos Cadastrados</Typography>
 
         <BlankCard>
-         <ContratoFilterNew setRows={setRows} loading={loading} setLoading={setLoading} />
+         <ContratoFilterNew setRows={setRows} loading={loading} setLoading={setLoading}
+           listaClientes={listaClientes} setListaClientes={setListaClientes}
+           listaAtivos={listaAtivos} setListaAtivos={setListaAtivos} cliente={cliente} setCliente={setCliente} ativos={ativos} setAtivos={setAtivos} />
           <CardContent>
             <ContratoTable rows={rows} setRows={setRows} loading={loading} setLoading={setLoading} edit={edit} setEdit={setEdit} erase={erase} setErase={setErase}
-            selectedContrato={selectedContrato} setSelectedContrato={setSelectedContrato} />
+            selectedContrato={selectedContrato} setSelectedContrato={setSelectedContrato}
+              listaClientes={listaClientes} setListaClientes={setListaClientes}
+              listaAtivos={listaAtivos} setListaAtivos={setListaAtivos} cliente={cliente} setCliente={setCliente} ativos={ativos} setAtivos={setAtivos}/>
           </CardContent>
         </BlankCard>
 

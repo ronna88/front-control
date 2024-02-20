@@ -7,9 +7,13 @@ import {saveContratoData, deleteContrato} from '../../api/Api';
 import { useNavigate } from "react-router-dom";
 import { Typography } from '@mui/material';
 import { toast } from 'react-toastify';
+import ClienteSelect from '../../components/cliente/ClienteSelect';
+import AtivoSelect from '../../components/ativo/AtivoSelect';
 
 const ContratoForm = ({handleOpen, handleClose, setRows,
-    setLoading, edit, setEdit, erase, setErase, selectedContrato, setSelectedContrato}) => {
+    setLoading, edit, setEdit, erase, setErase, selectedContrato, setSelectedContrato,
+    listaClientes, setListaClientes,
+    listaAtivos, setListaAtivos, cliente, setCliente, ativos, setAtivos}) => {
     const navigate = useNavigate();
         const [form, setForm] = useState({
             contratoDescricao: '',
@@ -42,7 +46,7 @@ const ContratoForm = ({handleOpen, handleClose, setRows,
             })
             .catch((error) => {
                 console.log(error)
-                toast.error(`${error.response.data}`)
+                toast.error(`${error.message}`)
             })
     }
 
@@ -65,7 +69,7 @@ const ContratoForm = ({handleOpen, handleClose, setRows,
     
     // MultiSelect
     const handleOnChangeAtivo = (event) => {
-        setForm({...form, listaAtivos: event.target.value});
+        setForm({...form, listaAtivos: [event.target.value]});
     }
     
     
@@ -80,12 +84,11 @@ const ContratoForm = ({handleOpen, handleClose, setRows,
             })
             .catch((error) => {
                 console.log(error);
-                toast.error(`${error.response.data}`)
+                toast.error(`${error.message}`)
             })
     }
 
     const handleNao = () => {
-        console.log('close')
         setRows([])
         setSelectedContrato()
         setLoading(true)
@@ -99,13 +102,15 @@ const ContratoForm = ({handleOpen, handleClose, setRows,
                 contratoDescricao: selectedContrato.contratoDescricao,
                 contratoValorVisita: selectedContrato.contratoValorVisita,
                 contratoValorRemoto: selectedContrato.contratoValorRemoto,
-                cliente: selectedContrato.cliente,
+                cliente: selectedContrato.cliente.clienteId,
                 listaAtivos: selectedContrato.listaAtivos,
-                
             })
         }
     },[])
     
+    useEffect(() => {
+    },[form])
+
     
     return (
         <BlankCard>
@@ -127,15 +132,15 @@ const ContratoForm = ({handleOpen, handleClose, setRows,
                     <TextField value={form.contratoDescricao} onChange={handleOnChangeDescricao} sx={{width:'300px'}} id='contratoDescricao' name='contratoDescricao' label="Descrição" />
                     <TextField value={form.contratoValorVisita} onChange={handleOnChangeValorVisita} sx={{width:'300px'}} id='contratoValorVisita' name='contratoValorVisita' label="Valor da Visita" />
                     <TextField value={form.contratoValorRemoto} onChange={handleOnChangeValorRemoto} sx={{width:'300px'}} id='contratoValorRemoto' name='contratoValorRemoto' label="Valor do Remoto" />
-                        <TextField value={form.cliente} onChange={handleOnChangeCliente} sx={{width:'300px'}} id='empresaEndereco' name='empresaEndereco' label="Cliente" />
-                        <TextField value={form.listaAtivos} onChange={handleOnChangeAtivo} sx={{width:'300px'}} id='listaAtivos' name='listaAtivos' label="Ativos" />
-                        <Button sx={{margin: '20px'}} variant='contained' onClick={handleSave}>{(edit ? 'Atualizar' : 'Salvar' )}</Button>
+                    <ClienteSelect listaClientes={listaClientes} setListaClientes={setListaClientes} client={form.cliente} setCliente={setCliente} setForm={setForm} form={form}/>
+                    <AtivoSelect listaAtivos={listaAtivos} setListaAtivos={setListaAtivos} setForm={setForm} form={form}
+                        handleOnChangeAtivo={handleOnChangeAtivo} sx={{width:'300px'}} id='listaAtivos' name='listaAtivos' label="Ativos" />
+                    <Button sx={{margin: '20px'}} variant='contained' onClick={handleSave}>{(edit ? 'Atualizar' : 'Salvar' )}</Button>
                     </>
                 )
             }
             </Box>
         </BlankCard>
-    // TODO: criar select para cliente, e criar multiselect para ativos
     );
 }
 

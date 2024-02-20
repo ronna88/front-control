@@ -20,7 +20,7 @@ import LastPageIcon from '@mui/icons-material/LastPage';
 import {IconEdit, IconTrash} from '@tabler/icons';
 import Modal from '@mui/material/Modal';
 import { Typography } from '@mui/material';
-// import EmpresaForm from './EmpresaForm';
+import ContratoForm from './ContratoForm';
 
 import { getContratoData } from '../../api/Api';
 
@@ -104,7 +104,9 @@ TablePaginationActions.propTypes = {
 
 
 const ContratoTable = ({rows, setRows, loading, setLoading, edit, setEdit,
-    erase, setErase, selectedContrato, setSelectedContrato}) => {
+    erase, setErase, selectedContrato, setSelectedContrato,
+    listaClientes, setListaClientes,
+    listaAtivos, setListaAtivos, cliente, setCliente, ativos, setAtivos}) => {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [sort, setSort] = useState("contratoDescricao")
@@ -112,7 +114,7 @@ const ContratoTable = ({rows, setRows, loading, setLoading, edit, setEdit,
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-    const [cliente, setCliente] = useState();
+    // const [cliente, setCliente] = useState();
     
     useEffect(() => {
         if(rows.length === 0){
@@ -243,7 +245,7 @@ const ContratoTable = ({rows, setRows, loading, setLoading, edit, setEdit,
                 </TableRow>
             </TableFooter>
         </Table>
-        { /*}
+
     <Modal
         open={open}
         onClose={handleClose}
@@ -252,14 +254,16 @@ const ContratoTable = ({rows, setRows, loading, setLoading, edit, setEdit,
         >
         <Box sx={style}>
             <Typography sx={{marginBottom: '2rem'}} id="modal-modal-title" variant="h3" component="h2">
-                {edit ? 'Editar' : 'Apagar'} empresa
+                {edit ? 'Editar' : 'Apagar'} cliente
             </Typography>
-            <EmpresaForm handleOpen={handleOpen} handleClose={handleClose}
+            <ContratoForm handleOpen={handleOpen} handleClose={handleClose}
                 setRows={setRows} setLoading={setLoading} edit={edit} setEdit={setEdit}
-                erase={erase} selectedEmpresa={selectedEmpresa}
-                setSelectedEmpresa={setSelectedEmpresa}/>
-        </Box>
-    </Modal> */ }
+                erase={erase} selectedContrato={selectedContrato}
+                setSelectedContrato={setSelectedContrato}
+                listaClientes={listaClientes} setListaClientes={setListaClientes}
+                listaAtivos={listaAtivos} setListaAtivos={setListaAtivos} cliente={cliente} setCliente={setCliente} ativos={ativos} setAtivos={setAtivos}/>
+            </Box>
+        </Modal>
     </>
     )
 }

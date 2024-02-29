@@ -32,15 +32,16 @@ const ContratoForm = ({handleOpen, handleClose, setRows,
         width: '100%',
         paddingTop: '20px'
     };
-    
+    // TODO: ajustado o backend para verificar dados unicos
     const handleSave = () => {
         setForm({...form, contratoStatus: 'ATIVO'})
         saveContratoData(form)
             .then((response) => {
                 setRows([])
                 setLoading(true)
-                setEdit(false)
-                setErase(false)
+                // TODO: Verificar setEdit nesta linha
+                // setEdit(false)
+                // setErase(false)
                 handleClose()
                 toast.success('Contrato salvo com sucesso!')
             })
@@ -74,7 +75,7 @@ const ContratoForm = ({handleOpen, handleClose, setRows,
     
     
     const handleSim = (contrato) => {
-        deleteContrato(contrato)
+        deleteContrato(contrato.contratoId)
             .then((response) => {
                 setRows([])
                 setLoading(true)

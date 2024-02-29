@@ -9,6 +9,9 @@ const ClienteSelect = ({listaClientes, cliente, setCliente, setRows, form, setFo
     
     const handleChange = (event) => {
         setCliente(event.target.value)
+        const tempCliente = event.target.value
+        setForm({...form, cliente: tempCliente})
+        console.log(event.target.value)
     }
     
     

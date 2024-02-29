@@ -258,7 +258,7 @@ const ContratoTable = ({rows, setRows, loading, setLoading, edit, setEdit,
             </Typography>
             <ContratoForm handleOpen={handleOpen} handleClose={handleClose}
                 setRows={setRows} setLoading={setLoading} edit={edit} setEdit={setEdit}
-                erase={erase} selectedContrato={selectedContrato}
+                erase={erase} setErase={setErase} selectedContrato={selectedContrato}
                 setSelectedContrato={setSelectedContrato}
                 listaClientes={listaClientes} setListaClientes={setListaClientes}
                 listaAtivos={listaAtivos} setListaAtivos={setListaAtivos} cliente={cliente} setCliente={setCliente} ativos={ativos} setAtivos={setAtivos}/>

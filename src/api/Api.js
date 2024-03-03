@@ -123,6 +123,8 @@ export async function getContratoData(page, size, sort, direction){
 
 export async function saveContratoData(form) {
   if (form.contratoId) {
+    console.log('Editar contrato')
+    console.log(form)
     return await axios.put(`${urlBase}/contrato/${form.contratoId}`, form);
   } else {
     console.log(form)

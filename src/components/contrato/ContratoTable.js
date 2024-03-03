@@ -111,9 +111,12 @@ const ContratoTable = ({rows, setRows, loading, setLoading, edit, setEdit,
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [sort, setSort] = useState("contratoDescricao")
     const [loadingKey, setLoadingKey] = useState(0);
-    const [open, setOpen] = useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+    const [open, setOpen] = useState(false)
+    const handleOpen = () => setOpen(true)
+    const handleClose = () => {
+        setOpen(false)
+        setSelectedContrato()
+        setAtivos([])}
     // const [cliente, setCliente] = useState();
     
     useEffect(() => {
@@ -254,7 +257,7 @@ const ContratoTable = ({rows, setRows, loading, setLoading, edit, setEdit,
         >
         <Box sx={style}>
             <Typography sx={{marginBottom: '2rem'}} id="modal-modal-title" variant="h3" component="h2">
-                {edit ? 'Editar' : 'Apagar'} cliente
+                {edit ? 'Editar' : 'Apagar'} contrato
             </Typography>
             <ContratoForm handleOpen={handleOpen} handleClose={handleClose}
                 setRows={setRows} setLoading={setLoading} edit={edit} setEdit={setEdit}

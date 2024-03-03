@@ -6,20 +6,39 @@ import Select from '@mui/material/Select';
 import Chip from '@mui/material/Chip';
 import Box from '@mui/material/Box';
 import OutlinedInput from '@mui/material/OutlinedInput';
+import {useState, useEffect} from 'react';
 
 
-const AtivoSelect = ({listaAtivos, ativos, setAtivos, setRows, setForm, form}) => {
+const AtivoSelect = ({listaAtivos, ativos, setAtivos, setRows, setForm, form, selectedContrato}) => {
+    const [listaCarregada, setListaCarregada] = useState(true)
 
     const handleChange = (event) => {
         const { options } = event.target;
         const value = [];
+        const valueTemp = []
         for (let i = 0, l = options.length; i < l; i += 1) {
             if (options[i].selected) {
-                value.push({id:options[i].value});
+                value.push(options[i].value);
+                valueTemp.push({ativoId:options[i].value})
             }
         }
-        setForm({...form, listaAtivos: value})
+        setAtivos(value)
+        setForm({...form, listaAtivos: valueTemp})
     }
+
+    useEffect(() => {
+        console.log(selectedContrato)
+
+        if(selectedContrato.listaAtivos.length > 0) {
+            if(ativos.length === 0) {
+                selectedContrato.listaAtivos.forEach((ativo) => {
+                    setAtivos(prevList => [...prevList, ativo.ativoId])
+                })
+            } else {
+                // console.log(ativos)
+            }
+        }
+    },[])
 
     return(
         <>
@@ -32,9 +51,7 @@ const AtivoSelect = ({listaAtivos, ativos, setAtivos, setRows, setForm, form}) =
                 onChange={handleChange}
                 labelId='ativos'
                 id='ativos'
-                inputPros={{
-                id: 'ativos-select',
-                }}
+
                 >
                 { listaAtivos ? (
                     listaAtivos.map((ativo) => (

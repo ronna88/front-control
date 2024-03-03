@@ -211,7 +211,7 @@ const FuncionarioTable = ({rows, setRows, loading, setLoading, edit, setEdit,
             <TableBody>
                 {
                 (loading ? (
-                    <TableRow><TableCell colspan='4'>Sem dados...</TableCell></TableRow>
+                    <TableRow><TableCell colSpan='4'>Sem dados...</TableCell></TableRow>
                     ) :
                   (rows?.content).map((row) => (
                       <TableRow key={row.funcionarioId}>
@@ -229,7 +229,7 @@ const FuncionarioTable = ({rows, setRows, loading, setLoading, edit, setEdit,
                     <TablePagination
                         rowsPerPageOptions={[5, 10, 20, { label: 'All', value: -1 }]}
                         colSpan={4}
-                        count={rows.totalElements}
+                        count={(rows.totalElements ? rows.totalElements : -1)}
                         rowsPerPage={rowsPerPage}
                         page={page}
                         onPageChange={handleChangePage}
@@ -251,7 +251,7 @@ const FuncionarioTable = ({rows, setRows, loading, setLoading, edit, setEdit,
             </Typography>
             <FuncionarioForm handleOpen={handleOpen} handleClose={handleClose}
                 setRows={setRows} setLoading={setLoading} edit={edit} setEdit={setEdit}
-                erase={erase} selectedFuncionario={selectedFuncionario}
+                erase={erase} setErase={setErase} selectedFuncionario={selectedFuncionario}
                 setSelectedFuncionario={setSelectedFuncionario}/>
         </Box>
     </Modal>

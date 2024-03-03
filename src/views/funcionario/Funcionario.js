@@ -20,9 +20,11 @@ const Funcionario = () => {
   const [edit, setEdit] = useState(false)
   const [erase, setErase] = useState(false)
   const [selectedFuncionario, setSelectedFuncionario] = useState([])
+  const [carregado, setCarregado] = useState(false)
 
   useEffect(()=> {
-    getFuncionarioData(0,200, "")
+    if(!carregado) {
+      getFuncionarioData(0,200, "")
     .then((response) => {
       setListaFuncionarios(response.data.content)
     })
@@ -30,7 +32,9 @@ const Funcionario = () => {
       console.log(error)
       toast.error(`${error}`)
     })
-  })
+      setCarregado(true)
+    }
+  },[carregado, listaFuncionarios])
 
   return (
     <PageContainer title="Funcionários" description="página para tratativa dos Funcionários">
@@ -41,7 +45,9 @@ const Funcionario = () => {
         <BlankCard>
           <FuncionarioFilterNew setRows={setRows} loading={loading} setLoading={setLoading}
             listaFuncionarios={listaFuncionarios} setListaFuncionarios={setListaFuncionarios}
-            listaEmpresa={listaEmpresa} setListaEmpresa={setListaEmpresa} />
+            listaEmpresa={listaEmpresa} setListaEmpresa={setListaEmpresa} edit={edit} setEdit={setEdit}
+            erase={erase} setErase={setErase}
+          />
           <CardContent>
             <FuncionarioTable rows={rows} setRows={setRows} loading={loading} setLoading={setLoading} edit={edit} setEdit={setEdit} erase={erase} setErase={setErase}
               selectedFuncionario={selectedFuncionario} setSelectedFuncionario={setSelectedFuncionario}

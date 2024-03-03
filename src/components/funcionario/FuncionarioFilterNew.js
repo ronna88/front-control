@@ -25,7 +25,7 @@ const style = {
     gap: '3px',
 };
 
-const FuncionarioFilterNew = ({setRows, setLoading}) => {
+const FuncionarioFilterNew = ({setRows, setLoading, edit, setEdit, erase, setErase}) => {
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -45,7 +45,8 @@ const FuncionarioFilterNew = ({setRows, setLoading}) => {
                 <Typography sx={{marginBottom: '2rem'}} id="modal-modal-title" variant="h3" component="h2">
                     Cadastrar novo funcionário
                 </Typography>
-                <FuncionarioForm handleOpen={handleOpen} handleClose={handleClose} setRows={setRows} setLoading={setLoading}/>
+                <FuncionarioForm handleOpen={handleOpen} handleClose={handleClose} setRows={setRows} setLoading={setLoading}
+                edit={edit} setEdit={setEdit} erase={erase} setErase={setErase}/>
             </Box>
         </Modal>
         </>

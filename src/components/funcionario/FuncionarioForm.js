@@ -116,7 +116,9 @@ const FuncionarioForm = ({handleOpen, handleClose, setRows,
 
     useEffect(()=> {
         if (selectedFuncionario) {
+            console.log(selectedFuncionario)
             setForm({
+                funcionarioId: selectedFuncionario.funcionarioId,
                 funcionarioNome: selectedFuncionario.funcionarioNome,
                 funcionarioNascimento: selectedFuncionario.funcionarioNascimento,
                 funcionarioCPF: selectedFuncionario.funcionarioCPF,

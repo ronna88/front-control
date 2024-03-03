@@ -229,7 +229,7 @@ const EmpresaTable = ({rows, setRows, loading, setLoading, edit, setEdit,
                     <TablePagination
                         rowsPerPageOptions={[5, 10, 20, { label: 'All', value: -1 }]}
                         colSpan={4}
-                        count={rows.totalElements}
+                        count={(rows.totalElements ? rows.totalElements : -1)}
                         rowsPerPage={rowsPerPage}
                         page={page}
                         onPageChange={handleChangePage}

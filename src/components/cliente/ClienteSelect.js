@@ -11,19 +11,21 @@ const ClienteSelect = ({listaClientes, cliente, setCliente, setRows, form, setFo
         setCliente(event.target.value)
         const tempCliente = event.target.value
         setForm({...form, cliente: tempCliente})
-        console.log(event.target.value)
+        // console.log(event.target.value)
     }
+
     
     
     return(
         <>
         <FormControl sx={{width: '300px'}}>
             <InputLabel id='cliente'>Cliente</InputLabel>
-            <Select sx={{padding: '10px'}}
+            <Select sx={{padding: '10px', marginLeft:'10px', marginRight:'10px' }}
                 labelId='cliente'
                 id='cliente'
                 value={form.cliente}
                 onChange={handleChange}
+                size="small"
                 >
                 <MenuItem value={-1} >Selecione</MenuItem>
                 { listaClientes ? (

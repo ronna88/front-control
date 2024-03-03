@@ -29,13 +29,11 @@ const AtivoSelect = ({listaAtivos, ativos, setAtivos, setRows, setForm, form, se
     useEffect(() => {
         console.log(selectedContrato)
 
-        if(selectedContrato.listaAtivos.length > 0) {
+        if(selectedContrato?.listaAtivos.length > 0) {
             if(ativos.length === 0) {
                 selectedContrato.listaAtivos.forEach((ativo) => {
                     setAtivos(prevList => [...prevList, ativo.ativoId])
                 })
-            } else {
-                // console.log(ativos)
             }
         }
     },[])

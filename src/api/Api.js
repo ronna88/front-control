@@ -136,3 +136,25 @@ export async function deleteContrato(contratoId) {
   return await axios.delete(`${urlBase}/contrato/${contratoId}`);
 }
 // ================ CONTRATOS API
+
+// ================ FUNCIONARIOS API
+export async function getFuncionarioData(page, size, sort, direction){
+  if(!page && !size && !sort && !direction) {
+    return await axios.get(`${urlBase}/funcionario`);
+  } else {
+    return await axios.get(`${urlBase}/funcionario`, {params: {page,size,sort}});
+  }
+}
+
+export async function saveFuncionarioData(form) {
+  if (form.funcionarioId) {
+    return await axios.put(`${urlBase}/funcionario/${form.funcionarioId}`, form);
+  } else {
+    return await axios.post(`${urlBase}/funcionario/novo`, form);
+  }
+}
+
+export async function deleteFuncionario(funcionario) {
+  return await axios.delete(`${urlBase}/funcionario/${funcionario.funcionarioId}`);
+}
+// ================ FUNCIONARIOS API

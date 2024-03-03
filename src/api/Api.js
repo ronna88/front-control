@@ -158,3 +158,25 @@ export async function deleteFuncionario(funcionario) {
   return await axios.delete(`${urlBase}/funcionario/${funcionario.funcionarioId}`);
 }
 // ================ FUNCIONARIOS API
+
+// ================ VISITAS API
+export async function getVisitasData(page, size, sort, direction){
+  if(!page && !size && !sort && !direction) {
+    return await axios.get(`${urlBase}/funcionario`);
+  } else {
+    return await axios.get(`${urlBase}/funcionario`, {params: {page,size,sort}});
+  }
+}
+
+export async function saveVisitaData(form) {
+  if (form.funcionarioId) {
+    return await axios.put(`${urlBase}/funcionario/${form.funcionarioId}`, form);
+  } else {
+    return await axios.post(`${urlBase}/funcionario/novo`, form);
+  }
+}
+
+export async function deleteVisita(funcionario) {
+  return await axios.delete(`${urlBase}/funcionario/${funcionario.funcionarioId}`);
+}
+// ================ FUNCIONARIOS API

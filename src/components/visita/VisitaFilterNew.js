@@ -51,7 +51,7 @@ const VisitaFilterNew = ({listaClientes, setListaClientes,
         })
         }
     },[cliente])
-
+    // TODO: ajustar inputs das datas para um calendário. e verificar se a buscar vai funcionar.
     return (
         <>
         <BlankCard >

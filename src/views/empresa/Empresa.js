@@ -26,7 +26,8 @@ const Empresa = () => {
         <BlankCard>
           <EmpresaFilterNew setRows={setRows} loading={loading} setLoading={setLoading} />
           <CardContent>
-            <EmpresaTable rows={rows} setRows={setRows} loading={loading} setLoading={setLoading} edit={edit} setEdit={setEdit} erase={erase} setErase={setErase}/>
+            <EmpresaTable rows={rows} setRows={setRows} loading={loading} setLoading={setLoading}
+              edit={edit} setEdit={setEdit} erase={erase} setErase={setErase}/>
           </CardContent>
         </BlankCard>
       </DashboardCard>

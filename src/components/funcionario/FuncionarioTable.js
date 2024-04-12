@@ -20,9 +20,9 @@ import LastPageIcon from '@mui/icons-material/LastPage';
 import {IconEdit, IconTrash} from '@tabler/icons';
 import Modal from '@mui/material/Modal';
 import { Typography } from '@mui/material';
-import EmpresaForm from './EmpresaForm';
+import FuncionarioForm from './FuncionarioForm';
 
-import { getEmpresaData } from '../../api/Api';
+import { getFuncionarioData } from '../../api/Api';
 
 
 const style = {
@@ -103,20 +103,20 @@ TablePaginationActions.propTypes = {
 };
 
 
-const EmpresaTable = ({rows, setRows, loading, setLoading, edit, setEdit,
+const FuncionarioTable = ({rows, setRows, loading, setLoading, edit, setEdit,
     erase, setErase}) => {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
-    const [sort, setSort] = useState("empresaNomeFantasia")
+    const [sort, setSort] = useState("funcionarioNome")
     const [loadingKey, setLoadingKey] = useState(0);
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-    const [selectedEmpresa, setSelectedEmpresa] = useState();
+    const [selectedFuncionario, setSelectedFuncionario] = useState();
     
     useEffect(() => {
         if(rows.length === 0){
-            getEmpresaData(
+            getFuncionarioData(
                 page,
                 rowsPerPage,
                 sort
@@ -138,7 +138,7 @@ const EmpresaTable = ({rows, setRows, loading, setLoading, edit, setEdit,
 }, [rows]);
 
     useEffect(()=>{
-        getEmpresaData(
+        getFuncionarioData(
             page,
             rowsPerPage,
             sort
@@ -152,7 +152,7 @@ const EmpresaTable = ({rows, setRows, loading, setLoading, edit, setEdit,
         },[page])
 
     useEffect(()=>{
-        getEmpresaData(
+        getFuncionarioData(
             page,
             rowsPerPage,
             sort
@@ -174,14 +174,14 @@ const EmpresaTable = ({rows, setRows, loading, setLoading, edit, setEdit,
         setPage(0);
     };
     
-    function handleEditClick(empresa){
-        setSelectedEmpresa(empresa)
+    function handleEditClick(funcionario){
+        setSelectedFuncionario(funcionario)
         setEdit(true)
         setErase(false)
         handleOpen()
     }
-    function handleDeleteClick(empresa){
-        setSelectedEmpresa(empresa)
+    function handleDeleteClick(funcionario){
+        setSelectedFuncionario(funcionario)
         setErase(true)
         setEdit(false)
         handleOpen()
@@ -202,8 +202,8 @@ const EmpresaTable = ({rows, setRows, loading, setLoading, edit, setEdit,
         <Table>
             <TableHead>
                 <TableRow>
-                    <TableCell><strong>Nome Fantasia</strong></TableCell>
-                    <TableCell><strong>CNPJ</strong></TableCell>
+                    <TableCell><strong>Nome</strong></TableCell>
+                    <TableCell><strong>CPF</strong></TableCell>
                     <TableCell><strong>Status</strong></TableCell>
                     <TableCell><strong>Ações</strong></TableCell>
                 </TableRow>
@@ -211,13 +211,13 @@ const EmpresaTable = ({rows, setRows, loading, setLoading, edit, setEdit,
             <TableBody>
                 {
                 (loading ? (
-                    <TableRow><TableCell colspan='4'>Sem dados...</TableCell></TableRow>
+                    <TableRow><TableCell colSpan='4'>Sem dados...</TableCell></TableRow>
                     ) :
                   (rows?.content).map((row) => (
-                      <TableRow key={row.empresaId}>
-                          <TableCell>{row.empresaNomeFantasia}</TableCell>
-                          <TableCell>{row.empresaCNPJ}</TableCell>
-                          <TableCell><Chip label={row.empresaStatus} sx={row.empresaStatus === 'ATIVO' ? ativo : desativo } variant='outlined' /></TableCell>
+                      <TableRow key={row.funcionarioId}>
+                          <TableCell>{row.funcionarioNome}</TableCell>
+                          <TableCell>{row.funcionarioCPF}</TableCell>
+                          <TableCell><Chip label={row.funcionarioStatus} sx={row.funcionarioStatus === 'ATIVO' ? ativo : desativo } variant='outlined' /></TableCell>
                           <TableCell><IconButton onClick={() => handleEditClick(row)}><IconEdit color="#5d87ff" /></IconButton>  <IconButton onClick={() => handleDeleteClick(row)}><IconTrash color="#5d87ff" /></IconButton></TableCell>
                       </TableRow>
                       ))
@@ -247,16 +247,16 @@ const EmpresaTable = ({rows, setRows, loading, setLoading, edit, setEdit,
         >
         <Box sx={style}>
             <Typography sx={{marginBottom: '2rem'}} id="modal-modal-title" variant="h3" component="h2">
-                {edit ? 'Editar' : 'Apagar'} empresa
+                {edit ? 'Editar' : 'Apagar'} funcionário
             </Typography>
-            <EmpresaForm handleOpen={handleOpen} handleClose={handleClose}
+            <FuncionarioForm handleOpen={handleOpen} handleClose={handleClose}
                 setRows={setRows} setLoading={setLoading} edit={edit} setEdit={setEdit}
-                erase={erase} selectedEmpresa={selectedEmpresa}
-                setSelectedEmpresa={setSelectedEmpresa}/>
+                erase={erase} setErase={setErase} selectedFuncionario={selectedFuncionario}
+                setSelectedFuncionario={setSelectedFuncionario}/>
         </Box>
     </Modal>
     </>
     )
 }
 
-export default EmpresaTable;
+export default FuncionarioTable;

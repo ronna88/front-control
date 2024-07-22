@@ -63,7 +63,7 @@ const Visita = () => {
           />
 
           <CardContent>
-            <h6>Card Content - Tabela de visitas</h6>
+            <h6>Card Content - Tabela de visitas - </h6>
           </CardContent>
         </BlankCard>
       </DashboardCard>

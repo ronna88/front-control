@@ -20,9 +20,9 @@ import LastPageIcon from '@mui/icons-material/LastPage';
 import {IconEdit, IconTrash} from '@tabler/icons';
 import Modal from '@mui/material/Modal';
 import { Typography } from '@mui/material';
-import ContratoForm from './ContratoForm';
+import VisitaForm from './VisitaForm';
 
-import { getContratoData } from '../../api/Api';
+import { getVisitasData } from '../../api/Api';
 
 
 const style = {
@@ -103,31 +103,32 @@ TablePaginationActions.propTypes = {
 };
 
 
-const ContratoTable = ({rows, setRows, loading, setLoading, edit, setEdit,
-    erase, setErase, selectedContrato, setSelectedContrato,
-    listaClientes, setListaClientes,
-    listaAtivos, setListaAtivos, cliente, setCliente, ativos, setAtivos}) => {
+const VisitaTable = ({rows, setRows, loading, setLoading, edit, setEdit,
+    erase, setErase, listaClientes, setListaClientes, listaAtivos, 
+    setListaAtivos, cliente, setCliente, ativos, setAtivos, form, setForm}) => {
+    const [selectedVisita, setSelectedVisita] = useState()
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
-    const [sort, setSort] = useState("contratoDescricao")
+    const [sort, setSort] = useState("visitaDescricao")
     const [loadingKey, setLoadingKey] = useState(0);
     const [open, setOpen] = useState(false)
     const handleOpen = () => setOpen(true)
     const handleClose = () => {
         setOpen(false)
-        setSelectedContrato()
+        setSelectedVisita()
         setAtivos([])}
     // const [cliente, setCliente] = useState();
     
     useEffect(() => {
         if(rows.length === 0){
-            getContratoData(
+            getVisitasData(
                 page,
                 rowsPerPage,
                 sort
                 )
       .then((response) => {
           setRows(response.data);
+          console.log(response.data.content)
       })
       .catch((error) => {
           console.log("Erro ao recuperar dados. " + error);
@@ -143,7 +144,7 @@ const ContratoTable = ({rows, setRows, loading, setLoading, edit, setEdit,
 }, [rows]);
 
     useEffect(()=>{
-        getContratoData(
+        getVisitasData(
             page,
             rowsPerPage,
             sort
@@ -157,7 +158,7 @@ const ContratoTable = ({rows, setRows, loading, setLoading, edit, setEdit,
         },[page])
 
     useEffect(()=>{
-        getContratoData(
+        getVisitasData(
             page,
             rowsPerPage,
             sort
@@ -179,14 +180,16 @@ const ContratoTable = ({rows, setRows, loading, setLoading, edit, setEdit,
         setPage(0);
     };
     
-    function handleEditClick(contrato){
-        setSelectedContrato(contrato)
+    function handleEditClick(visita){
+        console.log(visita)
+        setSelectedVisita(visita)
+        setCliente(visita.cliente)
         setEdit(true)
         setErase(false)
         handleOpen()
     }
-    function handleDeleteClick(contrato){
-        setSelectedContrato(contrato)
+    function handleDeleteClick(visita){
+        setSelectedVisita(visita)
         setErase(true)
         setEdit(false)
         handleOpen()
@@ -207,11 +210,11 @@ const ContratoTable = ({rows, setRows, loading, setLoading, edit, setEdit,
         <Table>
             <TableHead>
                 <TableRow>
-                    <TableCell><strong>Descrição</strong></TableCell>
-                    <TableCell><strong>Valor Visita</strong></TableCell>
-                    <TableCell><strong>Valor Remoto</strong></TableCell>
+                    <TableCell><strong>Inicio</strong></TableCell>
                     <TableCell><strong>Cliente</strong></TableCell>
-                    <TableCell><strong>Status</strong></TableCell>
+                    <TableCell><strong>Local</strong></TableCell>
+                    <TableCell><strong>Descrição</strong></TableCell>
+                    <TableCell><strong>Total Horas</strong></TableCell>
                     <TableCell><strong>Ações</strong></TableCell>
                 </TableRow>
             </TableHead>
@@ -220,16 +223,16 @@ const ContratoTable = ({rows, setRows, loading, setLoading, edit, setEdit,
                 (loading ? (
                     <TableRow><TableCell colSpan='4'>Sem dados...</TableCell></TableRow>
                     ) :
-                  (rows?.content).map((row) => (
-                      <TableRow key={row.contratoId}>
-                          <TableCell>{row.contratoDescricao}</TableCell>
-                          <TableCell>{row.contratoValorVisita}</TableCell>
-                          <TableCell>{row.contratoValorRemoto}</TableCell>
-                          <TableCell>{row.cliente.clienteNome}</TableCell>
-                          <TableCell><Chip label={row.contratoStatus} sx={row.contratoStatus === 'ATIVO' ? ativo : desativo } variant='outlined' /></TableCell>
-                          <TableCell><IconButton onClick={() => handleEditClick(row)}><IconEdit color="#5d87ff" /></IconButton>  <IconButton onClick={() => handleDeleteClick(row)}><IconTrash color="#5d87ff" /></IconButton></TableCell>
-                      </TableRow>
-                      ))
+                    (rows?.content)?.map((row) => (
+                        <TableRow key={row.visitaId}>
+                            <TableCell>{row.visitaInicio}</TableCell>
+                            <TableCell>{row.cliente.clienteNome}</TableCell>
+                            <TableCell>{row.local.localNome}</TableCell>
+                            <TableCell>{row.visitaDescricao}</TableCell>
+                            <TableCell>{row.visitaTotalHoras}</TableCell>
+                            <TableCell><IconButton onClick={() => handleEditClick(row)}><IconEdit color="#5d87ff" /></IconButton>  <IconButton onClick={() => handleDeleteClick(row)}><IconTrash color="#5d87ff" /></IconButton></TableCell>
+                        </TableRow>
+                        ))
                       )
                 }
             </TableBody>
@@ -257,12 +260,12 @@ const ContratoTable = ({rows, setRows, loading, setLoading, edit, setEdit,
         >
         <Box sx={style}>
             <Typography sx={{marginBottom: '2rem'}} id="modal-modal-title" variant="h3" component="h2">
-                {edit ? 'Editar' : 'Apagar'} contrato
+                {edit ? 'Editar' : 'Apagar'} Visita
             </Typography>
-            <ContratoForm handleOpen={handleOpen} handleClose={handleClose}
+            <VisitaForm handleOpen={handleOpen} handleClose={handleClose}
                 setRows={setRows} setLoading={setLoading} edit={edit} setEdit={setEdit}
-                erase={erase} setErase={setErase} selectedContrato={selectedContrato}
-                setSelectedContrato={setSelectedContrato}
+                erase={erase} setErase={setErase} selectedVisita={selectedVisita}
+                setSelectedVisita={setSelectedVisita} setForm={setForm} form={form}
                 listaClientes={listaClientes} setListaClientes={setListaClientes}
                 listaAtivos={listaAtivos} setListaAtivos={setListaAtivos} cliente={cliente} setCliente={setCliente} ativos={ativos} setAtivos={setAtivos}/>
             </Box>
@@ -271,4 +274,4 @@ const ContratoTable = ({rows, setRows, loading, setLoading, edit, setEdit,
     )
 }
 
-export default ContratoTable;
+export default VisitaTable;

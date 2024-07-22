@@ -13,14 +13,13 @@ import AtivoSelect from '../../components/ativo/AtivoSelect';
 const ContratoForm = ({handleOpen, handleClose, setRows,
     setLoading, edit, setEdit, erase, setErase, selectedContrato, setSelectedContrato,
     listaClientes, setListaClientes,
-    listaAtivos, setListaAtivos, cliente, setCliente, ativos, setAtivos}) => {
+    cliente, setCliente }) => {
     const navigate = useNavigate();
         const [form, setForm] = useState({
             contratoDescricao: '',
             contratoValorVisita: '',
             contratoValorRemoto: '',
             cliente: '',
-            listaAtivos: [],
     })
     
     const style = {
@@ -44,12 +43,12 @@ const ContratoForm = ({handleOpen, handleClose, setRows,
                 // setErase(false)
                 handleClose()
                 toast.success('Contrato salvo com sucesso!')
-                setAtivos([])
+              
             })
             .catch((error) => {
                 console.log(error)
                 toast.error(`${error.response.data}`)
-                setAtivos([])
+                
             })
     }
 
@@ -83,7 +82,7 @@ const ContratoForm = ({handleOpen, handleClose, setRows,
                 setLoading(true)
                 setSelectedContrato()
                 handleClose()
-                setAtivos([])
+               
                 toast.success('Contrato apagado com sucesso!')
             })
             .catch((error) => {
@@ -97,7 +96,7 @@ const ContratoForm = ({handleOpen, handleClose, setRows,
         setSelectedContrato()
         setLoading(true)
         handleClose()
-        setAtivos([])
+        
     }
 
     useEffect(()=> {
@@ -138,8 +137,6 @@ const ContratoForm = ({handleOpen, handleClose, setRows,
                     <TextField value={form.contratoValorVisita} onChange={handleOnChangeValorVisita} sx={{width:'300px'}} id='contratoValorVisita' name='contratoValorVisita' label="Valor da Visita" />
                     <TextField value={form.contratoValorRemoto} onChange={handleOnChangeValorRemoto} sx={{width:'300px'}} id='contratoValorRemoto' name='contratoValorRemoto' label="Valor do Remoto" />
                     <ClienteSelect listaClientes={listaClientes} setListaClientes={setListaClientes} client={form.cliente} setCliente={setCliente} setForm={setForm} form={form}/>
-                    <AtivoSelect listaAtivos={listaAtivos} setListaAtivos={setListaAtivos} setForm={setForm} form={form} setAtivos={setAtivos} ativos={ativos} selectedContrato={selectedContrato}
-                        handleOnChangeAtivo={handleOnChangeAtivo} sx={{width:'300px'}} id='listaAtivos' name='listaAtivos' label="Ativos" />
                     <Button sx={{margin: '20px'}} variant='contained' onClick={handleSave}>{(edit ? 'Atualizar' : 'Salvar' )}</Button>
                     </>
                 )

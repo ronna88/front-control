@@ -102,10 +102,18 @@ export async function getAtivoData(page, size, sort, direction){
 }
 
 export async function saveAtivoData(form) {
+  // console.log(form)
   if (form.ativoId) {
     return await axios.put(`${urlBase}/ativo/${form.ativoId}`, form);
   } else {
     return await axios.post(`${urlBase}/ativo/novo`, form);
+  }
+}
+
+export async function saveAtivoStatusData(form) {
+  console.log(form)
+  if (form.ativoId) {
+    return await axios.put(`${urlBase}/ativo/${form.ativoId}/status`, form);
   }
 }
 
@@ -137,6 +145,8 @@ export async function deleteContrato(contratoId) {
 }
 // ================ CONTRATOS API
 
+
+
 // ================ FUNCIONARIOS API
 export async function getFuncionarioData(page, size, sort, direction){
   if(!page && !size && !sort && !direction) {
@@ -159,24 +169,30 @@ export async function deleteFuncionario(funcionario) {
 }
 // ================ FUNCIONARIOS API
 
+
+
 // ================ VISITAS API
 export async function getVisitasData(page, size, sort, direction){
   if(!page && !size && !sort && !direction) {
-    return await axios.get(`${urlBase}/funcionario`);
+    console.log("entrou visita 1")
+    return await axios.get(`${urlBase}/visita`);
   } else {
-    return await axios.get(`${urlBase}/funcionario`, {params: {page,size,sort}});
+    console.log("entrou visita 2")
+    return await axios.get(`${urlBase}/visita`, {params: {page,size,sort}});
   }
 }
 
 export async function saveVisitaData(form) {
   if (form.funcionarioId) {
-    return await axios.put(`${urlBase}/funcionario/${form.funcionarioId}`, form);
+    return await axios.put(`${urlBase}/visita/${form.funcionarioId}`, form);
   } else {
-    return await axios.post(`${urlBase}/funcionario/novo`, form);
+    console.log('inicio debug')
+    console.log(form)
+    return await axios.post(`${urlBase}/visita/novo`, form);
   }
 }
 
 export async function deleteVisita(funcionario) {
-  return await axios.delete(`${urlBase}/funcionario/${funcionario.funcionarioId}`);
+  return await axios.delete(`${urlBase}/visita/${funcionario.funcionarioId}`);
 }
 // ================ FUNCIONARIOS API

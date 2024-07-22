@@ -1,11 +1,16 @@
-import react from 'react'
+import react, { useState, useEffect }  from 'react'
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import { getLocaisData } from '../../api/Api';
 
 
-const LocalSelect = ({listaLocais, local, setLocal, form, setForm}) => {
+const LocalSelect = ({form, setForm}) => {
+
+    const [listaLocais, setListaLocais] = useState([])
+    const [listaCarregada, setListaCarregada] = useState(false)
+    const [local, setLocal] = useState([])
     
     const handleChange = (event) => {
         setLocal(event.target.value)
@@ -14,12 +19,27 @@ const LocalSelect = ({listaLocais, local, setLocal, form, setForm}) => {
         console.log(event.target.value)
     }
     
+    useEffect(() => {
+
+        if(!listaCarregada) {
+            setListaCarregada(true)
+            getLocaisData(form?.cliente)
+                .then((response) => {
+                    setListaLocais(response.data.content);
+                    })
+                .catch((error) => {
+                    console.log('Error: ' + error);
+                })
+        }
+
+    },[listaLocais])
 
     
     return(
         <>
+
+        <InputLabel id='visitaValorProdutosLabel' sx={{paddingLeft:'10px', zIndex:'1'}}>Local</InputLabel>
         <FormControl sx={{width: '300px'}}>
-            <InputLabel id='local'>Local</InputLabel>
             <Select sx={{padding: '10px', marginLeft: '10px', marginRight:'10px'}}
                 labelId='local'
                 id='local'
@@ -29,7 +49,7 @@ const LocalSelect = ({listaLocais, local, setLocal, form, setForm}) => {
                 >
                 <MenuItem value={-1} >Selecione</MenuItem>
                 { listaLocais ? (
-                    listaLocais.map((local) => (
+                    listaLocais?.map((local) => (
                         <MenuItem key={local.localId} value={local.localId}>{local.localNome}</MenuItem>
                         ))
                         ) : 'Locais não carregados' }

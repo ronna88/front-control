@@ -17,11 +17,11 @@ import FirstPageIcon from '@mui/icons-material/FirstPage';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
-import {IconEdit, IconTrash} from '@tabler/icons';
+import {IconEdit, IconTrash, IconStatusChange} from '@tabler/icons';
 import Modal from '@mui/material/Modal';
 import { Typography } from '@mui/material';
 import AtivoForm from './AtivoForm';
-
+import AtivoStatusForm from './AtivoStatusForm';
 import { getAtivoData } from '../../api/Api';
 
 
@@ -110,8 +110,11 @@ const AtivoTable = ({rows, setRows, loading, setLoading, edit, setEdit,
     const [sort, setSort] = useState("ativoDescricao")
     const [loadingKey, setLoadingKey] = useState(0);
     const [open, setOpen] = useState(false);
+    const [statusChange, setStatusChange] = useState(false);
+    const handleStatusChange = () => setStatusChange(true);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+    const handleCloseStatus = () => setStatusChange(false);
     const [selectedAtivo, setSelectedAtivo] = useState();
     
     useEffect(() => {
@@ -180,6 +183,12 @@ const AtivoTable = ({rows, setRows, loading, setLoading, edit, setEdit,
         setErase(false)
         handleOpen()
     }
+    function handleStatusChangeClick(ativo){
+        setSelectedAtivo(ativo)
+        setEdit(true)
+        setErase(false)
+        handleStatusChange()
+    }
     function handleDeleteClick(ativo){
         setSelectedAtivo(ativo)
         setErase(true)
@@ -218,7 +227,11 @@ const AtivoTable = ({rows, setRows, loading, setLoading, edit, setEdit,
                           <TableCell>{row.ativoDescricao}</TableCell>
                           <TableCell>{row.ativoValorLocacao}</TableCell>
                           <TableCell><Chip label={row.ativoStatus} sx={row.ativoStatus === 'ATIVO' ? ativo : desativo } variant='outlined' /></TableCell>
-                          <TableCell><IconButton onClick={() => handleEditClick(row)}><IconEdit color="#5d87ff" /></IconButton>  <IconButton onClick={() => handleDeleteClick(row)}><IconTrash color="#5d87ff" /></IconButton></TableCell>
+                          <TableCell>
+                            <IconButton onClick={() => handleEditClick(row)}><IconEdit color="#5d87ff" /></IconButton>  
+                            <IconButton onClick={() => handleDeleteClick(row)}><IconTrash color="#5d87ff" /></IconButton>
+                            <IconButton onClick={() => handleStatusChangeClick(row)}><IconStatusChange color='#5d87ff'/></IconButton>
+                          </TableCell>
                       </TableRow>
                       ))
                       )
@@ -250,6 +263,23 @@ const AtivoTable = ({rows, setRows, loading, setLoading, edit, setEdit,
                 {edit ? 'Editar' : 'Apagar'} ativo
             </Typography>
             <AtivoForm handleOpen={handleOpen} handleClose={handleClose}
+                setRows={setRows} setLoading={setLoading} edit={edit} setEdit={setEdit}
+                erase={erase} setErase={setErase} selectedAtivo={selectedAtivo}
+                setSelectedAtivo={setSelectedAtivo}/>
+        </Box>
+    </Modal>
+
+    <Modal
+        open={statusChange}
+        onClose={handleCloseStatus}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+        >
+        <Box sx={style}>
+            <Typography sx={{marginBottom: '2rem'}} id="modal-modal-title" variant="h3" component="h2">
+                Selecione o novo status do ativo:  {selectedAtivo?.ativoDescricao}
+            </Typography>
+            <AtivoStatusForm handleOpen={handleStatusChange} handleClose={handleCloseStatus}
                 setRows={setRows} setLoading={setLoading} edit={edit} setEdit={setEdit}
                 erase={erase} setErase={setErase} selectedAtivo={selectedAtivo}
                 setSelectedAtivo={setSelectedAtivo}/>

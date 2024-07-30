@@ -1,25 +1,26 @@
-import react from 'react'
+import react, { useEffect } from 'react'
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
 
-const ClienteSelect = ({listaClientes, cliente, setCliente, setRows, form, setForm}) => {
+const ClienteSelect = ({listaClientes, setForm, form}) => {
     
     const handleChange = (event) => {
-        setCliente(event.target.value)
         const tempCliente = event.target.value
         setForm({...form, cliente: tempCliente})
-        // console.log(event.target.value)
     }
+    
+    useEffect(()=> {
+        console.log(listaClientes)
+    },[listaClientes])
+    
 
-    
-    
     return(
         <>
-        <FormControl sx={{width: '300px'}}>
-            <InputLabel id='cliente'>Cliente</InputLabel>
+        <InputLabel id='visitaValorProdutosLabel' sx={{paddingLeft:'10px', zIndex:'1'}}>Cliente</InputLabel>
+        <FormControl sx={{width: '320px'}}>
             <Select sx={{padding: '10px', marginLeft:'10px', marginRight:'10px' }}
                 labelId='cliente'
                 id='cliente'

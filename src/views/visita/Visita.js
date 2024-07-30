@@ -4,51 +4,53 @@ import PageContainer from 'src/components/container/PageContainer';
 import DashboardCard from '../../components/shared/DashboardCard';
 import VisitaFilterNew from '../../components/visita/VisitaFilterNew';
 import BlankCard from '../../components/shared/BlankCard';
-import { getAtivoData, getClienteData } from '../../api/Api';
+import { getClienteData, getFuncionarioData, getVisitasData } from '../../api/Api';
 import { toast } from 'react-toastify';
+import VisitaTable from 'src/components/visita/VisitaTable';
 
 
 const Visita = () => {
   const [cliente, setCliente] = useState()
+  const [funcionarios, setFuncionarios] = useState()
   const [carregado, setCarregado] = useState(false)
   const [rows, setRows] = useState([])
   const [listaClientes, setListaClientes] = useState([])
-  const [listaAtivos, setListaAtivos] = useState([])
-  const [ativos, setAtivos] = useState([])
+  const [listaFuncionarios, setListaFuncionarios] = useState([])
   const [loading, setLoading] = useState(false)
-  const [listaLocais, setListaLocais] = useState([])
   const [local, setLocal] = useState()
-
-  const [form, setForm] = useState({
-    visitaInicio: "",
-    visitaFinal: "",
-    visitaDescricao: "",
-    visitaRemoto: false,
-    visitaValorProdutos: 0.00,
-    visitaTotalAbono: 0.0,
-    funcionarios: [
-      {
-        funcionariosId: ""
-      }
-    ],
-    cliente: "",
-    local: ""
-  })
+  const [erase, setErase] = useState(false)
+  const [edit, setEdit] = useState(false)
+  const [visitas, setVisitas] = useState([])
+  
 
   useEffect(() => {
     if (!carregado) {
+      setCarregado(true)
       getClienteData(0, 200, "")
         .then((response) => {
-          console.log(response.data.content)
+          console.log('Buscando dados dos clientes...')
           setListaClientes(response.data.content)
         })
         .catch((error) => {
           console.log(error)
           toast.error(`${error}`)
         })
-        setCarregado(true)
+      getFuncionarioData(0, 200, "")
+      .then((responseFuncionario) => {
+        console.log('Buscando dados dos funcionários...')
+        setListaFuncionarios(responseFuncionario.data.content)
+      })
+      .catch((error) => {
+        console.log(error)
+        toast.error(`${error}`)
+      })
+      getVisitasData(0, 200, "")
+        .then((responseVisita) => {
+          console.log("Buscando visitas...")
+          setVisitas(responseVisita.data.content)
+        })
     }
-  }, [carregado, cliente])
+  }, [carregado])
   return (
     <PageContainer title="Visitas" description="página para tratativa das visitas">
 
@@ -56,14 +58,17 @@ const Visita = () => {
         <Typography>Visitas Cadastradas</Typography>
 
         <BlankCard>
-          <VisitaFilterNew listaClientes={listaClientes} setListaClientes={setListaClientes}
-            cliente={cliente} setCliente={setCliente} form={form} setForm={setForm}
-            listaLocais={listaLocais} setListaLocais={setListaLocais}
-
+          <VisitaFilterNew listaClientes={listaClientes} setListaClientes={setListaClientes} listaFuncionarios={listaFuncionarios}
+            rows={rows} setRows={setRows} loading={loading} setLoading={setLoading} 
+            cliente={cliente} setCliente={setCliente} funcionarios={funcionarios} setFuncionarios={setFuncionarios} local={local} setLocal={setLocal}
+            erase={erase} setErase={setErase} visitas={visitas} setVisitas={setVisitas}
           />
 
           <CardContent>
-            <h6>Card Content - Tabela de visitas</h6>
+            <VisitaTable listaClientes={listaClientes} setListaClientes={setListaClientes} listaFuncionarios={listaFuncionarios}
+            rows={rows} setRows={setRows} loading={loading} setLoading={setLoading} 
+            cliente={cliente} setCliente={setCliente} funcionarios={funcionarios} setFuncionarios={setFuncionarios} local={local} setLocal={setLocal}
+            erase={erase} setErase={setErase} visitas={visitas} setVisitas={setVisitas} edit={edit} setEdit={setEdit} />
           </CardContent>
         </BlankCard>
       </DashboardCard>

@@ -5,14 +5,13 @@ import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { toast } from 'react-toastify';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 import {
     Typography
 } from '@mui/material';
-import ContratoForm from './ContratoForm';
-import ClienteSelect from '../cliente/ClienteSelect';
-import LocalSelect from '../cliente/LocalSelect';
-import { getLocaisData } from '../../api/Api';
+import VisitaForm from './VisitaForm';
 
 const style = {
     position: 'absolute',
@@ -30,42 +29,33 @@ const style = {
     gap: '3px',
 };
 
-const VisitaFilterNew = ({listaClientes, setListaClientes,
-    cliente, setCliente, form, setForm, listaLocais, setListaLocais, local, setLocal}) => {
+const VisitaFilterNew = ({listaClientes, setListaClientes, listaFuncionarios,
+    rows, setRows, loading, setLoading, listaLocais, setListaLocais,
+    cliente, setCliente, funcionarios, setFuncionarios, local, setLocal, erase, setErase}) => {
 
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+    const [form, setForm] = useState({
+        visitaInicio: "",
+        visitaFinal: "",
+        visitaDescricao: "",
+        visitaRemoto: false,
+        visitaValorProdutos: 0.00,
+        visitaTotalAbono: 0.00,
+        funcionarios: [],
+        cliente: {
+          clienteId: ''
+        },
+        local: {localId: ''},
+        visitaTotalHoras: 0.00,
+      })
 
-    useEffect(()=>{
-        console.log(cliente)
-        if(cliente) {
-            getLocaisData(cliente)
-        .then((response) => {
-            setListaLocais(response.data.content)
-            console.log(response.data.content)
-        })
-        .catch((error) => {
-            toast.error(`${error}`)
-            console.log(error)
-        })
-        }
-    },[cliente])
-    // TODO: ajustar inputs das datas para um calendário. e verificar se a buscar vai funcionar.
+
     return (
         <>
         <BlankCard >
             <Button sx={{margin: '20px'}} variant='contained' onClick={handleOpen}>Novo</Button>
-            <TextField sx={{width:'150px', margin: '20px'}} size="small" label="Data Inicial"/>
-            <TextField sx={{width:'150px', margin: '20px'}} size="small" label="Data Final"/>
-            <ClienteSelect cliente={cliente} setCliente={setCliente} listaClientes={listaClientes} setListaClientes={setListaClientes}
-                form={form} setForm={setForm}
-            />
-            {cliente ? (
-                <LocalSelect listaLocais={listaLocais} Local={local} setLocal={setLocal} />
-            ) :  ''}
-
-            <Button color="secondary" sx={{margin: '20px'}} variant='contained' onClick={handleOpen}>Buscar</Button>
         </BlankCard>
         <Modal
             open={open}
@@ -77,7 +67,9 @@ const VisitaFilterNew = ({listaClientes, setListaClientes,
                 <Typography sx={{marginBottom: '2rem'}} id="modal-modal-title" variant="h3" component="h2">
                     Cadastrar nova visita
                 </Typography>
-                <ContratoForm handleOpen={handleOpen} handleClose={handleClose} />
+                <VisitaForm listaClientes={listaClientes} setListaClientes={setListaClientes} listaFuncionarios={listaFuncionarios} form={form} setForm={setForm}
+                    rows={rows} setRows={setRows} loading={loading} setLoading={setLoading} handleClose={handleClose} setFuncionarios={setFuncionarios}
+                    erase={erase} setErase={setErase} cliente={cliente} setCliente={setCliente} />
             </Box>
         </Modal>
         </>

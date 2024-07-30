@@ -10,6 +10,7 @@ import Contrato from '../views/contrato/Contrato';
 import Funcionario from '../views/funcionario/Funcionario';
 import Visita from '../views/visita/Visita';
 import Fechamento from '../views/fechamento/Fechamento';
+import { element } from 'prop-types';
 
 /* ***Layouts**** */
 const FullLayout = Loadable(lazy(() => import('../layouts/full/FullLayout')));

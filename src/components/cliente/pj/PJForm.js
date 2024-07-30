@@ -145,7 +145,7 @@ const PJForm = ({handleOpen, handleClose, setRows,
         
         if (selectedPJ) {
             console.log(selectedPJ)
-            setEmpresa(selectedPJ.empresa.empresaId)
+            //setEmpresa(selectedPJ.empresa.empresaId)
             setForm({
                 clienteId: selectedPJ.clienteId,
                 clienteRazaoSocial: selectedPJ.clienteRazaoSocial,
@@ -160,7 +160,6 @@ const PJForm = ({handleOpen, handleClose, setRows,
                 clienteCidade: selectedPJ.clienteCidade,
                 clienteUF: selectedPJ.clienteUF,
                 clienteCEP: selectedPJ.clienteCEP,
-                empresa: selectedPJ.empresa.empresaId,
             })
         }
     },[])

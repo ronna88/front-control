@@ -9,6 +9,7 @@ import {
   IconUsers,
   IconClipboardList,
   IconReportMoney,
+  IconBoxModel,
 } from '@tabler/icons';
 
 import { uniqueId } from 'lodash';
@@ -55,15 +56,15 @@ const Menuitems = [
   },
   {
     id: uniqueId(),
-    title: 'Ativos',
-    icon: IconDevices2,
-    href: '/ativos',
-  },
-  {
-    id: uniqueId(),
     title: 'Contratos',
     icon: IconCertificate,
     href: '/contratos',
+  },
+  {
+    id: uniqueId(),
+    title: 'Ativos',
+    icon: IconDevices2,
+    href: '/ativos',
   },
   {
     id: uniqueId(),

@@ -3,12 +3,12 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import BlankCard from '../../components/shared/BlankCard';
 import Button from '@mui/material/Button';
-import {saveAtivoData, deleteAtivo} from '../../api/Api';
+import {saveAtivoStatusData, deleteAtivo} from '../../api/Api';
 import { useNavigate } from "react-router-dom";
-import { Typography } from '@mui/material';
+import { MenuItem, Select, Typography } from '@mui/material';
 import { toast } from 'react-toastify';
 
-const AtivoForm = ({handleOpen, handleClose, setRows,
+const AtivoStatusForm = ({handleOpen, handleClose, setRows,
     setLoading, edit, setEdit, erase, setErase, selectedAtivo, setSelectedAtivo}) => {
     const navigate = useNavigate();
         const [form, setForm] = useState({
@@ -30,7 +30,7 @@ const AtivoForm = ({handleOpen, handleClose, setRows,
     
     const handleSave = () => {
         setForm({...form, ativoStatus: 'ATIVO'})
-        saveAtivoData(form)
+        saveAtivoStatusData(form)
             .then((response) => {
                 setRows([])
                 setLoading(true)
@@ -45,20 +45,8 @@ const AtivoForm = ({handleOpen, handleClose, setRows,
             })
     }
 
-    const handleOnChangeDescricao = (event) => {
-        setForm({...form, ativoDescricao: event.target.value});
-    }
-
-    const handleOnChangePatrimonio = (event) => {
-        setForm({...form, ativoPatrimonio: event.target.value});
-    }
-    
-    const handleOnChangeValorCompra = (event) => {
-        setForm({...form, ativoValorCompra: event.target.value});
-    }
-    
-    const handleOnChangeValorLocacao = (event) => {
-        setForm({...form, ativoValorLocacao: event.target.value});
+    const handleOnChangeStatus = (event) => {
+        setForm({...form, ativoStatus: event.target.value});
     }
     
     const handleSim = (ativo) => {
@@ -92,6 +80,7 @@ const AtivoForm = ({handleOpen, handleClose, setRows,
                 ativoValorCompra: selectedAtivo.ativoValorCompra,
                 ativoValorLocacao: selectedAtivo.ativoValorLocacao,
                 ativoPatrimonio: selectedAtivo.ativoPatrimonio,
+                ativoStatus: selectedAtivo.ativoStatus
             })
         }
     },[])
@@ -100,28 +89,15 @@ const AtivoForm = ({handleOpen, handleClose, setRows,
     return (
         <BlankCard>
             <Box sx={style}>
-                {erase ?
+                {
                     (
-                        <>
-                            <Typography variant="h3" component="h3" sx={{marginBottom: '10px'}}>
-                                Deseja realmente apagar o ativo:  {selectedAtivo.ativoDescricao}?
-                            </Typography>
-                            <Box sx={{display: 'flex', gap: 5}}>
-                                <Button variant='contained' color='error' onClick={() => handleSim(selectedAtivo)} >Sim</Button>
-                                <Button variant='contained' onClick={() => handleNao()}>Não</Button>
-                            </Box>
-                        </>
-
-                    ): (
                     <>
-                    <TextField value={form.ativoDescricao} onChange={handleOnChangeDescricao} sx={{width:'300px'}} id='ativoDescricao' 
-                        name='ativoDescricao' label="Descrição" />
-                    <TextField value={form.ativoPatrimonio} onChange={handleOnChangePatrimonio} sx={{width:'300px'}} 
-                        id='ativoPatrimonio' name='ativoPatrimonio' label="Patrimônio" />
-                    <TextField value={form.ativoValorCompra} onChange={handleOnChangeValorCompra} sx={{width:'300px'}} 
-                        id='ativoValorCompra' name='ativoValorCompra' label="Valor de Compra" />
-                    <TextField value={form.ativoValorLocacao} onChange={handleOnChangeValorLocacao} sx={{width:'300px'}} 
-                        id='ativoValorLocacao' name='ativoValorLocacao' label="Valor de Locação" />
+                    <Select value={form.ativoStatus} onChange={handleOnChangeStatus}>
+                        <MenuItem value={'DISPONÍVEL'}>DISPONÍVEL</MenuItem>
+                        <MenuItem value={'LABORATÓRIO'}>LABORATÓRIO</MenuItem>
+                        <MenuItem value={'ALUGADO'}>ALUGADO</MenuItem>
+                        <MenuItem value={'VENDIDO'}>VENDIDO</MenuItem>
+                    </Select>
                         <Button sx={{margin: '20px'}} variant='contained' onClick={handleSave}>{(edit ? 'Atualizar' : 'Salvar' )}</Button>
                     </>
                 )
@@ -131,4 +107,4 @@ const AtivoForm = ({handleOpen, handleClose, setRows,
     );
 }
 
-export default AtivoForm;
+export default AtivoStatusForm;

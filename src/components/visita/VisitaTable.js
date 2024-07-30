@@ -21,7 +21,6 @@ import {IconEdit, IconTrash} from '@tabler/icons';
 import Modal from '@mui/material/Modal';
 import { Typography } from '@mui/material';
 import VisitaForm from './VisitaForm';
-
 import { getVisitasData } from '../../api/Api';
 
 
@@ -104,8 +103,8 @@ TablePaginationActions.propTypes = {
 
 
 const VisitaTable = ({rows, setRows, loading, setLoading, edit, setEdit,
-    erase, setErase, listaClientes, setListaClientes, listaAtivos, 
-    setListaAtivos, cliente, setCliente, ativos, setAtivos, form, setForm}) => {
+    erase, setErase, listaClientes, setListaClientes, listaAtivos, listaFuncionarios,
+    setListaAtivos, cliente, setCliente}) => {
     const [selectedVisita, setSelectedVisita] = useState()
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -116,9 +115,21 @@ const VisitaTable = ({rows, setRows, loading, setLoading, edit, setEdit,
     const handleClose = () => {
         setOpen(false)
         setSelectedVisita()
-        setAtivos([])}
-    // const [cliente, setCliente] = useState();
+    }
+    const [form, setForm] = useState({
+        visitaInicio: "",
+        visitaFinal: "",
+        visitaDescricao: "",
+        visitaRemoto: false,
+        visitaValorProdutos: 0.00,
+        visitaTotalAbono: 0.00,
+        funcionarios: [],
+        cliente: '',
+        local: '',
+        visitaTotalHoras: 0.00,
+      })
     
+
     useEffect(() => {
         if(rows.length === 0){
             getVisitasData(
@@ -128,7 +139,6 @@ const VisitaTable = ({rows, setRows, loading, setLoading, edit, setEdit,
                 )
       .then((response) => {
           setRows(response.data);
-          console.log(response.data.content)
       })
       .catch((error) => {
           console.log("Erro ao recuperar dados. " + error);
@@ -183,9 +193,24 @@ const VisitaTable = ({rows, setRows, loading, setLoading, edit, setEdit,
     function handleEditClick(visita){
         console.log(visita)
         setSelectedVisita(visita)
-        setCliente(visita.cliente)
         setEdit(true)
         setErase(false)
+        var f = []
+        for(let i =0 ; i < visita.funcionarios.length; i++){
+            f.push(visita.funcionarios[i].funcionarioId)
+        }
+        setForm({
+            visitaId: visita.visitaId,
+            visitaInicio: visita.visitaInicio,
+            visitaFinal: visita.visitaFinal,
+            visitaDescricao: visita.visitaDescricao,
+            visitaRemoto: visita.visitaRemoto,
+            visitaValorProdutos: visita.visitaValorProdutos,
+            visitaTotalAbono: visita.visitaTotalAbono,
+            funcionarios: f,
+            cliente: visita.cliente.clienteId,
+            local: visita.local.localId,
+        })
         handleOpen()
     }
     function handleDeleteClick(visita){
@@ -225,6 +250,7 @@ const VisitaTable = ({rows, setRows, loading, setLoading, edit, setEdit,
                     ) :
                     (rows?.content)?.map((row) => (
                         <TableRow key={row.visitaId}>
+                            
                             <TableCell>{row.visitaInicio}</TableCell>
                             <TableCell>{row.cliente.clienteNome}</TableCell>
                             <TableCell>{row.local.localNome}</TableCell>
@@ -262,12 +288,9 @@ const VisitaTable = ({rows, setRows, loading, setLoading, edit, setEdit,
             <Typography sx={{marginBottom: '2rem'}} id="modal-modal-title" variant="h3" component="h2">
                 {edit ? 'Editar' : 'Apagar'} Visita
             </Typography>
-            <VisitaForm handleOpen={handleOpen} handleClose={handleClose}
-                setRows={setRows} setLoading={setLoading} edit={edit} setEdit={setEdit}
-                erase={erase} setErase={setErase} selectedVisita={selectedVisita}
-                setSelectedVisita={setSelectedVisita} setForm={setForm} form={form}
-                listaClientes={listaClientes} setListaClientes={setListaClientes}
-                listaAtivos={listaAtivos} setListaAtivos={setListaAtivos} cliente={cliente} setCliente={setCliente} ativos={ativos} setAtivos={setAtivos}/>
+            <VisitaForm handleClose={handleClose} edit={edit} setEdit={setEdit} erase={erase} setRows={setRows} setLoading={setLoading}
+                listaClientes={listaClientes} listaFuncionarios={listaFuncionarios}
+                setForm={setForm} form={form} />
             </Box>
         </Modal>
     </>

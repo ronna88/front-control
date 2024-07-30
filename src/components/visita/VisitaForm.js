@@ -20,29 +20,16 @@ import el from 'date-fns/locale/pt-BR';
 import './styles.css';
 registerLocale('pt-br', el);
 
-const VisitaForm = ({
-  listaClientes,
-  setListaClientes,
-  listaFuncionarios,
-  form,
-  setForm,
-  rows,
-  setRows,
-  loading,
-  setLoading,
-  handleClose,
-  setFuncionarios,
-  erase,
-  setErase,
-  selectedVisita,
-  setCliente,
-  edit,
-}) => {
-  const navigate = useNavigate();
-  const [date, setDate] = useState(new Date());
-  const [finalDate, setFinalDate]= useState(new Date());
-  const [value,setValue] = useState()
-  const [listaLocais, setListaLocais] = useState([]);
+const VisitaForm = ({ handleClose, edit, erase, setEdit, setRows, setLoading,
+  listaClientes, listaFuncionarios,
+  setForm, form }) => {
+
+  const navigate = useNavigate()
+  const [date, setDate] = useState(new Date())
+  const [finalDate, setFinalDate] = useState(new Date())
+  const [listaLocais, setListaLocais] = useState()
+  const [funcionariosSelecionados, setFuncionariosSelecionados] = useState([])
+  const [carregado, setCarregado] = useState(false)
 
   const style = {
     display: 'flex',
@@ -65,7 +52,6 @@ const VisitaForm = ({
         // setErase(false)
         handleClose();
         toast.success('Visita salva com sucesso!');
-        setFuncionarios([]);
       })
       .catch((error) => {
         console.log(error);
@@ -74,19 +60,9 @@ const VisitaForm = ({
         } else {
           toast.error(`${error.response.data}`);
         }
-        
-        
-        setFuncionarios([]);
+
       });
-    
-  };
 
-  const handleOnChangeInicio = (event) => {
-    setForm({ ...form, visitaInicio: event.target.value });
-  };
-
-  const handleOnChangeFinal = (event) => {
-    setForm({ ...form, visitaFinal: event.target.value });
   };
 
   const handleOnChangeDescricao = (event) => {
@@ -105,30 +81,12 @@ const VisitaForm = ({
     setForm({ ...form, visitaTotalAbono: parseFloat(event.target.value) });
   };
 
-  // MultiSelect
-  const handleOnChangeFuncionario = (event) => {
-    setForm({ ...form, funcionarios: [event.target.value] });
-  };
-
-  //Single Select
-  const handleOnChangeCliente = (event) => {
-    setForm({ ...form, cliente: event.target.value });
-    
-  };
-
-  //Single Select
-  const handleOnChangeLocal = (event) => {
-    setForm({ ...form, local: event.target.value });
-  };
-
   const handleSim = (visita) => {
     deleteVisita(visita.contratoId)
       .then((response) => {
         setRows([]);
         setLoading(true);
-        // setSelectedVisita()
         handleClose();
-        // setFuncionario([])
         toast.success('Visita apagado com sucesso!');
       })
       .catch((error) => {
@@ -139,66 +97,42 @@ const VisitaForm = ({
 
   const handleNao = () => {
     setRows([]);
-    setSelectedVisita()
     setLoading(true);
     handleClose();
   };
 
   useEffect(() => {
-    console.log('selectedVisita')
-    console.log(selectedVisita)
-    if (selectedVisita) {
-      console.log()
-            setForm({
-                visitaInicio: selectedVisita.visitaInicio,
-                visitaFinal: selectedVisita.visitaFinal,
-                visitaDescricao: selectedVisita.visitaDescricao,
-                visitaRemoto: selectedVisita.visitaRemoto,
-                visitaValorProdutos: selectedVisita.visitaValorProdutos,
-                visitaTotalAbono: selectedVisita.visitaTotalAbono,
-                visitaTotalHoras: selectedVisita.visitaTotalHoras,
-                funcionario: selectedVisita.funcionario,
-                cliente: selectedVisita.cliente.clienteId,
-                local: selectedVisita.localId,
-            })
-        }
-    
-    console.log(listaFuncionarios)
-  }, [selectedVisita]);
+    //Ajusta no form as datas inicio e final
+    setForm({ ...form, visitaInicio: date, visitaFinal: finalDate })
+  }, [date, finalDate])
+
+
 
   useEffect(() => {
-    setForm({...form, visitaInicio:date, visitaFinal:finalDate})
-  },[date,finalDate])
-  
-  useEffect(() => {
-    console.log(form.cliente);
-    if (form?.cliente != '-1') {
-      getLocaisData(form.cliente.clienteId)
-      .then((response) => {
-        // console.log(response.data.content)
-        setListaLocais(response.data.content);
-      })
-      .catch((error) => {
-        console.log('Error: ' + error);
-      })
+    if (form.cliente != '-1' && form.cliente != '') {
+      getLocaisData(form.cliente)
+        .then((response) => {
+          console.log(response.data.content)
+          setListaLocais(response.data.content);
+        })
+        .catch((error) => {
+          console.log('Error: ' + error);
+        })
     }
-  },[form?.cliente])
-  
-  const onHandleDateChange = (date) => {
-    console.log(date);
-    setDate(date);
-  };
+  }, [form.cliente])
 
-  // Visita Inicio
-  const onHandleDateInicialChange = (date) => {
-    console.log(date);
-    setForm({...BlankCard, visitaInicio:date})
-  };
-  // Visita Final
-  const onHandleDateFinalChange = (finalDate) => {
-    console.log(finalDate);
-    setForm({...form, visitaFinal:finalDate})
-  };
+
+  useEffect(() => {
+    if (edit) {
+      console.log('editar sim!')
+      console.log(edit)
+      setDate(form.visitaInicio)
+      setFinalDate(form.visitaFinal)
+    }
+
+  }, [])
+
+
 
   return (
     <BlankCard>
@@ -209,7 +143,7 @@ const VisitaForm = ({
               Deseja realmente apagar o contrato ?
             </Typography>
             <Box sx={{ display: 'flex', gap: 5 }}>
-              <Button variant="contained" color="error" onClick={() => handleSim(selectedVisita)}>
+              <Button variant="contained" color="error" onClick={() => handleSim(form)}>
                 Sim
               </Button>
               <Button variant="contained" onClick={() => handleNao()}>
@@ -221,7 +155,7 @@ const VisitaForm = ({
           <>
             <div className="formContainer">
               <div className="col-1">
-                <InputLabel id='visitaValorProdutosLabel' sx={{paddingLeft:'10px', zIndex:'1'}}>Início</InputLabel>
+                <InputLabel id='visitaValorProdutosLabel' sx={{ paddingLeft: '10px', zIndex: '1' }}>Início</InputLabel>
                 <div className="datePicker">
                   <DatePicker
                     showTimeInput
@@ -235,10 +169,11 @@ const VisitaForm = ({
                     selected={date}
                     onChange={(date) => setDate(date)}
                     locale="pt-br"
+
                   />
                 </div>
-                
-                <InputLabel id='visitaValorProdutosLabel' sx={{paddingLeft:'10px', zIndex:'1'}}>Final</InputLabel>
+
+                <InputLabel id='visitaValorProdutosLabel' sx={{ paddingLeft: '10px', zIndex: '1' }}>Final</InputLabel>
                 <div className="datePicker">
                   <DatePicker
                     showTimeInput
@@ -254,79 +189,75 @@ const VisitaForm = ({
                     locale="pt-br"
                   />
                 </div>
-                
+
                 <ClienteSelect
                   listaClientes={listaClientes}
-                  setListaClientes={setListaClientes}
-                  client={form?.cliente.clienteId}
-                  setCliente={setCliente}
+                  setListaLocais={setListaLocais}
                   setForm={setForm}
                   form={form}
                 />
-                
-                {form?.cliente.clienteId != '' && listaLocais.length != 0? (
-                  <LocalSelect form={form} setForm={setForm}/>
+
+                {(form.cliente != '' && form.cliente != '-1') && listaLocais?.length > 0 ? (
+                  <LocalSelect form={form} setForm={setForm} />
                 ) : ''}
-                
+
                 <FormControlLabel control={
-                <Checkbox
-                value={form?.visitaRemoto}
-                onChange={handleOnChangeVisitaRemoto}
-                sx={{ marginLeft:'10px' }}
-                id="visitaRemoto"
-                name="visitaRemoto"
-                placeholder="Visita Remota"
-                />
+                  <Checkbox
+                    value={form.visitaRemoto}
+                    onChange={handleOnChangeVisitaRemoto}
+                    sx={{ marginLeft: '10px' }}
+                    id="visitaRemoto"
+                    name="visitaRemoto"
+                    placeholder="Visita Remota"
+                  />
                 } label="Visita Remota"
                 />
-                
-                  <InputLabel id='visitaValorProdutosLabel' sx={{paddingLeft:'10px', zIndex:'1'}}>Valor dos Produtos</InputLabel>
+
+                <InputLabel id='visitaValorProdutosLabel' sx={{ paddingLeft: '10px', zIndex: '1' }}>Valor dos Produtos</InputLabel>
                 <FormControl>
                   <TextField
-                    value={form?.visitaValorProdutos}
+                    value={form.visitaValorProdutos}
                     onChange={handleOnChangeValorProduto}
-                    sx={{ width: '300px', marginLeft:'10px' }}
+                    sx={{ width: '300px', marginLeft: '10px' }}
                     id="visitaValorProdutos"
                     name="visitaValorProdutos"
                     placeholder="Valor dos Produtos"
                     type='number'
                     inputProps={{
-                    step: 0.01,
-                  }}
+                      step: 0.01,
+                    }}
                   />
                 </FormControl>
-                
-                <InputLabel id='visitaTotalAbonoLabel' sx={{paddingLeft:'10px', zIndex:'1'}}>Total do Abono</InputLabel>
+
+                <InputLabel id='visitaTotalAbonoLabel' sx={{ paddingLeft: '10px', zIndex: '1' }}>Total do Abono</InputLabel>
                 <FormControl>
-                <TextField
-                  value={form?.visitaTotalAbono}
-                  onChange={handleOnChangeTotalAbono}
-                  sx={{ width: '300px', marginLeft:'10px' }}
-                  id="visitaTotalAbono"
-                  name="visitaTotalAbono"
-                  placeholder="Total Abonado"
-                  type='number'
-                  inputProps={{
-                  step: 0.01,
-                }}
-                />
+                  <TextField
+                    value={form.visitaTotalAbono}
+                    onChange={handleOnChangeTotalAbono}
+                    sx={{ width: '300px', marginLeft: '10px' }}
+                    id="visitaTotalAbono"
+                    name="visitaTotalAbono"
+                    placeholder="Total Abonado"
+                    type='number'
+                    inputProps={{
+                      step: 0.01,
+                    }}
+                  />
                 </FormControl>
-                
+
                 <FuncionarioSelect
                   listaFuncionarios={listaFuncionarios}
-                  funcionario={form?.funcionario}
-                  setFuncionario={setFuncionarios}
                   form={form}
-                  setForm={setForm}
+                  setForm={setForm} funcionariosSelecionados={funcionariosSelecionados} setFuncionariosSelecionados={setFuncionariosSelecionados}
                 />
               </div>
-              
+
               <div className="colForm">
-                <InputLabel id='visitaValorProdutosLabel' sx={{paddingLeft:'10px', zIndex:'1'}}>Descrição</InputLabel>
+                <InputLabel id='visitaValorProdutosLabel' sx={{ paddingLeft: '10px', zIndex: '1' }}>Descrição</InputLabel>
                 <TextField
                   multiline
                   rows={11}
-                  value={form?.visitaDescricao}
+                  value={form.visitaDescricao}
                   onChange={handleOnChangeDescricao}
                   sx={{ width: '300px' }}
                   id="visitaDescricao"

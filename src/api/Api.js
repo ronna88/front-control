@@ -174,20 +174,16 @@ export async function deleteFuncionario(funcionario) {
 // ================ VISITAS API
 export async function getVisitasData(page, size, sort, direction){
   if(!page && !size && !sort && !direction) {
-    console.log("entrou visita 1")
     return await axios.get(`${urlBase}/visita`);
   } else {
-    console.log("entrou visita 2")
     return await axios.get(`${urlBase}/visita`, {params: {page,size,sort}});
   }
 }
 
 export async function saveVisitaData(form) {
-  if (form.funcionarioId) {
-    return await axios.put(`${urlBase}/visita/${form.funcionarioId}`, form);
+  if (form.visitaId) {
+    return await axios.put(`${urlBase}/visita/${form.visitaId}`, form);
   } else {
-    console.log('inicio debug')
-    console.log(form)
     return await axios.post(`${urlBase}/visita/novo`, form);
   }
 }

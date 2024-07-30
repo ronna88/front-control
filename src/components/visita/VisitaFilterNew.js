@@ -29,13 +29,27 @@ const style = {
     gap: '3px',
 };
 
-const VisitaFilterNew = ({listaClientes, setListaClientes, listaFuncionarios, form, setForm,
+const VisitaFilterNew = ({listaClientes, setListaClientes, listaFuncionarios,
     rows, setRows, loading, setLoading, listaLocais, setListaLocais,
     cliente, setCliente, funcionarios, setFuncionarios, local, setLocal, erase, setErase}) => {
 
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+    const [form, setForm] = useState({
+        visitaInicio: "",
+        visitaFinal: "",
+        visitaDescricao: "",
+        visitaRemoto: false,
+        visitaValorProdutos: 0.00,
+        visitaTotalAbono: 0.00,
+        funcionarios: [],
+        cliente: {
+          clienteId: ''
+        },
+        local: {localId: ''},
+        visitaTotalHoras: 0.00,
+      })
 
 
     return (

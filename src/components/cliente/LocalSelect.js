@@ -16,22 +16,21 @@ const LocalSelect = ({form, setForm}) => {
         setLocal(event.target.value)
         const tempLocal = event.target.value
         setForm({...form, local: tempLocal})
-        console.log(event.target.value)
     }
     
     useEffect(() => {
-
-        if(!listaCarregada) {
-            setListaCarregada(true)
-            getLocaisData(form?.cliente)
-                .then((response) => {
-                    setListaLocais(response.data.content);
+        if(!listaLocais.length > 0){
+            if(!listaCarregada) {
+                setListaCarregada(true)
+                getLocaisData(form.cliente)
+                    .then((response) => {
+                        setListaLocais(response.data.content);
+                        })
+                    .catch((error) => {
+                        console.log('Error: ' + error);
                     })
-                .catch((error) => {
-                    console.log('Error: ' + error);
-                })
+            }
         }
-
     },[listaLocais])
 
     
@@ -43,7 +42,7 @@ const LocalSelect = ({form, setForm}) => {
             <Select sx={{padding: '10px', marginLeft: '10px', marginRight:'10px'}}
                 labelId='local'
                 id='local'
-                value={form?.local}
+                value={form.local}
                 onChange={handleChange}
                 size="small"
                 >

@@ -48,8 +48,10 @@ const VisitaForm = ({ handleClose, edit, erase, setEdit, setRows, setLoading,
         setRows([]);
         setLoading(true);
         // TODO: Verificar setEdit nesta linha
-        // setEdit(false)
+        //setEdit(false)
         // setErase(false)
+        //setListaLocais();
+        //setForm();
         handleClose();
         toast.success('Visita salva com sucesso!');
       })
@@ -87,6 +89,7 @@ const VisitaForm = ({ handleClose, edit, erase, setEdit, setRows, setLoading,
         setRows([]);
         setLoading(true);
         handleClose();
+        setListaLocais();
         toast.success('Visita apagado com sucesso!');
       })
       .catch((error) => {
@@ -98,6 +101,7 @@ const VisitaForm = ({ handleClose, edit, erase, setEdit, setRows, setLoading,
   const handleNao = () => {
     setRows([]);
     setLoading(true);
+    setForm();
     handleClose();
   };
 

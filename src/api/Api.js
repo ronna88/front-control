@@ -55,6 +55,8 @@ export async function getPJData(page, size, sort, direction){
 
 export async function savePJData(form) {
   if (form.clienteId) {
+    console.log('cliente PJ att: ')
+    console.log(form)
     return await axios.put(`${urlBase}/cliente/pj/${form.clienteId}`, form);
   } else {
     return await axios.post(`${urlBase}/cliente/pj/novo`, form);
@@ -78,6 +80,7 @@ export async function getClienteData(page, size, sort, direction) {
 
 // ================ LOCAIS API
 export async function getLocaisData(clienteId, page, size, sort, direction){
+  console.log(clienteId);
   return await axios.get(`${urlBase}/local/${clienteId}`, {params: {page,size,sort}});
 }
 

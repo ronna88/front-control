@@ -5,7 +5,7 @@ import BlankCard from '../../../components/shared/BlankCard';
 import Button from '@mui/material/Button';
 import {savePJData, deletePJ, getEmpresaData} from '../../../api/Api';
 import { useNavigate } from "react-router-dom";
-import { Typography } from '@mui/material';
+import { FormControlLabel, FormGroup, Typography, Checkbox } from '@mui/material';
 import { toast } from 'react-toastify';
 import EmpresaSelect from '../EmpresaSelect';
 
@@ -26,7 +26,9 @@ const PJForm = ({handleOpen, handleClose, setRows,
             clienteUF: '',
             clienteCEP: '',
             empresa: '',
+            isFechamentoSeparado: false,
     })
+    const [checked, setChecked] = useState(false);
     const [empresa, setEmpresa] = useState('')
     const [listaEmpresas, setListaEmpresas] = useState([])
     
@@ -108,6 +110,10 @@ const PJForm = ({handleOpen, handleClose, setRows,
     const handleOnChangeEmpresa = (empresaId) => {
         setForm({...form, empresa: empresaId});
     }
+
+    const handleOnChangeFechamento = (event) => {
+        setForm({...form, isFechamentoSeparado: event.target.checked})
+    }
         
     
     const handleSim = (pj) => {
@@ -160,6 +166,7 @@ const PJForm = ({handleOpen, handleClose, setRows,
                 clienteCidade: selectedPJ.clienteCidade,
                 clienteUF: selectedPJ.clienteUF,
                 clienteCEP: selectedPJ.clienteCEP,
+                isFechamentoSeparado: selectedPJ.isFechamentoSeparado,
             })
         }
     },[])
@@ -194,6 +201,7 @@ const PJForm = ({handleOpen, handleClose, setRows,
                     <TextField value={form.clienteCidade} onChange={handleOnChangeCidade} sx={{width:'300px'}} id='clienteCidade' name='clienteCidade' label="Cidade" />
                     <TextField value={form.clienteUF} onChange={handleOnChangeUF} sx={{width:'300px'}} id='clienteUF' name='clienteUF' label="UF" />
                     <TextField value={form.clienteCEP} onChange={handleOnChangeCEP} sx={{width:'300px'}} id='clienteCEP' name='clienteCEP' label="CEP" />
+                    <FormControlLabel control={<Checkbox onChange={handleOnChangeFechamento} checked={form.isFechamentoSeparado} />} label="Fechamento Separado por Local?" />                   
                     <EmpresaSelect handleOnChangeEmpresa={handleOnChangeEmpresa} empresa={empresa} setEmpresa={setEmpresa} listaEmpresas={listaEmpresas}/>
                     <Button sx={{margin: '20px'}} variant='contained' onClick={handleSave}>Atualizar</Button>
                     </>

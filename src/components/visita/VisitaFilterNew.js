@@ -90,10 +90,10 @@ import { getVisitasDataFiltro } from 'src/api/Api';
                     <FuncionarioSingleSelect listaFuncionarios={listaFuncionarios} filtro={filtro} setFiltro={setFiltro}/>
             
                     <InputLabel>Data de Início: </InputLabel>
-                    <TextField placeholder='yyyy-mm-ddT00:00:00' onChange={handleChangeInicio} value={filtro.visitaInicio} />
-
+                    <TextField type='datetime-local' onChange={handleChangeInicio} value={filtro.visitaInicio} />
+                    
                     <InputLabel>Data de Fim: </InputLabel>
-                    <TextField placeholder='yyyy-mm-ddT00:00:00' onChange={handleChangeFinal} value={filtro.visitaFinal} />
+                    <TextField type='datetime-local' onChange={handleChangeFinal} value={filtro.visitaFinal} />
 
                     <Button sx={{margin: '20'}} variant='outlined' onClick={(event) => {handleFiltroClick(event)}}>Filtrar</Button>
                 </div>

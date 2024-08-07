@@ -67,6 +67,13 @@ const VisitaForm = ({ handleClose, edit, erase, setEdit, setRows, setLoading,
 
   };
 
+  const handleOnChangeVisitainicio = (event) => {
+    setForm({ ...form, visitaInicio: event.target.value });
+  };
+  const handleOnChangeVisitaFinal = (event) => {
+    setForm({ ...form, visitaFinal: event.target.value });
+  };
+
   const handleOnChangeDescricao = (event) => {
     setForm({ ...form, visitaDescricao: event.target.value });
   };
@@ -159,6 +166,7 @@ const VisitaForm = ({ handleClose, edit, erase, setEdit, setRows, setLoading,
           <>
             <div className="formContainer">
               <div className="col-1">
+                {/*
                 <InputLabel id='visitaValorProdutosLabel' sx={{ paddingLeft: '10px', zIndex: '1' }}>Início</InputLabel>
                 <div className="datePicker">
                   <DatePicker
@@ -176,7 +184,13 @@ const VisitaForm = ({ handleClose, edit, erase, setEdit, setRows, setLoading,
 
                   />
                 </div>
+                */
+                }
+                <TextField type='datetime-local' value={form.visitaInicio} onChange={(event) => handleOnChangeVisitainicio(event)} />
 
+                <TextField type='datetime-local' value={form.visitaFinal} onChange={(event) => handleOnChangeVisitaFinal(event)} />
+
+                {/*
                 <InputLabel id='visitaValorProdutosLabel' sx={{ paddingLeft: '10px', zIndex: '1' }}>Final</InputLabel>
                 <div className="datePicker">
                   <DatePicker
@@ -193,6 +207,7 @@ const VisitaForm = ({ handleClose, edit, erase, setEdit, setRows, setLoading,
                     locale="pt-br"
                   />
                 </div>
+                */}
 
                 <ClienteSelect
                   listaClientes={listaClientes}

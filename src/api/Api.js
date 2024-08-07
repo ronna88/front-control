@@ -194,4 +194,13 @@ export async function saveVisitaData(form) {
 export async function deleteVisita(funcionario) {
   return await axios.delete(`${urlBase}/visita/${funcionario.funcionarioId}`);
 }
+
+export async function getVisitasDataFiltro(filtro, page, size, sort, direction){
+  // console.log(filtro)
+  if(!page && !size && !sort && !direction) {
+    return await axios.post(`${urlBase}/visita/funcionario/${filtro.funcionario}`, filtro, {params: {page:0,size:5,sort:null}})
+  } else {
+    return await axios.post(`${urlBase}/visita/funcionario/${filtro.funcionario}`, filtro, {params: {page,size,sort}});
+  }
+}
 // ================ FUNCIONARIOS API

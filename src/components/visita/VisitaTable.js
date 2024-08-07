@@ -22,6 +22,7 @@ import Modal from '@mui/material/Modal';
 import { Typography } from '@mui/material';
 import VisitaForm from './VisitaForm';
 import { getVisitasData } from '../../api/Api';
+import { getVisitasDataFiltro } from 'src/api/Api';
 
 
 const style = {
@@ -104,7 +105,7 @@ TablePaginationActions.propTypes = {
 
 const VisitaTable = ({rows, setRows, loading, setLoading, edit, setEdit,
     erase, setErase, listaClientes, setListaClientes, listaAtivos, listaFuncionarios,
-    setListaAtivos, cliente, setCliente}) => {
+    setListaAtivos, cliente, setCliente, filtro, setFiltro}) => {
     const [selectedVisita, setSelectedVisita] = useState()
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -128,7 +129,41 @@ const VisitaTable = ({rows, setRows, loading, setLoading, edit, setEdit,
         local: '',
         visitaTotalHoras: 0.00,
       })
+
+      useEffect(()=> {
+        if(filtro.visitaInicio && filtro.visitaFinal && filtro.funcionario) {
+            getVisitasDataFiltro(
+                filtro,
+                page,
+                rowsPerPage,
+                sort
+                )
+          .then((response) => {
+              setRows(response.data);
+          })
+          .catch((error) => {
+              console.log("Erro ao recuperar dados. " + error);
+          });
+        }
+      }, [page])
+
+
+      useEffect(()=>{
+        getVisitasDataFiltro(
+            filtro,
+            page,
+            rowsPerPage,
+            sort
+            )
+      .then((response) => {
+          setRows(response.data);
+      })
+      .catch((error) => {
+          console.log("Erro ao recuperar dados. " + error);
+      });
+        },[rowsPerPage]) 
     
+      /*
 
     useEffect(() => {
         if(rows.length === 0){
@@ -151,8 +186,9 @@ const VisitaTable = ({rows, setRows, loading, setLoading, edit, setEdit,
     } else {
         setLoadingKey(prevKey => prevKey + 1);
     }
-}, [rows]);
+}, [rows]); */
 
+/*
     useEffect(()=>{
         getVisitasData(
             page,
@@ -165,8 +201,9 @@ const VisitaTable = ({rows, setRows, loading, setLoading, edit, setEdit,
       .catch((error) => {
           console.log("Erro ao recuperar dados. " + error);
       });
-        },[page])
+        },[page]) */
 
+        /*
     useEffect(()=>{
         getVisitasData(
             page,
@@ -179,7 +216,7 @@ const VisitaTable = ({rows, setRows, loading, setLoading, edit, setEdit,
       .catch((error) => {
           console.log("Erro ao recuperar dados. " + error);
       });
-        },[rowsPerPage])
+        },[rowsPerPage]) */
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -265,7 +302,7 @@ const VisitaTable = ({rows, setRows, loading, setLoading, edit, setEdit,
             <TableFooter>
                 <TableRow>
                     <TablePagination
-                        rowsPerPageOptions={[5, 10, 20, { label: 'All', value: -1 }]}
+                        rowsPerPageOptions={[5, 10, 20, { label: 'Todos', value: -1 }]}
                         colSpan={6}
                         count={(rows.totalElements ? rows.totalElements : -1)}
                         rowsPerPage={rowsPerPage}

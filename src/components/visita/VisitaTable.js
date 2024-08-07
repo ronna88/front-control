@@ -288,7 +288,7 @@ const VisitaTable = ({rows, setRows, loading, setLoading, edit, setEdit,
                     (rows?.content)?.map((row) => (
                         <TableRow key={row.visitaId}>
                             
-                            <TableCell>{row.visitaInicio}</TableCell>
+                            <TableCell>{new Date(row.visitaInicio).toLocaleString()}</TableCell>
                             <TableCell>{row.cliente.clienteNome}</TableCell>
                             <TableCell>{row.local.localNome}</TableCell>
                             <TableCell>{row.visitaDescricao}</TableCell>

@@ -22,6 +22,7 @@ import Modal from '@mui/material/Modal';
 import { Typography } from '@mui/material';
 import VisitaForm from './VisitaForm';
 import { getVisitasData } from '../../api/Api';
+import { getVisitasDataFiltro } from 'src/api/Api';
 
 
 const style = {
@@ -104,10 +105,9 @@ TablePaginationActions.propTypes = {
 
 const VisitaTable = ({rows, setRows, loading, setLoading, edit, setEdit,
     erase, setErase, listaClientes, setListaClientes, listaAtivos, listaFuncionarios,
-    setListaAtivos, cliente, setCliente}) => {
+    setListaAtivos, cliente, setCliente, filtro, setFiltro, page, setPage, rowsPerPage, setRowsPerPage, carregado, setCarregado}) => {
     const [selectedVisita, setSelectedVisita] = useState()
-    const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(5);
+    
     const [sort, setSort] = useState("visitaDescricao")
     const [loadingKey, setLoadingKey] = useState(0);
     const [open, setOpen] = useState(false)
@@ -128,7 +128,62 @@ const VisitaTable = ({rows, setRows, loading, setLoading, edit, setEdit,
         local: '',
         visitaTotalHoras: 0.00,
       })
+
+      useEffect(()=> {
+        if(filtro.visitaInicio && filtro.visitaFinal && filtro.funcionario) {
+            getVisitasDataFiltro(
+                filtro,
+                page,
+                rowsPerPage,
+                sort
+                )
+          .then((response) => {
+              setRows(response.data);
+          })
+          .catch((error) => {
+              console.log("Erro ao recuperar dados. " + error);
+          });
+        }
+      }, [page])
+
+
+      useEffect(()=>{
+
+        if(filtro.funcionario !== '') {
+// atualização com filtro
+getVisitasDataFiltro(
+    filtro,
+    page,
+    rowsPerPage,
+    sort
+    )
+.then((response) => {
+  setRows(response.data);
+})
+.catch((error) => {
+  console.log("Erro ao recuperar dados. " + error);
+});
+        } else {
+            console.log('teste rowsPerPage')
+            console.log(rowsPerPage)
+            // atualização sem filtro
+      getVisitasData(
+        page,
+        rowsPerPage,
+        sort
+      ) .then((response) => {
+        setRows(response.data);
+    })
+    .catch((error) => {
+        console.log("Erro ao recuperar dados. " + error);
+    });
+        }
+        
+
+      
+        },[rowsPerPage]) 
     
+      /*
 
     useEffect(() => {
         if(rows.length === 0){
@@ -151,8 +206,9 @@ const VisitaTable = ({rows, setRows, loading, setLoading, edit, setEdit,
     } else {
         setLoadingKey(prevKey => prevKey + 1);
     }
-}, [rows]);
+}, [rows]); */
 
+/*
     useEffect(()=>{
         getVisitasData(
             page,
@@ -165,8 +221,9 @@ const VisitaTable = ({rows, setRows, loading, setLoading, edit, setEdit,
       .catch((error) => {
           console.log("Erro ao recuperar dados. " + error);
       });
-        },[page])
+        },[page]) */
 
+        /*
     useEffect(()=>{
         getVisitasData(
             page,
@@ -179,7 +236,7 @@ const VisitaTable = ({rows, setRows, loading, setLoading, edit, setEdit,
       .catch((error) => {
           console.log("Erro ao recuperar dados. " + error);
       });
-        },[rowsPerPage])
+        },[rowsPerPage]) */
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -230,8 +287,26 @@ const VisitaTable = ({rows, setRows, loading, setLoading, edit, setEdit,
         color: "#fff"
     }
 
+    function getFuncionarios(visita){
+        let nomeFuncionarios = '';
+        for(let i=0; i<visita.funcionarios.length;i++) {
+            console.log('i: '+ i)
+            console.log('visita funcionarios[i].funcionarioId: ' + visita.funcionarios[i].funcionarioId)
+            const result = listaFuncionarios.filter(func => (func.funcionarioId === visita.funcionarios[i].funcionarioId))
+            console.log(result)
+            for (let j = 0 ; j < result.length ; j ++) {
+                nomeFuncionarios = nomeFuncionarios + ',' + result[j].funcionarioNome;
+            }
+            
+        }
+
+        return nomeFuncionarios;
+    }
+
     return (
         <>
+        {console.log('eiii')}
+        {console.log(listaFuncionarios)}
         <Table>
             <TableHead>
                 <TableRow>
@@ -239,6 +314,8 @@ const VisitaTable = ({rows, setRows, loading, setLoading, edit, setEdit,
                     <TableCell><strong>Cliente</strong></TableCell>
                     <TableCell><strong>Local</strong></TableCell>
                     <TableCell><strong>Descrição</strong></TableCell>
+                    <TableCell><strong>Remoto?</strong></TableCell>
+                    <TableCell><strong>Funcionarios</strong></TableCell>
                     <TableCell><strong>Total Horas</strong></TableCell>
                     <TableCell><strong>Ações</strong></TableCell>
                 </TableRow>
@@ -246,15 +323,17 @@ const VisitaTable = ({rows, setRows, loading, setLoading, edit, setEdit,
             <TableBody>
                 {
                 (loading ? (
-                    <TableRow><TableCell colSpan='4'>Sem dados...</TableCell></TableRow>
+                    <TableRow><TableCell colSpan='5'>Sem dados...</TableCell></TableRow>
                     ) :
                     (rows?.content)?.map((row) => (
                         <TableRow key={row.visitaId}>
-                            
-                            <TableCell>{row.visitaInicio}</TableCell>
+                          
+                            <TableCell>{new Date(row.visitaInicio).toLocaleString()}</TableCell>
                             <TableCell>{row.cliente.clienteNome}</TableCell>
                             <TableCell>{row.local.localNome}</TableCell>
                             <TableCell>{row.visitaDescricao}</TableCell>
+                            <TableCell>{row.visitaRemoto ? 'Sim' : 'Não'}</TableCell>
+                            <TableCell>{getFuncionarios(row)}</TableCell>
                             <TableCell>{row.visitaTotalHoras}</TableCell>
                             <TableCell><IconButton onClick={() => handleEditClick(row)}><IconEdit color="#5d87ff" /></IconButton>  <IconButton onClick={() => handleDeleteClick(row)}><IconTrash color="#5d87ff" /></IconButton></TableCell>
                         </TableRow>
@@ -265,9 +344,9 @@ const VisitaTable = ({rows, setRows, loading, setLoading, edit, setEdit,
             <TableFooter>
                 <TableRow>
                     <TablePagination
-                        rowsPerPageOptions={[5, 10, 20, { label: 'All', value: -1 }]}
-                        colSpan={6}
-                        count={(rows.totalElements ? rows.totalElements : -1)}
+                        rowsPerPageOptions={[5, 10, 20, { label: 'Todos', value: rows.totalElements }]}
+                        colSpan={7}
+                        count={(rows?.totalElements ? rows?.totalElements : -1)}
                         rowsPerPage={rowsPerPage}
                         page={page}
                         onPageChange={handleChangePage}
@@ -290,7 +369,7 @@ const VisitaTable = ({rows, setRows, loading, setLoading, edit, setEdit,
             </Typography>
             <VisitaForm handleClose={handleClose} edit={edit} setEdit={setEdit} erase={erase} setRows={setRows} setLoading={setLoading}
                 listaClientes={listaClientes} listaFuncionarios={listaFuncionarios}
-                setForm={setForm} form={form} />
+                setForm={setForm} form={form} carregado={carregado} setCarregado={setCarregado} />
             </Box>
         </Modal>
     </>

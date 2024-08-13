@@ -22,14 +22,15 @@ registerLocale('pt-br', el);
 
 const VisitaForm = ({ handleClose, edit, erase, setEdit, setRows, setLoading,
   listaClientes, listaFuncionarios,
-  setForm, form }) => {
+  setForm, form, carregado, setCarregado }) => {
 
   const navigate = useNavigate()
   const [date, setDate] = useState(new Date())
   const [finalDate, setFinalDate] = useState(new Date())
   const [listaLocais, setListaLocais] = useState()
   const [funcionariosSelecionados, setFuncionariosSelecionados] = useState([])
-  const [carregado, setCarregado] = useState(false)
+  // const [carregado, setCarregado] = useState(false)
+  const [remoto, setRemoto] = useState()
 
   const style = {
     display: 'flex',
@@ -43,15 +44,10 @@ const VisitaForm = ({ handleClose, edit, erase, setEdit, setRows, setLoading,
   // TODO: ajustado o backend para verificar dados unicos
   const handleSave = () => {
     console.log(form)
+    setCarregado(false);
     saveVisitaData(form)
       .then((response) => {
         setRows([]);
-        setLoading(true);
-        // TODO: Verificar setEdit nesta linha
-        //setEdit(false)
-        // setErase(false)
-        //setListaLocais();
-        //setForm();
         handleClose();
         toast.success('Visita salva com sucesso!');
       })
@@ -62,9 +58,15 @@ const VisitaForm = ({ handleClose, edit, erase, setEdit, setRows, setLoading,
         } else {
           toast.error(`${error.response.data}`);
         }
-
       });
 
+  };
+
+  const handleOnChangeVisitainicio = (event) => {
+    setForm({ ...form, visitaInicio: event.target.value+':00' });
+  };
+  const handleOnChangeVisitaFinal = (event) => {
+    setForm({ ...form, visitaFinal: event.target.value+':00' });
   };
 
   const handleOnChangeDescricao = (event) => {
@@ -72,7 +74,9 @@ const VisitaForm = ({ handleClose, edit, erase, setEdit, setRows, setLoading,
   };
 
   const handleOnChangeVisitaRemoto = (event) => {
-    setForm({ ...form, visitaRemoto: event.target.value });
+    console.log(event.target.checked);
+    setForm({...form, visitaRemoto: event.target.checked});
+    //setForm({ ...form, visitaRemoto: event.target.value });
   };
 
   const handleOnChangeValorProduto = (event) => {
@@ -129,9 +133,17 @@ const VisitaForm = ({ handleClose, edit, erase, setEdit, setRows, setLoading,
   useEffect(() => {
     if (edit) {
       console.log('editar sim!')
-      console.log(edit)
+      console.log(form)
       setDate(form.visitaInicio)
       setFinalDate(form.visitaFinal)
+
+      //Corrigir dados vindos do banco de dados para editar.
+      let funcionarioTemp = []
+      console.log(form.funcionarios.length)
+      for (let j = 0; j < form.funcionarios.length; j++) {
+        funcionarioTemp.push({funcionarioId: form.funcionarios[j]}) 
+      }
+      setForm({...form, funcionarios: funcionarioTemp})
     }
 
   }, [])
@@ -159,6 +171,7 @@ const VisitaForm = ({ handleClose, edit, erase, setEdit, setRows, setLoading,
           <>
             <div className="formContainer">
               <div className="col-1">
+                {/*
                 <InputLabel id='visitaValorProdutosLabel' sx={{ paddingLeft: '10px', zIndex: '1' }}>Início</InputLabel>
                 <div className="datePicker">
                   <DatePicker
@@ -176,7 +189,13 @@ const VisitaForm = ({ handleClose, edit, erase, setEdit, setRows, setLoading,
 
                   />
                 </div>
+                */
+                }
+                <TextField type='datetime-local' value={form.visitaInicio} onChange={(event) => handleOnChangeVisitainicio(event)} />
 
+                <TextField type='datetime-local' value={form.visitaFinal} onChange={(event) => handleOnChangeVisitaFinal(event)} />
+
+                {/*
                 <InputLabel id='visitaValorProdutosLabel' sx={{ paddingLeft: '10px', zIndex: '1' }}>Final</InputLabel>
                 <div className="datePicker">
                   <DatePicker
@@ -193,6 +212,7 @@ const VisitaForm = ({ handleClose, edit, erase, setEdit, setRows, setLoading,
                     locale="pt-br"
                   />
                 </div>
+                */}
 
                 <ClienteSelect
                   listaClientes={listaClientes}
@@ -205,9 +225,11 @@ const VisitaForm = ({ handleClose, edit, erase, setEdit, setRows, setLoading,
                   <LocalSelect form={form} setForm={setForm} />
                 ) : ''}
 
-                <FormControlLabel control={
+                <FormControlLabel 
+                
+                control={
                   <Checkbox
-                    value={form.visitaRemoto}
+                    checked={form.visitaRemoto}
                     onChange={handleOnChangeVisitaRemoto}
                     sx={{ marginLeft: '10px' }}
                     id="visitaRemoto"

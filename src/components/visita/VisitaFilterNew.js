@@ -30,7 +30,7 @@ import { getVisitasDataFiltro } from 'src/api/Api';
 
     const VisitaFilterNew = ({listaClientes, setListaClientes, listaFuncionarios,
         rows, setRows, loading, setLoading, listaLocais, setListaLocais,
-        cliente, setCliente, funcionarios, setFuncionarios, local, setLocal, erase, setErase, filtro, setFiltro}) => {
+        cliente, setCliente, funcionarios, setFuncionarios, local, setLocal, erase, setErase, filtro, setFiltro, setCarregado, carregado}) => {
 
         const [open, setOpen] = useState(false);
         const handleOpen = () => setOpen(true);
@@ -113,7 +113,7 @@ import { getVisitasDataFiltro } from 'src/api/Api';
                     </Typography>
                     <VisitaForm listaClientes={listaClientes} setListaClientes={setListaClientes} listaFuncionarios={listaFuncionarios} form={form} setForm={setForm}
                         rows={rows} setRows={setRows} loading={loading} setLoading={setLoading} handleClose={handleClose} setFuncionarios={setFuncionarios}
-                        erase={erase} setErase={setErase} cliente={cliente} setCliente={setCliente} />
+                        erase={erase} setErase={setErase} cliente={cliente} setCliente={setCliente} setCarregado={setCarregado} carregado={carregado} />
                 </Box>
             </Modal>
             </>

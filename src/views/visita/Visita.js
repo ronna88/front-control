@@ -26,9 +26,12 @@ const Visita = () => {
     visitaInicio: '',
     visitaFinal: '',
   })
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
   
 
   useEffect(() => {
+    console.log(carregado);
     if (!carregado) {
       setCarregado(true)
       getClienteData(0, 200, "")
@@ -49,7 +52,7 @@ const Visita = () => {
         console.log(error)
         toast.error(`${error}`)
       })
-      getVisitasData(0, 200, "")
+      getVisitasData(0, 300, "")
         .then((responseVisita) => {
           console.log("Buscando visitas...")
           setRows(responseVisita.data)
@@ -58,7 +61,7 @@ const Visita = () => {
   }, [carregado])
 
   useEffect(()=>{
-    // console.log(rows)
+    //console.log(rows)
   },[rows])
 
 
@@ -72,14 +75,15 @@ const Visita = () => {
           <VisitaFilterNew listaClientes={listaClientes} setListaClientes={setListaClientes} listaFuncionarios={listaFuncionarios}
             rows={rows} setRows={setRows} loading={loading} setLoading={setLoading} 
             cliente={cliente} setCliente={setCliente} funcionarios={funcionarios} setFuncionarios={setFuncionarios} local={local} setLocal={setLocal}
-            erase={erase} setErase={setErase} filtro={filtro} setFiltro={setFiltro}
+            erase={erase} setErase={setErase} filtro={filtro} setFiltro={setFiltro} setCarregado={setCarregado} carregado={carregado}
           />
 
           <CardContent>
             <VisitaTable listaClientes={listaClientes} setListaClientes={setListaClientes} listaFuncionarios={listaFuncionarios}
             rows={rows} setRows={setRows} loading={loading} setLoading={setLoading} 
             cliente={cliente} setCliente={setCliente} funcionarios={funcionarios} setFuncionarios={setFuncionarios} local={local} setLocal={setLocal}
-            erase={erase} setErase={setErase} visitas={visitas} setVisitas={setVisitas} edit={edit} setEdit={setEdit} filtro={filtro} setFiltro={setFiltro} />
+            erase={erase} setErase={setErase} visitas={visitas} setVisitas={setVisitas} edit={edit} setEdit={setEdit} filtro={filtro} setFiltro={setFiltro} 
+            page={page} setPage={setPage} rowsPerPage={rowsPerPage} setRowsPerPage={setRowsPerPage} setCarregado={setCarregado} carregado={carregado} />
           </CardContent>
         </BlankCard>
       </DashboardCard>

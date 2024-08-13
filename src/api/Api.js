@@ -177,8 +177,13 @@ export async function deleteFuncionario(funcionario) {
 // ================ VISITAS API
 export async function getVisitasData(page, size, sort, direction){
   if(!page && !size && !sort && !direction) {
-    return await axios.get(`${urlBase}/visita`);
+    console.log('teste 0001')
+    return await axios.get(`${urlBase}/visita` , {params: {page:0,size:5,sort:null}});
   } else {
+    console.log('teste 0002')
+    console.log(page)
+    console.log(size)
+    console.log(sort)
     return await axios.get(`${urlBase}/visita`, {params: {page,size,sort}});
   }
 }
@@ -196,10 +201,11 @@ export async function deleteVisita(funcionario) {
 }
 
 export async function getVisitasDataFiltro(filtro, page, size, sort, direction){
-  // console.log(filtro)
   if(!page && !size && !sort && !direction) {
+    console.log('teste 0003')
     return await axios.post(`${urlBase}/visita/funcionario/${filtro.funcionario}`, filtro, {params: {page:0,size:5,sort:null}})
   } else {
+    console.log('teste 0004')
     return await axios.post(`${urlBase}/visita/funcionario/${filtro.funcionario}`, filtro, {params: {page,size,sort}});
   }
 }

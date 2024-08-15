@@ -11,6 +11,11 @@ const ClienteSelect = ({listaClientes, setForm, form}) => {
         const tempCliente = event.target.value
         setForm({...form, cliente: tempCliente})
     }
+
+    useEffect(()=>{
+        
+    console.log(form)
+    },[form])
     
     useEffect(()=> {
         console.log(listaClientes)
@@ -24,7 +29,7 @@ const ClienteSelect = ({listaClientes, setForm, form}) => {
             <Select sx={{padding: '10px', marginLeft:'10px', marginRight:'10px' }}
                 labelId='cliente'
                 id='cliente'
-                value={form.cliente}
+                value={form?.cliente}
                 onChange={handleChange}
                 size="small"
                 >

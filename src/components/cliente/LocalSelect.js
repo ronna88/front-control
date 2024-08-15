@@ -22,7 +22,7 @@ const LocalSelect = ({form, setForm}) => {
         if(!listaLocais.length > 0){
             if(!listaCarregada) {
                 setListaCarregada(true)
-                getLocaisData(form.cliente)
+                getLocaisData(form?.cliente)
                     .then((response) => {
                         setListaLocais(response.data.content);
                         })
@@ -42,7 +42,7 @@ const LocalSelect = ({form, setForm}) => {
             <Select sx={{padding: '10px', marginLeft: '10px', marginRight:'10px'}}
                 labelId='local'
                 id='local'
-                value={form.local}
+                value={form?.local}
                 onChange={handleChange}
                 size="small"
                 >

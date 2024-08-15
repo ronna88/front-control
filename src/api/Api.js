@@ -225,6 +225,8 @@ export async function getFechamentoFiltro(params) {
 
 export async function saveFechamento(form) {
   console.log(form)
+
+  return await axios.post(`${urlBase}/fechamento/new`, form);
   
   /*if (form.fechamentoFinal === '') {
     form.fechamentoFinal = form.fechamentoFinalTemp+'T23:59:00'

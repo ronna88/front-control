@@ -205,6 +205,7 @@ const PJTable = ({rows, setRows, loading, setLoading, edit, setEdit,
                     <TableCell><strong>CNPJ </strong></TableCell>
                     <TableCell><strong>Telefone</strong></TableCell>
                     <TableCell><strong>Email</strong></TableCell>
+                    <TableCell><strong>Fechamento Separado?</strong></TableCell>
                     <TableCell><strong>Status</strong></TableCell>
                     <TableCell><strong>Ações</strong></TableCell>
                 </TableRow>
@@ -216,10 +217,12 @@ const PJTable = ({rows, setRows, loading, setLoading, edit, setEdit,
                     ) :
                   (rows?.content).map((row) => (
                       <TableRow key={row.clienteId}>
+                        {console.log(row)}
                           <TableCell>{row.clienteNome}</TableCell>
                           <TableCell>{row.clienteCNPJ}</TableCell>
                           <TableCell>{row.clienteTelefone}</TableCell>
                           <TableCell>{row.clienteEmail}</TableCell>
+                          <TableCell>{row.fechamentoSeparado ? "Sim" : "Não"}</TableCell>
                           <TableCell><Chip label={row.clienteStatus} sx={row.clienteStatus === 'ATIVO' ? ativo : desativo } variant='outlined' /></TableCell>
                           <TableCell><IconButton onClick={() => handleEditClick(row)}><IconEdit color="#5d87ff" /></IconButton>  <IconButton onClick={() => handleDeleteClick(row)}><IconTrash color="#5d87ff" /></IconButton></TableCell>
                       </TableRow>

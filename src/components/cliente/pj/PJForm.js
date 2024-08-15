@@ -152,6 +152,7 @@ const PJForm = ({handleOpen, handleClose, setRows,
         if (selectedPJ) {
             console.log(selectedPJ)
             //setEmpresa(selectedPJ.empresa.empresaId)
+            console.log(selectedPJ.isFechamentoSeparado)
             setForm({
                 clienteId: selectedPJ.clienteId,
                 clienteRazaoSocial: selectedPJ.clienteRazaoSocial,
@@ -166,7 +167,7 @@ const PJForm = ({handleOpen, handleClose, setRows,
                 clienteCidade: selectedPJ.clienteCidade,
                 clienteUF: selectedPJ.clienteUF,
                 clienteCEP: selectedPJ.clienteCEP,
-                isFechamentoSeparado: selectedPJ.isFechamentoSeparado,
+                isFechamentoSeparado: selectedPJ.fechamentoSeparado,
             })
         }
     },[])

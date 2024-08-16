@@ -159,7 +159,7 @@ const FechamentoTable = ({listaClientes, fechamentosCarregados, setFechamentosCa
         <>
         <Table>
             <TableHead>
-                <TableRow>
+                <TableRow key={2}>
                     <TableCell><strong>Início</strong></TableCell>
                     <TableCell><strong>Final</strong></TableCell>
                     <TableCell><strong>Cliente</strong></TableCell>
@@ -173,11 +173,10 @@ const FechamentoTable = ({listaClientes, fechamentosCarregados, setFechamentosCa
             <TableBody>
                 {
                     (!fechamentosCarregados ? (
-                        <TableRow><TableCell colSpan='4'>Sem dados...</TableCell></TableRow>
+                        <TableRow><TableCell colSpan='8'>Sem dados...</TableCell></TableRow>
                     ) : 
                     (fechamentos?.content)?.map((fechamento) => (
-                        <>
-                            <TableRow>
+                            <TableRow key={fechamento.fechamentoId}>
                                 <TableCell>{new Date(fechamento.fechamentoInicio).toLocaleString()}</TableCell>
                                 <TableCell>{new Date(fechamento.fechamentoFinal).toLocaleString()}</TableCell>
                                 <TableCell>{fechamento.cliente?.clienteNome}</TableCell>
@@ -191,7 +190,6 @@ const FechamentoTable = ({listaClientes, fechamentosCarregados, setFechamentosCa
                                     <IconButton onClick={() => handleStatusChangeClick(fechamento)}><IconStatusChange color='#5d87ff'/></IconButton>
                                 </TableCell>
                             </TableRow>
-                        </>
                     ))
                 )
                 }

@@ -41,7 +41,7 @@ const ModalForm = ({open, handleClose, edit, setEdit, form, listaClientes, setFo
 
     useEffect(() => {
        // console.log(form)
-       console.log(listaClientes)
+       // console.log(listaClientes)
     },[form, listaClientes])
 
     const handleSave = () => {
@@ -63,7 +63,10 @@ const ModalForm = ({open, handleClose, edit, setEdit, form, listaClientes, setFo
       })
       .catch((error) => {
         console.log(error);
-        toast.error('Erro ao criar fechamento !');
+        toast.error(<>Erro ao criar fechamento!<br />
+        {error.response?.data}
+        </>);
+        
       });
 
   };

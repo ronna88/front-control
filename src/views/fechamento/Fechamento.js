@@ -27,7 +27,7 @@ const Fechamento = () => {
   },[carregado])
 
   useEffect(()=> {
-    console.log(listaClientes)
+    // console.log(listaClientes)
   },[listaClientes])
   
 

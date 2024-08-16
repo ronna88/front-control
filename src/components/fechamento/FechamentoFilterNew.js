@@ -11,7 +11,7 @@ import { getFechamentoFiltro } from 'src/api/Api';
 
  
 
-    const FechamentoFilterNew = ({listaClientes, setFechamentosCarregados}) => {
+    const FechamentoFilterNew = ({listaClientes, setFechamentosCarregados, setEdit}) => {
 
         const [open, setOpen] = useState(false);
         const handleOpen = () => setOpen(true);
@@ -73,7 +73,7 @@ import { getFechamentoFiltro } from 'src/api/Api';
                         <Button sx={{margin: '20'}} variant='outlined' onClick={(event) => {handleFiltroClick(event)}}>Filtrar</Button>
                     </div>
                 </BlankCard>
-                <ModalForm open={open} handleClose={handleClose} form={form} setForm={setForm} listaClientes={listaClientes} setFechamentosCarregados={setFechamentosCarregados} />
+                <ModalForm open={open} handleClose={handleClose} form={form} setForm={setForm} listaClientes={listaClientes} setFechamentosCarregados={setFechamentosCarregados} setEdit={setEdit} />
             </>
         
         )

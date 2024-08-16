@@ -210,3 +210,37 @@ export async function getVisitasDataFiltro(filtro, page, size, sort, direction){
   }
 }
 // ================ FUNCIONARIOS API
+
+
+// ================ FECHAMENTOS API
+export async function getFechamentos(page, size, sort, direction) {
+  return await axios.get(`${urlBase}/fechamento`, {params: {page,size,sort,direction}});
+  
+}
+
+export async function getFechamentoFiltro(params) {
+  console.log()
+}
+
+
+export async function saveFechamento(form) {
+  console.log(form)
+
+  return await axios.post(`${urlBase}/fechamento/new`, form);
+  
+  /*if (form.fechamentoFinal === '') {
+    form.fechamentoFinal = form.fechamentoFinalTemp+'T23:59:00'
+  }
+  if (form.fechamentoInicio === '') {
+    form.fechamentoInicio = form.fechamentoInicioTemp+'T00:00:00'
+  }
+  if(form.fechamentoId) {
+    console.log(form)
+    return await axios.put(`${urlBase}/fechamento/editar/${form.fechamentoId}`, form)
+  } else {
+    return await axios.post(`${urlBase}/fechamento/novo`, form);
+  }
+    */
+}
+
+// ================ FECHAMENTOS API

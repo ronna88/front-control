@@ -1,0 +1,44 @@
+.datePicker {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    margin-bottom: 8px;
+    z-index: 99;
+}
+
+.datePicker > div > div.react-datepicker__input-container input {
+    width: 300px;
+    height: 60px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 10px;
+    
+    &:hover{
+        border: 1px solid black;
+    }
+}
+
+.formContainer{
+    display: flex;
+    flex-direction: row;
+    gap:8px;
+}
+
+.colForm {
+    gap: 8px;
+}
+.col-1 {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    justify-content: center;
+    align-content: center;
+}
+
+.filtros {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 6px;
+}

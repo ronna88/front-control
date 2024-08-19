@@ -27,8 +27,8 @@ const Header = (props) => {
   }));
 
   return (
-    <AppBarStyled position="sticky" color="default">
-      <ToolbarStyled>
+    <AppBarStyled position="sticky" color="default" className='no-print'>
+      <ToolbarStyled className='no-print'>
         <IconButton
           color="inherit"
           aria-label="menu"

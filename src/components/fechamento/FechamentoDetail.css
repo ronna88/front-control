@@ -1,0 +1,95 @@
+.fechamento-detail {
+    font-family: 'Open Sans', Arial, sans-serif;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+
+.print-button:hover {
+    background-color: #0056b3;
+}
+
+table, td {
+    border: 1px solid #333;
+    border-collapse: collapse;
+    padding: 0.5rem;
+}
+
+td {
+    text-align: center;
+    min-width: 90px;
+}
+
+.descServico {
+    text-align: justify;
+    padding-left: 1rem;
+}
+
+
+/* Ajuste da imagem do cabeçalho na tela */
+.headerImg img {
+    max-width: 100%;  /* Ajusta a largura ao container */
+    width: 100%;      /* Garante que ocupe toda a largura disponível */
+    height: auto;     /* Mantém a proporção da imagem */
+}
+
+
+@media print {
+    @page {
+        size: A4 portrait;
+        margin: 1.27mm;
+        line-height: 1.0;
+    }
+
+    body {
+       width: 210mm;
+       height: 297mm;
+       margin: 0;
+       padding: 0;
+       font-size: 9pt;
+    }
+
+    .container-print {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* Cabeçalho fixo */
+    .print-header {
+        position: fixed;
+        top: 0;
+        margin-top: 3rem;
+        width: 80%;
+        text-align: center;
+        border-bottom: 1px solid #000;
+        padding: 6px;
+        font-size: 8pt;
+        z-index: 1000;
+        background-color: white;
+    }
+
+    .print-header .headerImg img {
+        max-width: 100%;
+        width: 100%;
+        height: auto;
+    }
+
+    
+    /* Ajustando o espaçamento da tabela após a primeira página */
+    .fechamento-detail {
+      /*   margin-top: 150px; Espaçamento na primeira página */
+    }
+/* Forçar quebra de página e adicionar espaçamento */
+    .fechamento-detail tr.page-break-before {
+        page-break-before: always; /* Quebra de página antes deste elemento */
+    }
+
+    /* Evitar quebras de linha nas tabelas */
+    .fechamento-detail tr {
+        page-break-inside: avoid;
+    }
+
+}

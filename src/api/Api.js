@@ -222,6 +222,9 @@ export async function getFechamentoFiltro(params) {
   console.log()
 }
 
+export async function getFechamentoById(fechamentoId) {
+  return await axios.get(`${urlBase}/fechamento/${fechamentoId}`)
+}
 
 export async function saveFechamento(form) {
   console.log(form)

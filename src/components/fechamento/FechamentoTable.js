@@ -8,9 +8,11 @@ import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
 import Box from '@mui/material/Box';
-import {IconEdit, IconTrash, IconStatusChange} from '@tabler/icons';
+import {IconEdit, IconTrash, IconStatusChange, IconPrinter} from '@tabler/icons';
 import IconButton from '@mui/material/IconButton';
 import ModalForm from "./ModalForm";
+import { useNavigate } from "react-router";
+import { toast } from "react-toastify";
 
 
 const style = {
@@ -104,6 +106,7 @@ const FechamentoTable = ({listaClientes, fechamentosCarregados, setFechamentosCa
             fechamentoInicio: "",
             fechamentoFinal: "",
         })
+    const navigate = useNavigate();
 
 
 
@@ -134,7 +137,17 @@ const FechamentoTable = ({listaClientes, fechamentosCarregados, setFechamentosCa
         setRowsPerPage(parseInt(event.target.value));
         setPage(0);
     };
+    function handlePrintClick(fechamento) {
+        
 
+        if(!fechamento || !fechamento.fechamentoId){
+            console.error('Fechamento inválido')
+            toast.error("Fechamento inválido!")
+            return
+        }
+        navigate(`/fechamento/${fechamento.fechamentoId}`, {state: {fechamento}})
+
+    }
     function handleDeleteClick(fechamento) {
         console.log('123')
     }
@@ -187,6 +200,7 @@ const FechamentoTable = ({listaClientes, fechamentosCarregados, setFechamentosCa
                                 <TableCell>
                                     <IconButton onClick={() => handleEditClick(fechamento)}><IconEdit color="#5d87ff" /></IconButton>  
                                     <IconButton onClick={() => handleDeleteClick(fechamento)}><IconTrash color="#5d87ff" /></IconButton>
+                                    <IconButton onClick={() => handlePrintClick(fechamento)}><IconPrinter color="#5d87ff" /></IconButton>
                                     <IconButton onClick={() => handleStatusChangeClick(fechamento)}><IconStatusChange color='#5d87ff'/></IconButton>
                                 </TableCell>
                             </TableRow>

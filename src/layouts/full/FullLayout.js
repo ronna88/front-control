@@ -10,6 +10,10 @@ const MainWrapper = styled('div')(() => ({
   display: 'flex',
   minHeight: '100vh',
   width: '100%',
+  width: '100%',
+  '@media print': {
+    display: 'block', // Para remover layout flex na impressão
+  },
 }));
 
 const PageWrapper = styled('div')(() => ({
@@ -19,6 +23,9 @@ const PageWrapper = styled('div')(() => ({
   flexDirection: 'column',
   zIndex: 1,
   backgroundColor: 'transparent',
+  '@media print': {
+    paddingBottom: 0,
+  },
 }));
 
 const FullLayout = () => {
@@ -36,7 +43,7 @@ const FullLayout = () => {
       {/* ------------------------------------------- */}
       <Sidebar isSidebarOpen={isSidebarOpen}
         isMobileSidebarOpen={isMobileSidebarOpen}
-        onSidebarClose={() => setMobileSidebarOpen(false)} />
+        onSidebarClose={() => setMobileSidebarOpen(false)}  className="no-print" />
       {/* ------------------------------------------- */}
       {/* Main Wrapper */}
       {/* ------------------------------------------- */}
@@ -46,13 +53,17 @@ const FullLayout = () => {
         {/* ------------------------------------------- */}
         {/* Header */}
         {/* ------------------------------------------- */}
-        <Header toggleSidebar={() => setSidebarOpen(!isSidebarOpen)} toggleMobileSidebar={() => setMobileSidebarOpen(true)} />
+        <Header toggleSidebar={() => setSidebarOpen(!isSidebarOpen)} toggleMobileSidebar={() => setMobileSidebarOpen(true)} className="no-print" />
         {/* ------------------------------------------- */}
         {/* PageContent */}
         {/* ------------------------------------------- */}
         <Container sx={{
           paddingTop: "20px",
           maxWidth: '1200px',
+          '@media print': {
+              paddingTop: 0,
+              maxWidth: '100%',
+            }
         }}
         >
           {/* ------------------------------------------- */}

@@ -25,7 +25,7 @@ const Profile = () => {
   };
 
   return (
-    <Box>
+    <Box className='no-print'>
       <IconButton
         size="large"
         aria-label="show 11 new notifications"

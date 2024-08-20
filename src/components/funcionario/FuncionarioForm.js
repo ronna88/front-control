@@ -5,7 +5,7 @@ import BlankCard from '../../components/shared/BlankCard';
 import Button from '@mui/material/Button';
 import {saveFuncionarioData, deleteFuncionario} from '../../api/Api';
 import { useNavigate } from "react-router-dom";
-import { Typography } from '@mui/material';
+import { InputLabel, Typography } from '@mui/material';
 import { toast } from 'react-toastify';
 
 const FuncionarioForm = ({handleOpen, handleClose, setRows,
@@ -150,18 +150,34 @@ const FuncionarioForm = ({handleOpen, handleClose, setRows,
                         </>
 
                     ): (
-                    <>
-                    <TextField value={form.funcionarioNome} onChange={handleOnChangeNome} sx={{width:'300px'}} id='funcionarioNome' name='funcionarioNome' label="Nome Completo" />
-                    <TextField value={form.funcionarioNascimento} onChange={handleOnChangeNascimento} sx={{width:'300px'}} id='funcionarioNascimento' name='funcionarioNascimento' label="Data de Nascimento" />
-                    <TextField value={form.funcionarioCPF} onChange={handleOnChangeCpf} sx={{width:'300px'}} id='funcionarioCPF' name='funcionarioCPF' label="CPF" />
-                    <TextField value={form.funcionarioEmail} onChange={handleOnChangeEmail} sx={{width:'300px'}} id='funcionarioEmail' name='funcionarioEmail' label="Email" />
-                    <TextField value={form.funcionarioTelefone} onChange={handleOnChangeTelefone} sx={{width:'300px'}} id='funcionarioTelefone' name='funcionarioTelefone' label="Telefone" />
-                    <TextField value={form.funcionarioEndereco} onChange={handleOnChangeEndereco} sx={{width:'300px'}} id='funcionarioEndereco' name='funcionarioEndereco' label="Endereço" />
-                    <TextField value={form.funcionarioEndereco2} onChange={handleOnChangeEndereco2} sx={{width:'300px'}} id='funcionarioEndereco2' name='funcionarioEndereco2' label="Endereço2" />
-                    <TextField value={form.funcionarioBairro} onChange={handleOnChangeBairro} sx={{width:'300px'}} id='funcionarioBairro' name='funcionarioBairro' label="Bairro" />
-                    <TextField value={form.funcionarioCEP} onChange={handleOnChangeCEP} sx={{width:'300px'}} id='funcionarioCEP' name='funcionarioCEP' label="CEP" />
-                    <TextField value={form.funcionarioAdmissao} onChange={handleOnChangeAdmissao} sx={{width:'300px'}} id='funcionarioAdmissao' name='funcionarioAdmissao' label="Data de Admissão" />
-                        <Button sx={{margin: '20px'}} variant='contained' onClick={handleSave}>Atualizar</Button>
+                        <>
+                    <div className='formContainer'>
+                        <div className='col-1'>
+                            <InputLabel>Nome</InputLabel>
+                            <TextField value={form.funcionarioNome} onChange={handleOnChangeNome} sx={{width:'300px'}} id='funcionarioNome' name='funcionarioNome' label="Nome Completo" />
+                            <InputLabel>Data de Nascimento</InputLabel>
+                            <TextField type='date' value={form.funcionarioNascimento} onChange={handleOnChangeNascimento} sx={{width:'300px'}} id='funcionarioNascimento' name='funcionarioNascimento'/>
+                            <InputLabel>CPF</InputLabel>
+                            <TextField value={form.funcionarioCPF} onChange={handleOnChangeCpf} sx={{width:'300px'}} id='funcionarioCPF' name='funcionarioCPF' label="CPF" />
+                            <InputLabel>Email</InputLabel>
+                            <TextField value={form.funcionarioEmail} onChange={handleOnChangeEmail} sx={{width:'300px'}} id='funcionarioEmail' name='funcionarioEmail' label="Email" />
+                            <InputLabel>Telefone</InputLabel>
+                            <TextField value={form.funcionarioTelefone} onChange={handleOnChangeTelefone} sx={{width:'300px'}} id='funcionarioTelefone' name='funcionarioTelefone' label="Telefone" />
+                        </div>
+                        <div className='colForm'>
+                            <InputLabel>Endereço</InputLabel>
+                            <TextField value={form.funcionarioEndereco} onChange={handleOnChangeEndereco} sx={{width:'300px'}} id='funcionarioEndereco' name='funcionarioEndereco' label="Endereço" />
+                            <InputLabel>Endereço 2</InputLabel>
+                            <TextField value={form.funcionarioEndereco2} onChange={handleOnChangeEndereco2} sx={{width:'300px'}} id='funcionarioEndereco2' name='funcionarioEndereco2' label="Endereço2" />
+                            <InputLabel>Bairro</InputLabel>
+                            <TextField value={form.funcionarioBairro} onChange={handleOnChangeBairro} sx={{width:'300px'}} id='funcionarioBairro' name='funcionarioBairro' label="Bairro" />
+                            <InputLabel>CEP</InputLabel>
+                            <TextField value={form.funcionarioCEP} onChange={handleOnChangeCEP} sx={{width:'300px'}} id='funcionarioCEP' name='funcionarioCEP' label="CEP" />
+                            <InputLabel>Data de Admissão</InputLabel>
+                            <TextField type='date' value={form.funcionarioAdmissao} onChange={handleOnChangeAdmissao} sx={{width:'300px'}} id='funcionarioAdmissao' name='funcionarioAdmissao'  />
+                        </div>
+                    </div>
+                    <Button sx={{margin: '20px'}} variant='contained' onClick={handleSave}>Atualizar</Button>
                     </>
                 )
             }

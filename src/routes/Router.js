@@ -13,6 +13,7 @@ import Fechamento from '../views/fechamento/Fechamento';
 
 // Importar o novo componente de Detalhes do Fechamento
 const FechamentoDetail = Loadable(lazy(() => import('../components/fechamento/fechamentoDetail')));
+const FechamentoProdutoDetail = Loadable(lazy(() => import('../components/fechamento/fechamentoProdutoDetail')));
 
 
 /* ***Layouts**** */
@@ -46,6 +47,7 @@ const Router = [
       { path: '/visitas', exact: true, element: <Visita /> },
       { path: '/fechamentos', exact: true, element: <Fechamento /> },
       { path: '/fechamento/:fechamentoId', exact: true, element: <FechamentoDetail /> },
+      { path: '/fechamento/produto/:fechamentoId', exact: true, element: <FechamentoProdutoDetail /> },
       { path: '/sample-page', exact: true, element: <SamplePage /> },
       { path: '/icons', exact: true, element: <Icons /> },
       { path: '/ui/typography', exact: true, element: <TypographyPage /> },

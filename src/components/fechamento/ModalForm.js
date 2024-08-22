@@ -139,9 +139,7 @@ const ModalForm = ({open, handleClose, edit, setEdit, form, listaClientes, setFo
                     ))}
                 </Grid>
 
-                        {form.cliente !== '' && form.cliente !== -1 ? 
-                            (<LocalSelect form={form} setForm={setForm} />) : ''
-                        }
+                        
                         <Button sx={{ margin: '20px' }} variant="contained" onClick={handleSave}>
                             {edit ? 'Atualizar' : 'Salvar'}
                         </Button>

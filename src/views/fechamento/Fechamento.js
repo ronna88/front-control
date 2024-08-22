@@ -11,6 +11,7 @@ const Fechamento = () => {
   const [listaClientes, setListaClientes] = useState();
   const [carregado, setCarregado] = useState(false);
   const [fechamentosCarregados, setFechamentosCarregados] = useState(false);
+  const [fechamentos, setFechamentos] = useState();
   const [edit, setEdit] = useState(false);
   
 
@@ -37,10 +38,10 @@ const Fechamento = () => {
       <DashboardCard title="Fechamentos">
         <Typography>Fechamentos Cadastrados</Typography>
         
-        <FechamentoFilterNew listaClientes={listaClientes} fechamentosCarregados={fechamentosCarregados} setFechamentosCarregados={setFechamentosCarregados} setEdit={setEdit} />
+        <FechamentoFilterNew setFechamentos={setFechamentos} listaClientes={listaClientes} fechamentosCarregados={fechamentosCarregados} setFechamentosCarregados={setFechamentosCarregados} setEdit={setEdit} />
         <CardContent>
           <FechamentoTable listaClientes={listaClientes} fechamentosCarregados={fechamentosCarregados} setFechamentosCarregados={setFechamentosCarregados} 
-            edit={edit} setEdit={setEdit} />
+            edit={edit} setEdit={setEdit}  fechamentos={fechamentos} setFechamentos={setFechamentos} />
         </CardContent>
       </DashboardCard>
     </PageContainer>

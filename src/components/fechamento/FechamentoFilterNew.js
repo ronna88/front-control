@@ -7,11 +7,12 @@
     } from '@mui/material';
     import ModalForm from './ModalForm';
 import { getFechamentoFiltro } from 'src/api/Api';
+import ClienteSelect from '../cliente/ClienteSelect';
 
 
  
 
-    const FechamentoFilterNew = ({listaClientes, setFechamentosCarregados, setEdit}) => {
+    const FechamentoFilterNew = ({listaClientes, setFechamentosCarregados, setEdit, setFechamentos}) => {
 
         const [open, setOpen] = useState(false);
         const handleOpen = () => setOpen(true);
@@ -24,27 +25,24 @@ import { getFechamentoFiltro } from 'src/api/Api';
             fechamentoInicio: "",
             fechamentoFinal: "",
         })
-        const [filtro, setFiltro] = useState();
 
         const [dataInicio, setDataInicio] = useState();
         const [dataFinal, setDataFinal] = useState();
 
 
         const handleChangeInicio = (event) => {
-            setFiltro({...filtro, fechamentoInicio: event.target.value})
+            setForm({...form, fechamentoInicio: event.target.value})
         }
         const handleChangeFinal = (event) => {
-            setFiltro({...filtro, fechamentoFinal: event.target.value})
+            setForm({...form, fechamentoFinal: event.target.value})
         }
 
-        const handleFiltroClick = () => {
-            
-            console.log('cliquei')
-            getFechamentoFiltro(filtro)
+        const handleFiltroClick = () => {    
+            getFechamentoFiltro(form)
             .then((res) => {
                 console.log('OK');
-                console.log(res)
-                
+                console.log(res.data)
+                setFechamentos(res.data)
             })
             .catch((error) => {
                 console.log('deu ruim')
@@ -54,7 +52,7 @@ import { getFechamentoFiltro } from 'src/api/Api';
         
         useEffect(()=>{
             // console.log(filtro)
-        },[filtro])
+        },[form])
 
 
         return (
@@ -65,10 +63,12 @@ import { getFechamentoFiltro } from 'src/api/Api';
                     <div className='filtros'>
                        
                         <InputLabel>Data de Início: </InputLabel>
-                        <TextField type='datetime-local' onChange={handleChangeInicio} value={filtro?.fechamentoInicio} />
+                        <TextField type='date' onChange={handleChangeInicio} value={form?.fechamentoInicio} />
                     
                         <InputLabel>Data de Fim: </InputLabel>
-                        <TextField type='datetime-local' onChange={handleChangeFinal} value={filtro?.fechamentoFinal} />
+                        <TextField type='date' onChange={handleChangeFinal} value={form?.fechamentoFinal} />
+
+                        <ClienteSelect listaClientes={listaClientes} form={form} setForm={setForm}/>
 
                         <Button sx={{margin: '20'}} variant='outlined' onClick={(event) => {handleFiltroClick(event)}}>Filtrar</Button>
                     </div>

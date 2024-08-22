@@ -219,7 +219,21 @@ export async function getFechamentos(page, size, sort, direction) {
 }
 
 export async function getFechamentoFiltro(params) {
-  console.log()
+  console.log(params)
+  let temp = {}
+  if(params.cliente) {
+    temp = {...temp, cliente: params.cliente}
+  }
+  if(params.cliente === -1){
+    temp = {...temp, cliente: ''}
+  }
+  if(params.fechamentoInicio) {
+    temp = {...temp, inicio: params.fechamentoInicio+'T00:00:00'}
+  }
+  if(params.fechamentoFinal) {
+    temp = {...temp, fim: params.fechamentoFinal+'T23:59:00'}
+  }
+  return await axios.post(`${urlBase}/fechamento/filtro`, temp);
 }
 
 export async function getFechamentoById(fechamentoId) {

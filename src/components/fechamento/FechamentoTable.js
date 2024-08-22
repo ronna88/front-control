@@ -92,8 +92,7 @@ TablePaginationActions.propTypes = {
     rowsPerPage: PropTypes.number.isRequired,
 };
 
-const FechamentoTable = ({listaClientes, fechamentosCarregados, setFechamentosCarregados, edit, setEdit}) => {
-    const [fechamentos, setFechamentos] = useState();
+const FechamentoTable = ({listaClientes, fechamentosCarregados, setFechamentosCarregados, edit, setEdit, fechamentos, setFechamentos}) => {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     const [open, setOpen] = useState(false);
@@ -115,6 +114,7 @@ const FechamentoTable = ({listaClientes, fechamentosCarregados, setFechamentosCa
             setFechamentosCarregados(true);
             getFechamentos()
                 .then((response) => {
+                    console.log('eeeeeeee')
                     console.log(response)
                     setFechamentos(response.data)
                 })
@@ -128,6 +128,11 @@ const FechamentoTable = ({listaClientes, fechamentosCarregados, setFechamentosCa
             console.log(fechamentos)
         }
     },[fechamentosCarregados, fechamentos])
+
+    useEffect(()=> {
+        console.log(fechamentos)
+        console.log(!fechamentosCarregados)
+    },[fechamentos])
 
 
     const handleChangePage = (event, newPage) => {

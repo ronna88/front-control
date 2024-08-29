@@ -231,6 +231,25 @@ export async function getVisitasDataFiltro(filtro, page, size){
   return await axios.post(`${urlBase}/visita/filtro`, filtro, {params: {page,size}});
   
 }
+
+export async function getVisitasPorMes(mes, ano ){
+  // console.log(filtro)
+  const inicioMes = new Date(ano, mes - 1, 1).toISOString().split('T')[0] + 'T00:00:00';
+  const fimMes = new Date(ano, mes, 0).toISOString().split('T')[0] + 'T23:59:00';
+  const page = 0;
+  const size = 600;
+
+  const filtro = {
+    visitaInicio: inicioMes,
+    visitaFinal: fimMes
+  };
+
+  console.log('Impressao de dados para debug.......')
+  console.log(filtro)
+  console.log(page)
+  console.log(size)
+  return await axios.post(`${urlBase}/visita/filtro`, filtro, {params: {page,size}});
+}
 // ================ FUNCIONARIOS API
 
 

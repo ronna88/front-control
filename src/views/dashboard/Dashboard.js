@@ -3,7 +3,7 @@ import { Grid, Box } from '@mui/material';
 import PageContainer from 'src/components/container/PageContainer';
 
 // components
-import SalesOverview from './components/SalesOverview';
+import VisitasOverview from './components/VisitasOverview';
 import YearlyBreakup from './components/YearlyBreakup';
 import RecentTransactions from './components/RecentTransactions';
 import ProductPerformance from './components/ProductPerformance';
@@ -17,7 +17,7 @@ const Dashboard = () => {
       <Box>
         <Grid container spacing={3}>
           <Grid item xs={12} lg={8}>
-            <SalesOverview />
+            <VisitasOverview />
           </Grid>
           <Grid item xs={12} lg={4}>
             <Grid container spacing={3}>

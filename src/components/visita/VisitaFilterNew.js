@@ -11,6 +11,7 @@
     import VisitaForm from './VisitaForm';
     import FuncionarioSingleSelect from '../funcionario/FuncionarioSingleSelect';
 import { getVisitasDataFiltro } from 'src/api/Api';
+import ClienteSelect from '../cliente/ClienteSelect';
 
     const style = {
         position: 'absolute',
@@ -44,9 +45,7 @@ import { getVisitasDataFiltro } from 'src/api/Api';
             visitaValorProdutos: 0.00,
             visitaTotalAbono: 0.00,
             funcionarios: [],
-            cliente: {
-            clienteId: ''
-            },
+            cliente: '',
             local: {localId: ''},
             visitaTotalHoras: 0.00,
         })
@@ -64,6 +63,7 @@ import { getVisitasDataFiltro } from 'src/api/Api';
 
         const handleFiltroClick = () => {
             console.log('cliquei')
+           
             getVisitasDataFiltro(filtro)
             .then((response) => {
                 console.log('OK');
@@ -79,6 +79,10 @@ import { getVisitasDataFiltro } from 'src/api/Api';
         useEffect(()=>{
             // console.log(filtro)
         },[filtro])
+        useEffect(()=>{
+             setFiltro({...filtro, cliente: form.cliente})
+        },[form])
+
 
 
         return (
@@ -87,13 +91,15 @@ import { getVisitasDataFiltro } from 'src/api/Api';
                 <Button sx={{margin: '20px'}} variant='contained' onClick={handleOpen}>Novo</Button>
 
                 <div className='filtros'>
+                    <ClienteSelect listaClientes={listaClientes} form={form} setForm={setForm} />
+
                     <FuncionarioSingleSelect listaFuncionarios={listaFuncionarios} filtro={filtro} setFiltro={setFiltro}/>
             
                     <InputLabel>Data de Início: </InputLabel>
-                    <TextField type='datetime-local' onChange={handleChangeInicio} value={filtro.visitaInicio} />
+                    <TextField type='date' onChange={handleChangeInicio} value={filtro.visitaInicio} />
                     
                     <InputLabel>Data de Fim: </InputLabel>
-                    <TextField type='datetime-local' onChange={handleChangeFinal} value={filtro.visitaFinal} />
+                    <TextField type='date' onChange={handleChangeFinal} value={filtro.visitaFinal} />
 
                     <Button sx={{margin: '20'}} variant='outlined' onClick={(event) => {handleFiltroClick(event)}}>Filtrar</Button>
                 </div>

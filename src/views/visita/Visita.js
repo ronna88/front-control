@@ -4,7 +4,7 @@ import PageContainer from 'src/components/container/PageContainer';
 import DashboardCard from '../../components/shared/DashboardCard';
 import VisitaFilterNew from '../../components/visita/VisitaFilterNew';
 import BlankCard from '../../components/shared/BlankCard';
-import { getClienteData, getFuncionarioData, getVisitasData } from '../../api/Api';
+import { getClienteData, getFuncionarioData, getVisitasDataFiltro } from '../../api/Api';
 import { toast } from 'react-toastify';
 import VisitaTable from 'src/components/visita/VisitaTable';
 
@@ -27,7 +27,7 @@ const Visita = () => {
     visitaFinal: '',
   })
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(20);
   
 
   useEffect(() => {
@@ -52,8 +52,13 @@ const Visita = () => {
         console.log(error)
         toast.error(`${error}`)
       })
-      getVisitasData(0, 300, "")
+      /*getVisitasData(0, 300, "")
         .then((responseVisita) => {
+          console.log("Buscando visitas...")
+          setRows(responseVisita.data)
+        }) */
+      getVisitasDataFiltro(filtro, 0, 20)
+      .then((responseVisita) => {
           console.log("Buscando visitas...")
           setRows(responseVisita.data)
         })

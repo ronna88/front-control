@@ -21,7 +21,7 @@ import {IconEdit, IconTrash} from '@tabler/icons';
 import Modal from '@mui/material/Modal';
 import { Typography } from '@mui/material';
 import VisitaForm from './VisitaForm';
-import { getVisitasData } from '../../api/Api';
+// import { getVisitasData } from '../../api/Api';
 import { getVisitasDataFiltro } from 'src/api/Api';
 
 
@@ -130,6 +130,7 @@ const VisitaTable = ({rows, setRows, loading, setLoading, edit, setEdit,
       })
 
       useEffect(()=> {
+        /*
         if(filtro.visitaInicio && filtro.visitaFinal && filtro.funcionario) {
             getVisitasDataFiltro(
                 filtro,
@@ -143,44 +144,57 @@ const VisitaTable = ({rows, setRows, loading, setLoading, edit, setEdit,
           .catch((error) => {
               console.log("Erro ao recuperar dados. " + error);
           });
-        }
+        } */
+
+          console.log('filtro!!!!!!!!!!!!!')
+          console.log(filtro)
+          console.log('page!!!!!!!!!!!!!')
+          console.log(page)
+        getVisitasDataFiltro(
+                filtro,
+                page,
+                rowsPerPage
+                )
+          .then((response) => {
+              setRows(response.data);
+          })
+          .catch((error) => {
+              console.log("Erro ao recuperar dados. " + error);
+          });
       }, [page])
 
 
       useEffect(()=>{
-
         if(filtro.funcionario !== '') {
-// atualização com filtro
-getVisitasDataFiltro(
-    filtro,
-    page,
-    rowsPerPage,
-    sort
-    )
-.then((response) => {
-  setRows(response.data);
-})
-.catch((error) => {
-  console.log("Erro ao recuperar dados. " + error);
-});
+            // atualização com filtro
+            getVisitasDataFiltro(
+                filtro,
+                page,
+                rowsPerPage
+            )
+            .then((response) => {
+                setRows(response.data);
+            })
+            .catch((error) => {
+                console.log("Erro ao recuperar dados. " + error);
+            });
         } else {
             console.log('teste rowsPerPage')
             console.log(rowsPerPage)
             // atualização sem filtro
-      getVisitasData(
-        page,
-        rowsPerPage,
-        sort
-      ) .then((response) => {
-        setRows(response.data);
-    })
-    .catch((error) => {
-        console.log("Erro ao recuperar dados. " + error);
-    });
+            getVisitasDataFiltro(
+                filtro,
+                page,
+                rowsPerPage
+            ) 
+            .then((response) => {
+                setRows(response.data);
+            })
+            .catch((error) => {
+                console.log("Erro ao recuperar dados. " + error);
+            });
         }
         
-
-      
         },[rowsPerPage]) 
     
       /*
@@ -244,7 +258,7 @@ getVisitasDataFiltro(
 
     const handleChangeRowsPerPage = (event) => {
         setRowsPerPage(parseInt(event.target.value));
-        setPage(0);
+        // setPage(0);
     };
     
     function handleEditClick(visita){
@@ -290,10 +304,8 @@ getVisitasDataFiltro(
     function getFuncionarios(visita){
         let nomeFuncionarios = '';
         for(let i=0; i<visita.funcionarios.length;i++) {
-            console.log('i: '+ i)
-            console.log('visita funcionarios[i].funcionarioId: ' + visita.funcionarios[i].funcionarioId)
-            const result = listaFuncionarios.filter(func => (func.funcionarioId === visita.funcionarios[i].funcionarioId))
-            console.log(result)
+                       const result = listaFuncionarios.filter(func => (func.funcionarioId === visita.funcionarios[i].funcionarioId))
+            
             for (let j = 0 ; j < result.length ; j ++) {
                 nomeFuncionarios = nomeFuncionarios + ',' + result[j].funcionarioNome;
             }
@@ -305,8 +317,7 @@ getVisitasDataFiltro(
 
     return (
         <>
-        {console.log('eiii')}
-        {console.log(listaFuncionarios)}
+       
         <Table>
             <TableHead>
                 <TableRow>
@@ -344,7 +355,7 @@ getVisitasDataFiltro(
             <TableFooter>
                 <TableRow>
                     <TablePagination
-                        rowsPerPageOptions={[5, 10, 20, { label: 'Todos', value: rows.totalElements }]}
+                        rowsPerPageOptions={[5, 10, 20, 50, { label: 'Todos', value: rows.totalElements }]}
                         colSpan={7}
                         count={(rows?.totalElements ? rows?.totalElements : -1)}
                         rowsPerPage={rowsPerPage}

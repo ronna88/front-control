@@ -175,6 +175,7 @@ export async function deleteFuncionario(funcionario) {
 
 
 // ================ VISITAS API
+/*
 export async function getVisitasData(page, size, sort, direction){
   if(!page && !size && !sort && !direction) {
     console.log('teste 0001')
@@ -186,7 +187,7 @@ export async function getVisitasData(page, size, sort, direction){
     console.log(sort)
     return await axios.get(`${urlBase}/visita`, {params: {page,size,sort}});
   }
-}
+} */
 
 export async function saveVisitaData(form) {
   if (form.visitaId) {
@@ -200,14 +201,35 @@ export async function deleteVisita(funcionario) {
   return await axios.delete(`${urlBase}/visita/${funcionario.funcionarioId}`);
 }
 
-export async function getVisitasDataFiltro(filtro, page, size, sort, direction){
-  if(!page && !size && !sort && !direction) {
-    console.log('teste 0003')
-    return await axios.post(`${urlBase}/visita/funcionario/${filtro.funcionario}`, filtro, {params: {page:0,size:5,sort:null}})
+// TODO: MUdar de busca somente pelo funcionario para o conjunto
+export async function getVisitasDataFiltro(filtro, page, size){
+  // console.log(filtro)
+
+  if (filtro.visitaInicio !== '') {
+    if(filtro.visitaInicio.includes('T')) {
+    } else {
+      filtro.visitaInicio = filtro.visitaInicio+'T00:00:00'
+    }
   } else {
-    console.log('teste 0004')
-    return await axios.post(`${urlBase}/visita/funcionario/${filtro.funcionario}`, filtro, {params: {page,size,sort}});
+    let data = new Date();
+    data.setDate(1);
+    filtro.visitaInicio = data.toISOString().split('T')[0] + 'T00:00:00';
+    }
+  if (filtro.visitaFinal !== '') {
+    if(filtro.visitaFinal.includes('T')) {
+    } else {
+    filtro.visitaFinal = filtro.visitaFinal+'T23:59:00'
+    }
+  } else {
+    let data = new Date();
+    filtro.visitaFinal = data.toISOString().split('T')[0] + 'T23:59:00';
   }
+  console.log('Impressao de dados para debug.......')
+  console.log(filtro)
+  console.log(page)
+  console.log(size)
+  return await axios.post(`${urlBase}/visita/filtro`, filtro, {params: {page,size}});
+  
 }
 // ================ FUNCIONARIOS API
 

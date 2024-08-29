@@ -24,6 +24,7 @@ const FuncionarioSingleSelect = ({ listaFuncionarios, filtro, setFiltro }) => {
                     onChange={handleChange}
                     size="small"
                 >
+                     <option key={-1} value={-1}>Selecione...</option>
                     {listaFuncionarios ? (
                         listaFuncionarios.map((funcionario) => (
                             <option key={funcionario.funcionarioId} value={funcionario.funcionarioId}> {funcionario.funcionarioNome}</option>

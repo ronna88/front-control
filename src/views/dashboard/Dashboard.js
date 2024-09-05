@@ -3,12 +3,15 @@ import { Grid, Box } from '@mui/material';
 import PageContainer from 'src/components/container/PageContainer';
 
 // components
-import SalesOverview from './components/SalesOverview';
+import VisitasOverview from './components/VisitasOverview';
 import YearlyBreakup from './components/YearlyBreakup';
 import RecentTransactions from './components/RecentTransactions';
 import ProductPerformance from './components/ProductPerformance';
 import Blog from './components/Blog';
 import MonthlyEarnings from './components/MonthlyEarnings';
+import FuncionarioPerformance from './components/FuncionarioPerformance';
+import FuncionariosHorasOverview from './components/FuncionariosHorasOverview';
+import HorasPorFuncionarioPorDiaOverview from './components/HorasPorFuncionarioPorDiaOverview';
 
 
 const Dashboard = () => {
@@ -17,7 +20,7 @@ const Dashboard = () => {
       <Box>
         <Grid container spacing={3}>
           <Grid item xs={12} lg={8}>
-            <SalesOverview />
+            <VisitasOverview />
           </Grid>
           <Grid item xs={12} lg={4}>
             <Grid container spacing={3}>
@@ -29,11 +32,14 @@ const Dashboard = () => {
               </Grid>
             </Grid>
           </Grid>
+          <Grid item xs={12} lg={8}>
+            <HorasPorFuncionarioPorDiaOverview />
+          </Grid>
           <Grid item xs={12} lg={4}>
             <RecentTransactions />
           </Grid>
           <Grid item xs={12} lg={8}>
-            <ProductPerformance />
+            <FuncionariosHorasOverview />
           </Grid>
           <Grid item xs={12}>
             <Blog />

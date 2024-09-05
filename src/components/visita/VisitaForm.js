@@ -43,8 +43,15 @@ const VisitaForm = ({ handleClose, edit, erase, setEdit, setRows, setLoading,
   };
   // TODO: ajustado o backend para verificar dados unicos
   const handleSave = () => {
+    console.log(form.local)
+    if (!form.local.localId) {
+      if (!form.local){
+        toast.error('Selecione um local! ou Cadastre um novo local primeiro!');
+        return;
+      } 
+    }
     console.log(form)
-    setCarregado(false);
+    // setCarregado(false);
     saveVisitaData(form)
       .then((response) => {
         setRows([]);

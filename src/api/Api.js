@@ -191,8 +191,11 @@ export async function getVisitasData(page, size, sort, direction){
 
 export async function saveVisitaData(form) {
   if (form.visitaId) {
+    console.log('Editar Visita')
     return await axios.put(`${urlBase}/visita/${form.visitaId}`, form);
   } else {
+    console.log('Nova Visita')
+    console.log(form)
     return await axios.post(`${urlBase}/visita/novo`, form);
   }
 }

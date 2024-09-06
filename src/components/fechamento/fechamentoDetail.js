@@ -51,14 +51,16 @@ const FechamentoDetail = () => {
                     </thead>
                     <tbody >
                         {fechamento.visitas && fechamento.visitas.length > 0 ? (
-                            fechamento.visitas.map((visita) => (
-                                <tr key={visita.visitaId}>
-                                    <td>{new Date(visita.visitaInicio).toLocaleString()}</td>
-                                    <td>{new Date(visita.visitaFinal).toLocaleString()}</td>
-                                    <td className='descServico'>{visita.visitaDescricao}</td>
-                                    <td>{(visita.visitaTotalHoras - visita.visitaTotalAbono).toFixed(2).replace('.', ',')}</td>
-                                </tr>
-                            ))
+                            fechamento.visitas
+        .sort((a, b) => new Date(a.visitaInicio) - new Date(b.visitaInicio)) // Ordena as visitas por data de início
+        .map((visita) => (
+            <tr key={visita.visitaId}>
+                <td>{new Date(visita.visitaInicio).toLocaleString()}</td>
+                <td>{new Date(visita.visitaFinal).toLocaleString()}</td>
+                <td className='descServico'>{visita.visitaDescricao}</td>
+                <td>{(visita.visitaTotalHoras - visita.visitaTotalAbono).toFixed(2).replace('.', ',')}</td>
+            </tr>
+        ))
                         ) : (
                             <tr>
                                 <td colSpan="4">Nenhuma visita disponível</td>

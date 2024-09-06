@@ -1,6 +1,6 @@
 import { Table, TableBody, TableCell, TableFooter, TableHead, TablePagination, TableRow } from "@mui/material";
 import { useEffect, useState } from "react";
-import { getFechamentos } from "src/api/Api";
+import { deleteFechamento, getFechamentos } from "src/api/Api";
 import { useTheme } from '@mui/material/styles';
 import PropTypes from 'prop-types';
 import FirstPageIcon from '@mui/icons-material/FirstPage';
@@ -162,12 +162,12 @@ const FechamentoTable = ({listaClientes, fechamentosCarregados, setFechamentosCa
         navigate(`/fechamento/produto/${fechamento.fechamentoId}`, {state: {fechamento}})
     }
     function handleDeleteClick(fechamento) {
-        console.log('123')
+        setFechamentosCarregados(false)
+        setEdit(false)
+        deleteFechamento(fechamento.fechamentoId)
     }
     function handleEditClick(fechamento) {
         setEdit(true)
-        console.log('cliquei editar')
-        console.log(fechamento)
 
         if (!fechamento.cliente) {
             

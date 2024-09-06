@@ -284,10 +284,21 @@ export async function getFechamentoById(fechamentoId) {
   return await axios.get(`${urlBase}/fechamento/${fechamentoId}`)
 }
 
-export async function saveFechamento(form) {
+export async function saveFechamento(form, edit) {
   console.log(form)
 
-  return await axios.post(`${urlBase}/fechamento/new`, form);
+  if (edit) {
+    if(form.fechamentoFinalTemp) {
+      form.fechamentoFinal = form.fechamentoFinalTemp+'T23:59:00'
+    }
+    if(form.fechamentoInicioTemp) {
+      form.fechamentoInicio = form.fechamentoInicioTemp+'T00:00:00'
+    }
+    return await axios.put(`${urlBase}/fechamento/editar/${form.fechamentoId}`, form);
+  } else {
+    return await axios.post(`${urlBase}/fechamento/new`, form);
+  }
+  
   
   /*if (form.fechamentoFinal === '') {
     form.fechamentoFinal = form.fechamentoFinalTemp+'T23:59:00'
@@ -302,6 +313,10 @@ export async function saveFechamento(form) {
     return await axios.post(`${urlBase}/fechamento/novo`, form);
   }
     */
+}
+
+export async function deleteFechamento(fechamentoId) {
+  return await axios.delete(`${urlBase}/fechamento/apagar/${fechamentoId}`);
 }
 
 // ================ FECHAMENTOS API

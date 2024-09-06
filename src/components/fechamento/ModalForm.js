@@ -36,6 +36,7 @@ const ModalForm = ({open, handleClose, edit, setEdit, form, listaClientes, setFo
             // Edição do form, carregar dados
             console.log('edit')
             console.log(form)
+            setClientesSelecionados([...clientesSelecionados, form.cliente]);
         }
     },[edit])
 
@@ -50,7 +51,7 @@ const ModalForm = ({open, handleClose, edit, setEdit, form, listaClientes, setFo
             ...form,
             clientesSelecionados
         };
-    saveFechamento(formData)
+    saveFechamento(formData, edit)
       .then((response) => {
         handleClose();
         if(edit) {

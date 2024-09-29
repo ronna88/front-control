@@ -200,8 +200,9 @@ export async function saveVisitaData(form) {
   }
 }
 
-export async function deleteVisita(funcionario) {
-  return await axios.delete(`${urlBase}/visita/${funcionario.funcionarioId}`);
+export async function deleteVisita(visita) {
+  console.log("deletando visita: "+visita.visitaId)
+  return await axios.delete(`${urlBase}/visita/delete/${visita.visitaId}`);
 }
 
 // TODO: MUdar de busca somente pelo funcionario para o conjunto

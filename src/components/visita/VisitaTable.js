@@ -284,7 +284,9 @@ const VisitaTable = ({rows, setRows, loading, setLoading, edit, setEdit,
         })
         handleOpen()
     }
+
     function handleDeleteClick(visita){
+        console.log(visita)
         setSelectedVisita(visita)
         setErase(true)
         setEdit(false)
@@ -380,7 +382,7 @@ const VisitaTable = ({rows, setRows, loading, setLoading, edit, setEdit,
             </Typography>
             <VisitaForm handleClose={handleClose} edit={edit} setEdit={setEdit} erase={erase} setRows={setRows} setLoading={setLoading}
                 listaClientes={listaClientes} listaFuncionarios={listaFuncionarios}
-                setForm={setForm} form={form} carregado={carregado} setCarregado={setCarregado} />
+                setForm={setForm} form={form} carregado={carregado} setCarregado={setCarregado} selectedVisita={selectedVisita} />
             </Box>
         </Modal>
     </>

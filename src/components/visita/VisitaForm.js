@@ -21,7 +21,7 @@ import './styles.css';
 registerLocale('pt-br', el);
 
 const VisitaForm = ({ handleClose, edit, erase, setEdit, setRows, setLoading,
-  listaClientes, listaFuncionarios,
+  listaClientes, listaFuncionarios, selectedVisita,
   setForm, form, carregado, setCarregado }) => {
 
   const navigate = useNavigate()
@@ -95,7 +95,8 @@ const VisitaForm = ({ handleClose, edit, erase, setEdit, setRows, setLoading,
   };
 
   const handleSim = (visita) => {
-    deleteVisita(visita.contratoId)
+    console.log(selectedVisita)
+    deleteVisita(selectedVisita)
       .then((response) => {
         setRows([]);
         setLoading(true);
@@ -163,7 +164,7 @@ const VisitaForm = ({ handleClose, edit, erase, setEdit, setRows, setLoading,
         {erase ? (
           <>
             <Typography variant="h3" component="h3" sx={{ marginBottom: '10px' }}>
-              Deseja realmente apagar o contrato ?
+              Deseja realmente apagar a Visita ?
             </Typography>
             <Box sx={{ display: 'flex', gap: 5 }}>
               <Button variant="contained" color="error" onClick={() => handleSim(form)}>

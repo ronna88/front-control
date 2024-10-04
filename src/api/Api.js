@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const urlBase = `https://${process.env.REACT_APP_URL}`;
+// const urlBase = `https://${process.env.REACT_APP_URL}`;
+const urlBase = `http://localhost:7000`;
 
 // ================ EMPRESA API
 export async function getEmpresaData(page, size, sort, direction) {
@@ -239,7 +240,11 @@ export async function getVisitasPorMes(mes, ano) {
 
 // ================ FECHAMENTOS API
 export async function getFechamentos(page, size, sort, direction) {
-  return await axios.get(`${urlBase}/fechamento`, { params: { page, size, sort, direction } });
+  console.log('getFechamentos');
+  const sortParam = `${sort},${direction}`;
+  return await axios.get(`${urlBase}/fechamento`, {
+    params: { page, size, sortParam },
+  });
 }
 
 export async function getFechamentoFiltro(params) {

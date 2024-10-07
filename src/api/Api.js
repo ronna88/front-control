@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const urlBase = `https://${process.env.REACT_APP_URL}`;
-// const urlBase = `http://localhost:7000`;
+//const urlBase = `http://localhost:7000`;
 
 // ================ EMPRESA API
 export async function getEmpresaData(page, size, sort, direction) {
@@ -297,6 +297,10 @@ export async function saveFechamento(form, edit) {
     return await axios.post(`${urlBase}/fechamento/novo`, form);
   }
     */
+}
+
+export async function editStatusFechamento(form, id) {
+  return await axios.put(`${urlBase}/fechamento/editarStatus/${id}`, form);
 }
 
 export async function deleteFechamento(fechamentoId) {

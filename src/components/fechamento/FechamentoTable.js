@@ -28,6 +28,7 @@ import ModalForm from './ModalForm';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import { format, toZonedTime } from 'date-fns-tz';
+import ModalStatusForm from './ModalStatusForm';
 
 const style = {
   position: 'absolute',
@@ -112,8 +113,11 @@ const FechamentoTable = ({
   setFechamentos,
 }) => {
   const handleOpen = () => setOpen(true);
+  const handleStatusOpen = () => setStatusOpen(true);
   const handleClose = () => setOpen(false);
+  const handleStatusClose = () => setStatusOpen(false);
   const [open, setOpen] = useState(false);
+  const [statusOpen, setStatusOpen] = useState(false);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(200);
   const [sort, setSort] = useState('fechamentoInicio');
@@ -122,6 +126,10 @@ const FechamentoTable = ({
     clienteLocalId: '',
     fechamentoInicio: '',
     fechamentoFinal: '',
+  });
+  const [statusForm, setStatusForm] = useState({
+    fechamentoId: '',
+    fechamentoStatus: '',
   });
   const navigate = useNavigate();
 
@@ -197,6 +205,11 @@ const FechamentoTable = ({
   }
   function handleStatusChangeClick(fechamento) {
     console.log('123');
+    setStatusForm({
+      fechamentoId: fechamento.fechamentoId,
+      fechamentoStatus: fechamento.fechamentoStatus,
+    });
+    handleStatusOpen();
   }
 
   return (
@@ -291,7 +304,7 @@ const FechamentoTable = ({
         <TableFooter>
           <TableRow>
             <TablePagination
-              rowsPerPageOptions={[5, 10, 20, { label: 'Todos', value: -1 }]}
+              rowsPerPageOptions={[5, 10, 20, 200, { label: 'Todos', value: -1 }]}
               colSpan={6}
               count={fechamentos?.totalElements ? fechamentos?.totalElements : -1}
               rowsPerPage={rowsPerPage}
@@ -311,6 +324,15 @@ const FechamentoTable = ({
         form={form}
         setForm={setForm}
         listaClientes={listaClientes}
+        setFechamentosCarregados={setFechamentosCarregados}
+      />
+      <ModalStatusForm
+        statusOpen={statusOpen}
+        handleStatusClose={handleStatusClose}
+        edit={edit}
+        setEdit={setEdit}
+        statusForm={statusForm}
+        setStatusFrom={setStatusForm}
         setFechamentosCarregados={setFechamentosCarregados}
       />
     </>

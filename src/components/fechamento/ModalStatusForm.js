@@ -105,6 +105,7 @@ const ModalStatusForm = ({
             >
               <MenuItem value={-1}>Selecione</MenuItem>
               <MenuItem value={'CRIADO'}>Criado</MenuItem>
+              <MenuItem value={'SEM_VISITA'}>Sem Visita</MenuItem>
               <MenuItem value={'APROVADO'}>Aprovado</MenuItem>
               <MenuItem value={'REPROVADO'}>Reprovado</MenuItem>
               <MenuItem value={'ENVIADO'}>Enviado</MenuItem>

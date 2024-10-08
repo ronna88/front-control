@@ -27,7 +27,7 @@ import IconButton from '@mui/material/IconButton';
 import ModalForm from './ModalForm';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
-import { format, toZonedTime } from 'date-fns-tz';
+import { format, toZonedTime, formatInTimeZone, utcToZonedTime } from 'date-fns-tz';
 import ModalStatusForm from './ModalStatusForm';
 
 const style = {
@@ -252,18 +252,22 @@ const FechamentoTable = ({
             fechamentos?.content?.map((fechamento) => (
               <TableRow key={fechamento.fechamentoId}>
                 <TableCell>
-                  {format(
-                    toZonedTime(fechamento.fechamentoInicio, 'America/Sao_Paulo'),
-                    'dd/MM/yyyy',
-                    { timeZone: 'America/Sao_Paulo' },
-                  )}
+                  {fechamento.fechamentoInicio
+                    ? formatInTimeZone(
+                        new Date(fechamento.fechamentoInicio + 'Z'), // Adiciona o 'Z' para indicar UTC
+                        'America/Sao_Paulo',
+                        'dd/MM/yyyy HH:mm:ss',
+                      )
+                    : 'Data Indisponível'}
                 </TableCell>
                 <TableCell>
-                  {format(
-                    toZonedTime(fechamento.fechamentoFinal, 'America/Sao_Paulo'),
-                    'dd/MM/yyyy',
-                    { timeZone: 'America/Sao_Paulo' },
-                  )}
+                  {fechamento.fechamentoFinal
+                    ? formatInTimeZone(
+                        new Date(fechamento.fechamentoFinal + 'Z'), // Adiciona o 'Z' para indicar UTC
+                        'America/Sao_Paulo',
+                        'dd/MM/yyyy HH:mm:ss',
+                      )
+                    : 'Data Indisponível'}
                 </TableCell>
                 <TableCell>{fechamento.cliente?.clienteNome}</TableCell>
                 <TableCell>{fechamento?.local?.localNome}</TableCell>

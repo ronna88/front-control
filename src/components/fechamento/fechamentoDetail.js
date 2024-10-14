@@ -52,6 +52,7 @@ const FechamentoDetail = () => {
             <tr>
               <th style={{ borderTop: '1px solid #000' }}>Início</th>
               <th style={{ borderTop: '1px solid #000' }}>Término</th>
+              <th style={{ borderTop: '1px solid #000' }}>Local</th>
               <th style={{ borderTop: '1px solid #000' }}>Serviços</th>
               <th style={{ borderTop: '1px solid #000' }}>Horas</th>
             </tr>
@@ -76,6 +77,13 @@ const FechamentoDetail = () => {
                       }}
                     >
                       {new Date(visita.visitaFinal).toLocaleString()}
+                    </td>
+                    <td
+                      style={{
+                        color: visita.visitaTotalAbono > 0 ? 'red' : 'black',
+                      }}
+                    >
+                      {visita.local.localNome}
                     </td>
                     <td
                       className="descServico"

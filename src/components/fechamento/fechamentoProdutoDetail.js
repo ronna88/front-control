@@ -55,6 +55,7 @@ const FechamentoProdutoDetail = () => {
             <tr>
               <th style={{ borderTop: '1px solid #000' }}>Início</th>
               <th style={{ borderTop: '1px solid #000' }}>Término</th>
+              <th style={{ borderTop: '1px solid #000' }}>Local</th>
               <th style={{ borderTop: '1px solid #000' }}>
                 Descritivo de Visita com os PRODUTOS utilizados
               </th>
@@ -70,6 +71,7 @@ const FechamentoProdutoDetail = () => {
                     <tr key={visita.visitaId}>
                       <td>{new Date(visita.visitaInicio).toLocaleString()}</td>
                       <td>{new Date(visita.visitaFinal).toLocaleString()}</td>
+                      <td>{visita.local.localNome}</td>
                       <td className="descServico">{visita.visitaDescricao}</td>
                       <td>
                         {visita.visitaValorProdutos.toLocaleString('pt-br', {

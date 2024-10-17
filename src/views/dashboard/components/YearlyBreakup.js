@@ -13,7 +13,6 @@ import { get } from 'lodash';
 const YearlyBreakup = () => {
   const [totalVisitas, setTotalVisitas] = React.useState(0);
   const [totalVisitasMesAnterior, setTotalVisitasMesAnterior] = React.useState(0);
-  const diasUteis = 22;
 
   // chart color
   const theme = useTheme();
@@ -113,8 +112,9 @@ const YearlyBreakup = () => {
           <Stack direction="row" spacing={1} mt={1} alignItems="center">
             <Avatar sx={{ bgcolor: successlight, width: 27, height: 27 }}>
               {(
-                totalVisitas / new Date().getDate() -
-                (totalVisitasMesAnterior / diasUteis / totalVisitasMesAnterior) * 100
+                ((totalVisitas / new Date().getDate() - totalVisitasMesAnterior / 30) /
+                  totalVisitasMesAnterior) *
+                100
               ).toFixed(2) > 0 ? (
                 <IconArrowUpLeft width={20} color="#39B69A" />
               ) : (
@@ -123,8 +123,9 @@ const YearlyBreakup = () => {
             </Avatar>
             <Typography variant="subtitle2" fontWeight="600">
               {(
-                totalVisitas / new Date().getDate() -
-                (totalVisitasMesAnterior / diasUteis / totalVisitasMesAnterior) * 100
+                ((totalVisitas / new Date().getDate() - totalVisitasMesAnterior / 30) /
+                  totalVisitasMesAnterior) *
+                100
               ).toFixed(2)}
               %
             </Typography>

@@ -155,10 +155,6 @@ const VisitaTable = ({
           });
         } */
 
-    console.log('filtro!!!!!!!!!!!!!');
-    console.log(filtro);
-    console.log('page!!!!!!!!!!!!!');
-    console.log(page);
     getVisitasDataFiltro(filtro, page, rowsPerPage)
       .then((response) => {
         setRows(response.data);

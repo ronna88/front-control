@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import DashboardCard from '../../../components/shared/DashboardCard';
 import {
   Timeline,
@@ -11,10 +11,33 @@ import {
   timelineOppositeContentClasses,
 } from '@mui/lab';
 import { Link, Typography } from '@mui/material';
+import { getContagemVisitas } from 'src/api/Api';
 
 const RecentTransactions = () => {
+  const [listaClienteVisitas, setListaClienteVisitas] = React.useState([]);
+
+  const periodo = {
+    periodoInicio: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
+    periodoFinal: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0),
+  };
+  const periodoMesAnterior = {
+    periodoInicio: new Date(new Date().getFullYear(), new Date().getMonth() - 1, 1),
+    periodoFinal: new Date(new Date().getFullYear(), new Date().getMonth(), 0),
+  };
+
+  useEffect(() => {
+    getContagemVisitas(periodo)
+      .then((response) => {
+        console.log(response.data);
+        setListaClienteVisitas(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
   return (
-    <DashboardCard title="Recent Transactions">
+    <DashboardCard title="Clientes com mais Visitas">
       <>
         <Timeline
           className="theme-timeline"
@@ -26,7 +49,7 @@ const RecentTransactions = () => {
             mb: '-40px',
             '& .MuiTimelineConnector-root': {
               width: '1px',
-              backgroundColor: '#efefef'
+              backgroundColor: '#efefef',
             },
             [`& .${timelineOppositeContentClasses.root}`]: {
               flex: 0.5,
@@ -34,65 +57,18 @@ const RecentTransactions = () => {
             },
           }}
         >
-          <TimelineItem>
-            <TimelineOppositeContent>09:30 am</TimelineOppositeContent>
-            <TimelineSeparator>
-              <TimelineDot color="primary" variant="outlined" />
-              <TimelineConnector />
-            </TimelineSeparator>
-            <TimelineContent>Payment received from John Doe of $385.90</TimelineContent>
-          </TimelineItem>
-          <TimelineItem>
-            <TimelineOppositeContent>10:00 am</TimelineOppositeContent>
-            <TimelineSeparator>
-              <TimelineDot color="secondary" variant="outlined" />
-              <TimelineConnector />
-            </TimelineSeparator>
-            <TimelineContent>
-              <Typography fontWeight="600">New sale recorded</Typography>{' '}
-              <Link href="/" underline="none">
-                #ML-3467
-              </Link>
-            </TimelineContent>
-          </TimelineItem>
-          <TimelineItem>
-            <TimelineOppositeContent>12:00 am</TimelineOppositeContent>
-            <TimelineSeparator>
-              <TimelineDot color="success" variant="outlined" />
-              <TimelineConnector />
-            </TimelineSeparator>
-            <TimelineContent>Payment was made of $64.95 to Michael</TimelineContent>
-          </TimelineItem>
-          <TimelineItem>
-            <TimelineOppositeContent>09:30 am</TimelineOppositeContent>
-            <TimelineSeparator>
-              <TimelineDot color="warning" variant="outlined" />
-              <TimelineConnector />
-            </TimelineSeparator>
-            <TimelineContent>
-              <Typography fontWeight="600">New sale recorded</Typography>{' '}
-              <Link href="/" underline="none">
-                #ML-3467
-              </Link>
-            </TimelineContent>
-          </TimelineItem>
-          <TimelineItem>
-            <TimelineOppositeContent>09:30 am</TimelineOppositeContent>
-            <TimelineSeparator>
-              <TimelineDot color="error" variant="outlined" />
-              <TimelineConnector />
-            </TimelineSeparator>
-            <TimelineContent>
-              <Typography fontWeight="600">New arrival recorded</Typography>
-            </TimelineContent>
-          </TimelineItem>
-          <TimelineItem>
-            <TimelineOppositeContent>12:00 am</TimelineOppositeContent>
-            <TimelineSeparator>
-              <TimelineDot color="success" variant="outlined" />
-            </TimelineSeparator>
-            <TimelineContent>Payment Received</TimelineContent>
-          </TimelineItem>
+          {listaClienteVisitas.map((row) => (
+            <TimelineItem key={row.cliente.clienteId}>
+              <TimelineOppositeContent>{row.cliente.clienteNome}</TimelineOppositeContent>
+              <TimelineSeparator>
+                <TimelineDot color="secondary" variant="outlined" />
+                <TimelineConnector />
+              </TimelineSeparator>
+              <TimelineContent>
+                <Typography fontWeight="600">{row.totalVisitas}</Typography>{' '}
+              </TimelineContent>
+            </TimelineItem>
+          ))}
         </Timeline>
       </>
     </DashboardCard>

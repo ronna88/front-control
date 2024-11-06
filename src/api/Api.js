@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const urlBase = `https://${process.env.REACT_APP_URL}`;
-//const urlBase = `http://localhost:7000`;
+// const urlBase = `http://localhost:7000`;
 
 // ================ EMPRESA API
 export async function getEmpresaData(page, size, sort, direction) {
@@ -172,7 +172,21 @@ export async function getVisitasData(page, size, sort, direction){
   }
 } */
 
+export async function getAnaliseVisitas(periodo) {
+  return await axios.post(`${urlBase}/visita/analise`, periodo);
+}
+
+export async function getContagemVisitas(periodo) {
+  return await axios.post(`${urlBase}/visita/contagem`, periodo);
+}
+
 export async function saveVisitaData(form) {
+  /*if (form.visitaFinal) {
+    form.visitaFinal = form.visitaFinal + 'T23:59:00';
+  }
+  if (form.visitaInicio) {
+    form.visitaInicio = form.visitaInicio + 'T00:00:00';
+  } */
   if (form.visitaId) {
     console.log('Editar Visita');
     return await axios.put(`${urlBase}/visita/${form.visitaId}`, form);

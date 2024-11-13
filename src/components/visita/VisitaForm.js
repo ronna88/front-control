@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField'
+import TextField from '@mui/material/TextField';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import BlankCard from '../../components/shared/BlankCard';
@@ -18,19 +18,31 @@ import DatePicker, { registerLocale } from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import el from 'date-fns/locale/pt-BR';
 import './styles.css';
+import { format, parseISO } from 'date-fns';
 registerLocale('pt-br', el);
 
-const VisitaForm = ({ handleClose, edit, erase, setEdit, setRows, setLoading,
-  listaClientes, listaFuncionarios, selectedVisita,
-  setForm, form, carregado, setCarregado }) => {
-
-  const navigate = useNavigate()
-  const [date, setDate] = useState(new Date())
-  const [finalDate, setFinalDate] = useState(new Date())
-  const [listaLocais, setListaLocais] = useState()
-  const [funcionariosSelecionados, setFuncionariosSelecionados] = useState([])
+const VisitaForm = ({
+  handleClose,
+  edit,
+  erase,
+  setEdit,
+  setRows,
+  setLoading,
+  listaClientes,
+  listaFuncionarios,
+  selectedVisita,
+  setForm,
+  form,
+  carregado,
+  setCarregado,
+}) => {
+  const navigate = useNavigate();
+  const [date, setDate] = useState(new Date());
+  const [finalDate, setFinalDate] = useState(new Date());
+  const [listaLocais, setListaLocais] = useState();
+  const [funcionariosSelecionados, setFuncionariosSelecionados] = useState([]);
   // const [carregado, setCarregado] = useState(false)
-  const [remoto, setRemoto] = useState()
+  const [remoto, setRemoto] = useState();
 
   const style = {
     display: 'flex',
@@ -41,16 +53,20 @@ const VisitaForm = ({ handleClose, edit, erase, setEdit, setRows, setLoading,
     width: '100%',
     paddingTop: '20px',
   };
+  function formatDateTime(dateTimeString) {
+    // Converte uma string ISO para o formato "yyyy-MM-dd'T'HH:mm:ss"
+    return format(parseISO(dateTimeString), "yyyy-MM-dd'T'HH:mm:ss");
+  }
   // TODO: ajustado o backend para verificar dados unicos
   const handleSave = () => {
-    console.log(form.local)
+    console.log(form.local);
     if (!form.local.localId) {
-      if (!form.local){
+      if (!form.local) {
         toast.error('Selecione um local! ou Cadastre um novo local primeiro!');
         return;
-      } 
+      }
     }
-    console.log(form)
+    console.log(form);
     // setCarregado(false);
     saveVisitaData(form)
       .then((response) => {
@@ -66,14 +82,13 @@ const VisitaForm = ({ handleClose, edit, erase, setEdit, setRows, setLoading,
           toast.error(`${error.response.data}`);
         }
       });
-
   };
 
   const handleOnChangeVisitainicio = (event) => {
-    setForm({ ...form, visitaInicio: event.target.value+':00' });
+    setForm({ ...form, visitaInicio: event.target.value + ':00' });
   };
   const handleOnChangeVisitaFinal = (event) => {
-    setForm({ ...form, visitaFinal: event.target.value+':00' });
+    setForm({ ...form, visitaFinal: event.target.value + ':00' });
   };
 
   const handleOnChangeDescricao = (event) => {
@@ -82,7 +97,7 @@ const VisitaForm = ({ handleClose, edit, erase, setEdit, setRows, setLoading,
 
   const handleOnChangeVisitaRemoto = (event) => {
     console.log(event.target.checked);
-    setForm({...form, visitaRemoto: event.target.checked});
+    setForm({ ...form, visitaRemoto: event.target.checked });
     //setForm({ ...form, visitaRemoto: event.target.value });
   };
 
@@ -95,7 +110,7 @@ const VisitaForm = ({ handleClose, edit, erase, setEdit, setRows, setLoading,
   };
 
   const handleSim = (visita) => {
-    console.log(selectedVisita)
+    console.log(selectedVisita);
     deleteVisita(selectedVisita)
       .then((response) => {
         setRows([]);
@@ -119,44 +134,38 @@ const VisitaForm = ({ handleClose, edit, erase, setEdit, setRows, setLoading,
 
   useEffect(() => {
     //Ajusta no form as datas inicio e final
-    setForm({ ...form, visitaInicio: date, visitaFinal: finalDate })
-  }, [date, finalDate])
-
-
+    setForm({ ...form, visitaInicio: date, visitaFinal: finalDate });
+  }, [date, finalDate]);
 
   useEffect(() => {
     if (form.cliente != '-1' && form.cliente != '') {
       getLocaisData(form.cliente)
         .then((response) => {
-          console.log(response.data.content)
+          console.log(response.data.content);
           setListaLocais(response.data.content);
         })
         .catch((error) => {
           console.log('Error: ' + error);
-        })
+        });
     }
-  }, [form.cliente])
-
+  }, [form.cliente]);
 
   useEffect(() => {
     if (edit) {
-      console.log('editar sim!')
-      console.log(form)
-      setDate(form.visitaInicio)
-      setFinalDate(form.visitaFinal)
+      console.log('editar sim!');
+      console.log(form);
+      setDate(formatDateTime(form.visitaInicio));
+      setFinalDate(formatDateTime(form.visitaFinal));
 
       //Corrigir dados vindos do banco de dados para editar.
-      let funcionarioTemp = []
-      console.log(form.funcionarios.length)
+      let funcionarioTemp = [];
+      console.log(form.funcionarios.length);
       for (let j = 0; j < form.funcionarios.length; j++) {
-        funcionarioTemp.push({funcionarioId: form.funcionarios[j]}) 
+        funcionarioTemp.push({ funcionarioId: form.funcionarios[j] });
       }
-      setForm({...form, funcionarios: funcionarioTemp})
+      setForm({ ...form, funcionarios: funcionarioTemp });
     }
-
-  }, [])
-
-
+  }, []);
 
   return (
     <BlankCard>
@@ -197,11 +206,18 @@ const VisitaForm = ({ handleClose, edit, erase, setEdit, setRows, setLoading,
 
                   />
                 </div>
-                */
-                }
-                <TextField type='datetime-local' value={form.visitaInicio} onChange={(event) => handleOnChangeVisitainicio(event)} />
+                */}
+                <TextField
+                  type="datetime-local"
+                  value={form.visitaInicio}
+                  onChange={(event) => handleOnChangeVisitainicio(event)}
+                />
 
-                <TextField type='datetime-local' value={form.visitaFinal} onChange={(event) => handleOnChangeVisitaFinal(event)} />
+                <TextField
+                  type="datetime-local"
+                  value={form.visitaFinal}
+                  onChange={(event) => handleOnChangeVisitaFinal(event)}
+                />
 
                 {/*
                 <InputLabel id='visitaValorProdutosLabel' sx={{ paddingLeft: '10px', zIndex: '1' }}>Final</InputLabel>
@@ -229,25 +245,29 @@ const VisitaForm = ({ handleClose, edit, erase, setEdit, setRows, setLoading,
                   form={form}
                 />
 
-                {(form.cliente != '' && form.cliente != '-1') && listaLocais?.length > 0 ? (
+                {form.cliente != '' && form.cliente != '-1' && listaLocais?.length > 0 ? (
                   <LocalSelect form={form} setForm={setForm} />
-                ) : ''}
+                ) : (
+                  ''
+                )}
 
-                <FormControlLabel 
-                
-                control={
-                  <Checkbox
-                    checked={form.visitaRemoto}
-                    onChange={handleOnChangeVisitaRemoto}
-                    sx={{ marginLeft: '10px' }}
-                    id="visitaRemoto"
-                    name="visitaRemoto"
-                    placeholder="Visita Remota"
-                  />
-                } label="Visita Remota"
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={form.visitaRemoto}
+                      onChange={handleOnChangeVisitaRemoto}
+                      sx={{ marginLeft: '10px' }}
+                      id="visitaRemoto"
+                      name="visitaRemoto"
+                      placeholder="Visita Remota"
+                    />
+                  }
+                  label="Visita Remota"
                 />
 
-                <InputLabel id='visitaValorProdutosLabel' sx={{ paddingLeft: '10px', zIndex: '1' }}>Valor dos Produtos</InputLabel>
+                <InputLabel id="visitaValorProdutosLabel" sx={{ paddingLeft: '10px', zIndex: '1' }}>
+                  Valor dos Produtos
+                </InputLabel>
                 <FormControl>
                   <TextField
                     value={form.visitaValorProdutos}
@@ -256,14 +276,16 @@ const VisitaForm = ({ handleClose, edit, erase, setEdit, setRows, setLoading,
                     id="visitaValorProdutos"
                     name="visitaValorProdutos"
                     placeholder="Valor dos Produtos"
-                    type='number'
+                    type="number"
                     inputProps={{
                       step: 0.01,
                     }}
                   />
                 </FormControl>
 
-                <InputLabel id='visitaTotalAbonoLabel' sx={{ paddingLeft: '10px', zIndex: '1' }}>Total do Abono</InputLabel>
+                <InputLabel id="visitaTotalAbonoLabel" sx={{ paddingLeft: '10px', zIndex: '1' }}>
+                  Total do Abono
+                </InputLabel>
                 <FormControl>
                   <TextField
                     value={form.visitaTotalAbono}
@@ -272,7 +294,7 @@ const VisitaForm = ({ handleClose, edit, erase, setEdit, setRows, setLoading,
                     id="visitaTotalAbono"
                     name="visitaTotalAbono"
                     placeholder="Total Abonado"
-                    type='number'
+                    type="number"
                     inputProps={{
                       step: 0.01,
                     }}
@@ -282,12 +304,16 @@ const VisitaForm = ({ handleClose, edit, erase, setEdit, setRows, setLoading,
                 <FuncionarioSelect
                   listaFuncionarios={listaFuncionarios}
                   form={form}
-                  setForm={setForm} funcionariosSelecionados={funcionariosSelecionados} setFuncionariosSelecionados={setFuncionariosSelecionados}
+                  setForm={setForm}
+                  funcionariosSelecionados={funcionariosSelecionados}
+                  setFuncionariosSelecionados={setFuncionariosSelecionados}
                 />
               </div>
 
               <div className="colForm">
-                <InputLabel id='visitaValorProdutosLabel' sx={{ paddingLeft: '10px', zIndex: '1' }}>Descrição</InputLabel>
+                <InputLabel id="visitaValorProdutosLabel" sx={{ paddingLeft: '10px', zIndex: '1' }}>
+                  Descrição
+                </InputLabel>
                 <TextField
                   multiline
                   rows={11}

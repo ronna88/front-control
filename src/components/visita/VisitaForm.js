@@ -61,7 +61,7 @@ const VisitaForm = ({
   const handleSave = () => {
     console.log(form);
 
-    if (new Date(form.visitaFinal) <= new Date(form.visitaInicio)) {
+    if (new Date(form.visitaFinal) < new Date(form.visitaInicio)) {
       toast.error('A data final deve ser maior que a data inicial!');
       return;
     }

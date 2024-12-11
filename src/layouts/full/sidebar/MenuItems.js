@@ -1,5 +1,9 @@
 import {
-  IconAperture, IconCopy, IconLayoutDashboard, IconLogin, IconMoodHappy, IconTypography, IconUserPlus,
+  IconAperture,
+  IconLayoutDashboard,
+  IconLogin,
+  IconMoodHappy,
+  IconUserPlus,
   IconBuilding,
   IconBriefcase,
   IconFolders,
@@ -9,7 +13,8 @@ import {
   IconUsers,
   IconClipboardList,
   IconReportMoney,
-  IconBoxModel,
+  IconBadge4k,
+  IconBeach,
 } from '@tabler/icons';
 
 import { uniqueId } from 'lodash';
@@ -86,7 +91,13 @@ const Menuitems = [
   },
   {
     navlabel: true,
-    subheader: 'Auth',
+    subheader: 'Administrativo',
+  },
+  {
+    id: uniqueId(),
+    title: 'Férias',
+    icon: IconBeach,
+    href: '/ferias',
   },
   {
     id: uniqueId(),

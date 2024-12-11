@@ -30,12 +30,12 @@ const VisitasOverview = () => {
 
     // Processa os dados das visitas para obter o total por dia
     const visitasPorDia = processarVisitasPorDia(visitas, selectedMonth, anoAtual);
-    console.log(visitasPorDia);
+    // console.log(visitasPorDia);
     setVisitasPorDia(visitasPorDia);
 
     // Processa os dados das visitas para obter o total por dia para cada funcionário
     const seriesPorFuncionario = processarVisitasPorFuncionario(visitas, selectedMonth, anoAtual);
-    console.log(seriesPorFuncionario);
+    // console.log(seriesPorFuncionario);
     setSeriesPorFuncionario(seriesPorFuncionario);
   };
 
@@ -88,9 +88,9 @@ const VisitasOverview = () => {
           visitasPorFuncionario[funcionarioNome] = Array(totalDias).fill(0);
         }
 
-        console.log('teste 1: ');
-        console.log(funcionarioNome);
-        console.log(visitasPorFuncionario[funcionarioNome]);
+        // console.log('teste 1: ');
+        // console.log(funcionarioNome);
+        // console.log(visitasPorFuncionario[funcionarioNome]);
 
         visitasPorFuncionario[funcionarioNome][dia - 1] += 1; // Incrementa o total de visitas no dia correspondente para o funcionário
       });

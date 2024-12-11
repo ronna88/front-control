@@ -32,23 +32,21 @@ const YearlyBreakup = () => {
   useEffect(() => {
     getAnaliseVisitas(periodo)
       .then((response) => {
-        console.log('asdjlasdjksdfdfhlasfhlsjfhljdfhjfhçfjkdjfjsçjç');
-        console.log(response.data);
+        // console.log(response.data);
         setTotalVisitas(response.data);
       })
       .catch((error) => {
-        console.log('deu muito ruim');
+        // console.log('deu muito ruim');
         console.log(error);
       });
 
     getAnaliseVisitas(periodoMesAnterior)
       .then((res) => {
-        console.log('asdjlasdjksdfdfhlasfhlsjfhljdfhjfhçfjkdjfjsçjç');
         console.log(res.data);
         setTotalVisitasMesAnterior(res.data);
       })
       .catch((err) => {
-        console.log('deu muito ruim');
+        // console.log('deu muito ruim');
         console.log(err);
       });
   }, [totalVisitas]);

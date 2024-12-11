@@ -6,10 +6,7 @@ import PageContainer from 'src/components/container/PageContainer';
 import VisitasOverview from './components/VisitasOverview';
 import YearlyBreakup from './components/YearlyBreakup';
 import RecentTransactions from './components/RecentTransactions';
-import ProductPerformance from './components/ProductPerformance';
-import Blog from './components/Blog';
 import MonthlyEarnings from './components/MonthlyEarnings';
-import FuncionarioPerformance from './components/FuncionarioPerformance';
 import FuncionariosHorasOverview from './components/FuncionariosHorasOverview';
 import HorasPorFuncionarioPorDiaOverview from './components/HorasPorFuncionarioPorDiaOverview';
 
@@ -31,7 +28,7 @@ const Dashboard = () => {
               </Grid>
             </Grid>
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={8} style={{ marginTop: '-170px' }}>
             <VisitasOverview />
           </Grid>
 
@@ -40,10 +37,6 @@ const Dashboard = () => {
           </Grid>
           <Grid item xs={12}>
             <FuncionariosHorasOverview />
-          </Grid>
-
-          <Grid item xs={12}>
-            <Blog />
           </Grid>
         </Grid>
       </Box>

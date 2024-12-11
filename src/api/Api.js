@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-const urlBase = `https://${process.env.REACT_APP_URL}`;
-// const urlBase = `http://localhost:7000`;
+// const urlBase = `https://${process.env.REACT_APP_URL}`;
+const urlBase = `http://localhost:7000`;
 
 // ================ EMPRESA API
 export async function getEmpresaData(page, size, sort, direction) {
@@ -230,6 +230,10 @@ export async function getVisitasDataFiltro(filtro, page, size) {
   console.log(page);
   console.log(size);
   return await axios.post(`${urlBase}/visita/filtro`, filtro, { params: { page, size } });
+}
+
+export async function getVisitasValor() {
+  return await axios.get(`${urlBase}/visita/visitascomvalor`);
 }
 
 export async function getVisitasPorMes(mes, ano) {

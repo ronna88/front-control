@@ -10,7 +10,7 @@ import {
   TimelineContent,
   timelineOppositeContentClasses,
 } from '@mui/lab';
-import { Link, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import { getContagemVisitas } from 'src/api/Api';
 
 const RecentTransactions = () => {
@@ -20,15 +20,16 @@ const RecentTransactions = () => {
     periodoInicio: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
     periodoFinal: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0),
   };
-  const periodoMesAnterior = {
+  /* const periodoMesAnterior = {
     periodoInicio: new Date(new Date().getFullYear(), new Date().getMonth() - 1, 1),
     periodoFinal: new Date(new Date().getFullYear(), new Date().getMonth(), 0),
   };
+  */
 
   useEffect(() => {
     getContagemVisitas(periodo)
       .then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
         setListaClienteVisitas(response.data);
       })
       .catch((error) => {

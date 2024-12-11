@@ -1,16 +1,35 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Chart from 'react-apexcharts';
 import { useTheme } from '@mui/material/styles';
 import { Stack, Typography, Avatar, Fab } from '@mui/material';
 import { IconArrowDownRight, IconCurrencyDollar } from '@tabler/icons';
 import DashboardCard from '../../../components/shared/DashboardCard';
+import { getVisitasValor } from '../../../api/Api';
 
 const MonthlyEarnings = () => {
+  const [valorVisitas, setValorVisitas] = useState(0);
+
   // chart color
   const theme = useTheme();
   const secondary = theme.palette.secondary.main;
   const secondarylight = '#f5fcff';
   const errorlight = '#fdede8';
+
+  useEffect(() => {
+    const fetchVisitasValor = async () => {
+      try {
+        await getVisitasValor().then((response) => {
+          setValorVisitas(response.data);
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    if (valorVisitas === 0) {
+      fetchVisitasValor();
+    }
+  }, [valorVisitas]);
 
   // chart
   const optionscolumnchart = {
@@ -55,7 +74,7 @@ const MonthlyEarnings = () => {
     <DashboardCard
       title="Monthly Earnings"
       action={
-        <Fab color="secondary" size="medium" sx={{color: '#ffffff'}}>
+        <Fab color="secondary" size="medium" sx={{ color: '#ffffff' }}>
           <IconCurrencyDollar width={24} />
         </Fab>
       }
@@ -64,20 +83,18 @@ const MonthlyEarnings = () => {
       }
     >
       <>
-        <Typography variant="h3" fontWeight="700" mt="-20px">
-          $6,820
-        </Typography>
-        <Stack direction="row" spacing={1} my={1} alignItems="center">
-          <Avatar sx={{ bgcolor: errorlight, width: 27, height: 27 }}>
-            <IconArrowDownRight width={20} color="#FA896B" />
-          </Avatar>
-          <Typography variant="subtitle2" fontWeight="600">
-            +9%
+        {valorVisitas === 0 ? (
+          <Typography variant="h3" fontWeight="700" mt="-20px">
+            Carregando...
           </Typography>
-          <Typography variant="subtitle2" color="textSecondary">
-            last year
-          </Typography>
-        </Stack>
+        ) : (
+          <>
+            <Typography variant="h3" fontWeight="700" mt="-20px">
+              {valorVisitas.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+            </Typography>
+            <Stack direction="row" spacing={1} my={1} alignItems="center"></Stack>
+          </>
+        )}
       </>
     </DashboardCard>
   );

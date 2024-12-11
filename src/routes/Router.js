@@ -10,22 +10,26 @@ import Contrato from '../views/contrato/Contrato';
 import Funcionario from '../views/funcionario/Funcionario';
 import Visita from '../views/visita/Visita';
 import Fechamento from '../views/fechamento/Fechamento';
+import Ferias from 'src/views/ferias/Ferias';
+import { element } from 'prop-types';
+import MonthlyEarnings from 'src/views/dashboard/components/MonthlyEarnings';
 
 // Importar o novo componente de Detalhes do Fechamento
 const FechamentoDetail = Loadable(lazy(() => import('../components/fechamento/fechamentoDetail')));
-const FechamentoProdutoDetail = Loadable(lazy(() => import('../components/fechamento/fechamentoProdutoDetail')));
-
+const FechamentoProdutoDetail = Loadable(
+  lazy(() => import('../components/fechamento/fechamentoProdutoDetail')),
+);
 
 /* ***Layouts**** */
 const FullLayout = Loadable(lazy(() => import('../layouts/full/FullLayout')));
 const BlankLayout = Loadable(lazy(() => import('../layouts/blank/BlankLayout')));
 
 /* ****Pages***** */
-const Dashboard = Loadable(lazy(() => import('../views/dashboard/Dashboard')))
-const SamplePage = Loadable(lazy(() => import('../views/sample-page/SamplePage')))
-const Icons = Loadable(lazy(() => import('../views/icons/Icons')))
-const TypographyPage = Loadable(lazy(() => import('../views/utilities/TypographyPage')))
-const Shadow = Loadable(lazy(() => import('../views/utilities/Shadow')))
+const Dashboard = Loadable(lazy(() => import('../views/dashboard/Dashboard')));
+const SamplePage = Loadable(lazy(() => import('../views/sample-page/SamplePage')));
+const Icons = Loadable(lazy(() => import('../views/icons/Icons')));
+const TypographyPage = Loadable(lazy(() => import('../views/utilities/TypographyPage')));
+const Shadow = Loadable(lazy(() => import('../views/utilities/Shadow')));
 const Error = Loadable(lazy(() => import('../views/authentication/Error')));
 const Register = Loadable(lazy(() => import('../views/authentication/Register')));
 const Login = Loadable(lazy(() => import('../views/authentication/Login')));
@@ -36,6 +40,7 @@ const Router = [
     element: <FullLayout />,
     children: [
       { path: '/', element: <Navigate to="/dashboard" /> },
+      { path: '/card', element: <MonthlyEarnings /> },
       { path: '/dashboard', exact: true, element: <Dashboard /> },
       { path: '/empresa', exact: true, element: <Empresa /> },
       { path: '/pj', exact: true, element: <PJ /> },
@@ -47,7 +52,12 @@ const Router = [
       { path: '/visitas', exact: true, element: <Visita /> },
       { path: '/fechamentos', exact: true, element: <Fechamento /> },
       { path: '/fechamento/:fechamentoId', exact: true, element: <FechamentoDetail /> },
-      { path: '/fechamento/produto/:fechamentoId', exact: true, element: <FechamentoProdutoDetail /> },
+      {
+        path: '/fechamento/produto/:fechamentoId',
+        exact: true,
+        element: <FechamentoProdutoDetail />,
+      },
+      { path: '/ferias', exact: true, element: <Ferias /> },
       { path: '/sample-page', exact: true, element: <SamplePage /> },
       { path: '/icons', exact: true, element: <Icons /> },
       { path: '/ui/typography', exact: true, element: <TypographyPage /> },

@@ -232,6 +232,10 @@ export async function getVisitasDataFiltro(filtro, page, size) {
   return await axios.post(`${urlBase}/visita/filtro`, filtro, { params: { page, size } });
 }
 
+export async function getVisitasValor() {
+  return await axios.get(`${urlBase}/visita/visitascomvalor`);
+}
+
 export async function getVisitasPorMes(mes, ano) {
   // console.log(filtro)
   const inicioMes = new Date(ano, mes - 1, 1).toISOString().split('T')[0] + 'T00:00:00';

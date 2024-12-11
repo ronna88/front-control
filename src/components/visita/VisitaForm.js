@@ -57,9 +57,21 @@ const VisitaForm = ({
     // Converte uma string ISO para o formato "yyyy-MM-dd'T'HH:mm:ss"
     return format(parseISO(dateTimeString), "yyyy-MM-dd'T'HH:mm:ss");
   }
-  // TODO: ajustado o backend para verificar dados unicos
+
   const handleSave = () => {
-    console.log(form.local);
+    console.log(form);
+
+    if (new Date(form.visitaFinal) <= new Date(form.visitaInicio)) {
+      toast.error('A data final deve ser maior que a data inicial!');
+      return;
+    }
+
+    const diffInHours = (new Date(form.visitaFinal) - new Date(form.visitaInicio)) / 36e5;
+    if (diffInHours > 8) {
+      toast.error('A diferença entre a data inicial e final não pode ser maior que 8 horas!');
+      return;
+    }
+
     if (!form.local.localId) {
       if (!form.local) {
         toast.error('Selecione um local! ou Cadastre um novo local primeiro!');

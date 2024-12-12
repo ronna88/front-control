@@ -4,32 +4,13 @@ import { useTheme } from '@mui/material/styles';
 import { Stack, Typography, Avatar, Fab } from '@mui/material';
 import { IconArrowDownRight, IconCurrencyDollar } from '@tabler/icons';
 import DashboardCard from '../../../components/shared/DashboardCard';
-import { getVisitasValor } from '../../../api/Api';
 
-const MonthlyEarnings = () => {
-  const [valorVisitas, setValorVisitas] = useState(0);
-
+const MonthlyEarnings = ({ valorServicos, valorProdutos }) => {
   // chart color
   const theme = useTheme();
   const secondary = theme.palette.secondary.main;
   const secondarylight = '#f5fcff';
   const errorlight = '#fdede8';
-
-  useEffect(() => {
-    const fetchVisitasValor = async () => {
-      try {
-        await getVisitasValor().then((response) => {
-          setValorVisitas(response.data);
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    if (valorVisitas === 0) {
-      fetchVisitasValor();
-    }
-  }, [valorVisitas]);
 
   // chart
   const optionscolumnchart = {
@@ -72,29 +53,46 @@ const MonthlyEarnings = () => {
 
   return (
     <DashboardCard
-      title="Monthly Earnings"
+      title={valorProdutos == null ? 'Serviços' : 'Produtos'}
       action={
         <Fab color="secondary" size="medium" sx={{ color: '#ffffff' }}>
           <IconCurrencyDollar width={24} />
         </Fab>
       }
       footer={
-        <Chart options={optionscolumnchart} series={seriescolumnchart} type="area" height="60px" />
+        <Chart options={optionscolumnchart} series={seriescolumnchart} type="area" height="88px" />
       }
     >
       <>
-        {valorVisitas === 0 ? (
-          <Typography variant="h3" fontWeight="700" mt="-20px">
-            Carregando...
-          </Typography>
-        ) : (
-          <>
+        {valorServicos == null ? (
+          valorProdutos == 0 ? (
             <Typography variant="h3" fontWeight="700" mt="-20px">
-              {valorVisitas.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+              Carregando...
             </Typography>
-            <Stack direction="row" spacing={1} my={1} alignItems="center"></Stack>
-          </>
-        )}
+          ) : (
+            <>
+              <Typography variant="h3" fontWeight="700" mt="-20px">
+                {valorProdutos.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+              </Typography>
+              <Stack direction="row" spacing={1} my={1} alignItems="center"></Stack>
+            </>
+          )
+        ) : null}
+
+        {valorProdutos == null ? (
+          valorServicos == 0 ? (
+            <Typography variant="h3" fontWeight="700" mt="-20px">
+              Carregando...
+            </Typography>
+          ) : (
+            <>
+              <Typography variant="h3" fontWeight="700" mt="-20px">
+                {valorServicos.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+              </Typography>
+              <Stack direction="row" spacing={1} my={1} alignItems="center"></Stack>
+            </>
+          )
+        ) : null}
       </>
     </DashboardCard>
   );

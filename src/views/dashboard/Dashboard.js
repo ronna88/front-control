@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Grid, Box } from '@mui/material';
+import { Grid, Box, Select, MenuItem } from '@mui/material';
 import PageContainer from 'src/components/container/PageContainer';
 import { getVisitasValor } from '../../api/Api';
 
@@ -14,6 +14,16 @@ import HorasPorFuncionarioPorDiaOverview from './components/HorasPorFuncionarioP
 const Dashboard = () => {
   const [valorServicos, setValorServicos] = useState(0);
   const [valorProdutos, setValorProdutos] = useState(0);
+  const [year, setYear] = React.useState(new Date().getFullYear());
+
+  const handleChange = async (event) => {
+    const selectedMonth = event.target.value;
+    setYear(selectedMonth);
+  };
+
+  useEffect(() => {
+    handleChange({ target: { value: year } });
+  }, []);
 
   useEffect(() => {
     const fetchVisitasValor = async () => {
@@ -35,6 +45,10 @@ const Dashboard = () => {
   return (
     <PageContainer title="Dashboard" description="this is Dashboard">
       <Box>
+        <Select labelId="month-dd" id="month-dd" value={year} size="small" onChange={handleChange}>
+          <MenuItem value={2024}>2024</MenuItem>
+          <MenuItem value={2025}>2025</MenuItem>
+        </Select>
         <Grid container spacing={3}>
           <Grid item xs={12}>
             <Grid container spacing={3}>
@@ -52,19 +66,19 @@ const Dashboard = () => {
           <Grid item xs={12}>
             <Grid container spacing={3}>
               <Grid item xs={12} lg={8}>
-                <VisitasOverview />
+                <VisitasOverview year={year} />
               </Grid>
               <Grid item xs={12} lg={4}>
-                <RecentTransactions />
+                <RecentTransactions year={year} />
               </Grid>
             </Grid>
           </Grid>
 
           <Grid item xs={12}>
-            <HorasPorFuncionarioPorDiaOverview />
+            <HorasPorFuncionarioPorDiaOverview year={year} />
           </Grid>
           <Grid item xs={12}>
-            <FuncionariosHorasOverview />
+            <FuncionariosHorasOverview year={year} />
           </Grid>
         </Grid>
       </Box>

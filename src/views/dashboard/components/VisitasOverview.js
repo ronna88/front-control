@@ -5,7 +5,7 @@ import DashboardCard from '../../../components/shared/DashboardCard';
 import Chart from 'react-apexcharts';
 import { getVisitasPorMes } from '../../../api/Api';
 
-const VisitasOverview = () => {
+const VisitasOverview = ({ year }) => {
   const [month, setMonth] = React.useState(new Date().getMonth() + 1); // Define o mês atual como estado inicial
   const [diasUteis, setDiasUteis] = React.useState([]);
   const [visitasPorDia, setVisitasPorDia] = React.useState([]);
@@ -23,7 +23,13 @@ const VisitasOverview = () => {
     setDiasUteis(dias);
 
     // Chama a função da API para buscar as visitas do mês selecionado
-    const anoAtual = new Date().getFullYear();
+    let anoAtual;
+    if (!year) {
+      anoAtual = new Date().getFullYear();
+    } else {
+      anoAtual = year;
+    }
+
     const response = await getVisitasPorMes(selectedMonth, anoAtual); // Ajuste os valores de page e size conforme necessário
     // console.log(response.data.content);
     const visitas = response.data.content;
@@ -42,7 +48,12 @@ const VisitasOverview = () => {
   const getDiasUteisDoMes = (mes) => {
     const diasUteis = [];
     const dataAtual = new Date();
-    const ano = dataAtual.getFullYear();
+    let ano;
+    if (!year) {
+      ano = dataAtual.getFullYear();
+    } else {
+      ano = year;
+    }
     const mesIndex = mes - 1; // Ajusta o mês para o índice correto (0-11)
 
     // Obter o último dia do mês

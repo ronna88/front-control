@@ -13,13 +13,24 @@ import {
 import { Typography } from '@mui/material';
 import { getContagemVisitas } from 'src/api/Api';
 
-const RecentTransactions = () => {
+const RecentTransactions = ({ year }) => {
   const [listaClienteVisitas, setListaClienteVisitas] = React.useState([]);
-
-  const periodo = {
-    periodoInicio: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
-    periodoFinal: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0),
+  let periodo = {
+    periodoInicio: '',
+    periodoFinal: '',
   };
+  //const periodo = {
+  //  periodoInicio: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
+  //  periodoFinal: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0),
+  //};
+
+  if (!year) {
+    periodo.periodoInicio = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+    periodo.periodoFinal = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0);
+  } else {
+    periodo.periodoInicio = new Date(year, 0, 1);
+    periodo.periodoFinal = new Date(year, 11, 31);
+  }
   /* const periodoMesAnterior = {
     periodoInicio: new Date(new Date().getFullYear(), new Date().getMonth() - 1, 1),
     periodoFinal: new Date(new Date().getFullYear(), new Date().getMonth(), 0),

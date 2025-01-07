@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-// const urlBase = `https://${process.env.REACT_APP_URL}`;
-const urlBase = `http://localhost:7000`;
+const urlBase = `https://${process.env.REACT_APP_URL}`;
+// const urlBase = `http://localhost:7000`;
 
 // ================ EMPRESA API
 export async function getEmpresaData(page, size, sort, direction) {

@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-const urlBase = `https://${process.env.REACT_APP_URL}`;
-// const urlBase = `http://localhost:7000`;
+// const urlBase = `https://${process.env.REACT_APP_URL}`;
+const urlBase = `http://localhost:7000`;
 
 // ================ EMPRESA API
 export async function getEmpresaData(page, size, sort, direction) {
@@ -138,9 +138,9 @@ export async function deleteContrato(contratoId) {
 // ================ FUNCIONARIOS API
 export async function getFuncionarioData(page, size, sort, direction) {
   if (!page && !size && !sort && !direction) {
-    return await axios.get(`${urlBase}/funcionario`);
+    return await axios.get(`${urlBase}/funcionario/ativos`);
   } else {
-    return await axios.get(`${urlBase}/funcionario`, { params: { page, size, sort } });
+    return await axios.get(`${urlBase}/funcionario/ativos`, { params: { page, size, sort } });
   }
 }
 

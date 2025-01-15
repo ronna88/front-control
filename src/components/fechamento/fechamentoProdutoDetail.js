@@ -65,24 +65,26 @@ const FechamentoProdutoDetail = () => {
           </thead>
           <tbody>
             {fechamento.visitas && fechamento.visitas.length > 0 ? (
-              fechamento.visitas.map((visita) => (
-                <>
-                  {visita.visitaValorProdutos > 0 && (
-                    <tr key={visita.visitaId}>
-                      <td>{new Date(visita.visitaInicio).toLocaleString()}</td>
-                      <td>{new Date(visita.visitaFinal).toLocaleString()}</td>
-                      <td>{visita.local.localNome}</td>
-                      <td className="descServico">{visita.visitaDescricao}</td>
-                      <td>
-                        {visita.visitaValorProdutos.toLocaleString('pt-br', {
-                          style: 'currency',
-                          currency: 'BRL',
-                        })}
-                      </td>
-                    </tr>
-                  )}
-                </>
-              ))
+              fechamento.visitas
+                .sort((a, b) => new Date(a.visitaInicio) - new Date(b.visitaInicio))
+                .map((visita) => (
+                  <>
+                    {visita.visitaValorProdutos > 0 && (
+                      <tr key={visita.visitaId}>
+                        <td>{new Date(visita.visitaInicio).toLocaleString()}</td>
+                        <td>{new Date(visita.visitaFinal).toLocaleString()}</td>
+                        <td>{visita.local.localNome}</td>
+                        <td className="descServico">{visita.visitaDescricao}</td>
+                        <td>
+                          {visita.visitaValorProdutos.toLocaleString('pt-br', {
+                            style: 'currency',
+                            currency: 'BRL',
+                          })}
+                        </td>
+                      </tr>
+                    )}
+                  </>
+                ))
             ) : (
               <tr>
                 <td colSpan="4">Nenhuma visita disponível</td>

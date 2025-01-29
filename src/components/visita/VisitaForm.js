@@ -67,8 +67,8 @@ const VisitaForm = ({
     }
 
     const diffInHours = (new Date(form.visitaFinal) - new Date(form.visitaInicio)) / 36e5;
-    if (diffInHours > 8) {
-      toast.error('A diferença entre a data inicial e final não pode ser maior que 8 horas!');
+    if (diffInHours > 10) {
+      toast.error('A diferença entre a data inicial e final não pode ser maior que 10 horas!');
       return;
     }
 

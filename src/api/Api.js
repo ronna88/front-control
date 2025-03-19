@@ -184,6 +184,9 @@ export async function saveVisitaData(form) {
   if (form.visitaValorProdutos === '') {
     form.visitaValorProdutos = 0.0;
   }
+  if (form.visitaTotalAbono === '') {
+    form.visitaTotalAbono = 0.0;
+  }
   if (form.visitaId) {
     console.log('Editar Visita');
     return await axios.put(`${urlBase}/visita/${form.visitaId}`, form);

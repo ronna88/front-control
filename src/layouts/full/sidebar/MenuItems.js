@@ -15,6 +15,7 @@ import {
   IconReportMoney,
   IconBadge4k,
   IconBeach,
+  IconPrinter,
 } from '@tabler/icons';
 
 import { uniqueId } from 'lodash';
@@ -70,6 +71,13 @@ const Menuitems = [
     title: 'Ativos',
     icon: IconDevices2,
     href: '/ativos',
+  },
+
+  {
+    id: uniqueId(),
+    title: 'Contratos de Locação',
+    icon: IconPrinter,
+    href: '/contrato-locacao',
   },
   {
     id: uniqueId(),

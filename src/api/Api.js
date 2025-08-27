@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-const urlBase = `https://${process.env.REACT_APP_URL}`;
-// const urlBase = `http://localhost:7000`;
+// const urlBase = `https://${process.env.REACT_APP_URL}`;
+const urlBase = `http://localhost:7000`;
 
 // ================ EMPRESA API
 export async function getEmpresaData(page, size, sort, direction) {
@@ -91,6 +91,10 @@ export async function deleteLocal(clienteId, localId) {
 // ================ ATIVOS API
 export async function getAtivoData(page, size, sort, direction) {
   return await axios.get(`${urlBase}/ativo`, { params: { page, size, sort } });
+}
+
+export async function getAtivosDisponiveis() {
+  return await axios.get(`${urlBase}/ativo/disponiveis`);
 }
 
 export async function saveAtivoData(form) {
@@ -326,3 +330,29 @@ export async function deleteFechamento(fechamentoId) {
 }
 
 // ================ FECHAMENTOS API
+
+// ================ LOCAÇÃO API
+export async function getLocacaoData() {
+  return await axios.get(`${urlBase}/contrato-locacao`);
+}
+
+export async function saveLocacaoData(form) {
+  // console.log(form)
+  if (form.contratoLocacaoId) {
+    return await axios.put(`${urlBase}/contrato-locacao/${form.contratoLocacaoId}`, form);
+  } else {
+    return await axios.post(`${urlBase}/contrato-locacao/novo`, form);
+  }
+}
+
+export async function saveLocacaoStatusData(form) {
+  console.log(form);
+  if (form.contratoLocacaoId) {
+    return await axios.put(`${urlBase}/contrato-locacao/${form.contratoLocacaoId}/status`, form);
+  }
+}
+
+export async function deleteLocacao(contratoLocacaoId) {
+  return await axios.delete(`${urlBase}/contrato-locacao/${contratoLocacaoId}`);
+}
+// ================   LOCAÇÃO API

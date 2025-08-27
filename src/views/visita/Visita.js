@@ -35,7 +35,11 @@ const Visita = () => {
       getClienteData(0, 200, '')
         .then((response) => {
           console.log('Buscando dados dos clientes...');
-          setListaClientes(response.data.content);
+          console.log(response.data.content);
+          const clientesAtivos = response.data.content.filter(
+            (cliente) => cliente.clienteStatus === 'ATIVO',
+          );
+          setListaClientes(clientesAtivos);
         })
         .catch((error) => {
           console.log(error);

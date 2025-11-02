@@ -166,13 +166,91 @@ const FechamentoTable = ({
     setPage(0);
   };
 
-  function handlePrintClick(fechamento) {
+  function handlePrintAntigo(fechamento) {
     if (!fechamento || !fechamento.fechamentoId) {
       console.error('Fechamento inválido');
       toast.error('Fechamento inválido!');
       return;
     }
     navigate(`/fechamento/${fechamento.fechamentoId}`, { state: { fechamento } });
+  }
+
+  async function handlePrintClick(fechamento) {
+    if (!fechamento || !fechamento.fechamentoId) {
+      console.error('Fechamento inválido');
+      toast.error('Fechamento inválido!');
+      return;
+    }
+    // navigate(`/fechamento/${fechamento.fechamentoId}`, { state: { fechamento } });
+    try {
+      const res = await fetch(
+        `https://${process.env.REACT_APP_URL}/fechamento/imprimir/${fechamento.fechamentoId}`,
+        { method: 'POST' },
+      );
+
+      if (!res.ok) {
+        const text = await res.text();
+        console.error('Erro ao gerar PDF:', text);
+        toast.error('Erro ao gerar PDF!');
+        return;
+      }
+
+      const blob = await res.blob();
+
+      const contentType = res.headers.get('content-type') || '';
+      if (!contentType.includes('application/pdf')) {
+        console.error('Resposta não é PDF, content-type:', contentType);
+        toast.error('Resposta do servidor não é um PDF!');
+        return;
+      }
+
+      const dataAtual = new Date();
+      const dataFormatada = dataAtual
+        .toISOString()
+        .replace(/T/, '_')
+        .replace(/:/g, '-')
+        .split('.')[0];
+
+      const mesAtual = dataAtual.toLocaleString('default', { month: 'long' });
+
+      let localClienteNome = '';
+
+      if (fechamento?.local?.localNome) {
+        localClienteNome = `${fechamento?.local?.localNome}`;
+      } else {
+        localClienteNome = '';
+      }
+
+      // tenta obter o nome do arquivo a partir do header Content-Disposition (se fornecido)
+      let filename = `${dataFormatada} Fechamento ${mesAtual} ${fechamento.cliente?.clienteNome} ${localClienteNome}.pdf`;
+      const disposition = res.headers.get('content-disposition');
+      if (disposition) {
+        const matchFilename = disposition.match(/filename\*=UTF-8''(.+)|filename="?([^"]+)"?/);
+        if (matchFilename) {
+          filename = decodeURIComponent(matchFilename[1] || matchFilename[2]);
+        }
+      }
+
+      // cria URL temporária e força download / abre em nova aba
+      const url = window.URL.createObjectURL(blob);
+
+      // abrir em nova aba para visualização
+      window.open(url, '_blank');
+
+      // também forçar download (opcional)
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+
+      // libera o objeto URL
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Erro ao buscar PDF:', error);
+      toast.error('Erro ao baixar o PDF!');
+    }
   }
   function handlePrintProductClick(fechamento) {
     if (!fechamento || !fechamento.fechamentoId) {
@@ -292,6 +370,9 @@ const FechamentoTable = ({
                     <IconTrash color="#5d87ff" />
                   </IconButton>
                   <IconButton onClick={() => handlePrintClick(fechamento)}>
+                    <IconPrinter color="#2b9180ff" />
+                  </IconButton>
+                  <IconButton onClick={() => handlePrintAntigo(fechamento)}>
                     <IconPrinter color="#5d87ff" />
                   </IconButton>
                   <IconButton onClick={() => handlePrintProductClick(fechamento)}>

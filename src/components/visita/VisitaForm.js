@@ -294,7 +294,7 @@ const VisitaForm = ({
                     inputProps={{
                       step: 0.01,
                     }}
-                    disabled
+                    /*  disabled EM DEZEMBRO  */
                   />
                 </FormControl>
 

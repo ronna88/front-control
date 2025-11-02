@@ -272,6 +272,7 @@ const VisitaTable = ({
       funcionarios: f,
       cliente: visita.cliente.clienteId,
       local: visita.local.localId,
+      produtos: visita.produtos,
     });
     handleOpen();
   }

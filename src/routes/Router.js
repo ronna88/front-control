@@ -14,6 +14,7 @@ import Ferias from 'src/views/ferias/Ferias';
 import { element } from 'prop-types';
 import MonthlyEarnings from 'src/views/dashboard/components/MonthlyEarnings';
 import Locacao from 'src/views/contrato-locacao/Locacao';
+import VisitaFormPage from 'src/views/visita-form/Visita-form';
 
 // Importar o novo componente de Detalhes do Fechamento
 const FechamentoDetail = Loadable(lazy(() => import('../components/fechamento/fechamentoDetail')));
@@ -52,6 +53,7 @@ const Router = [
       { path: '/funcionarios', exact: true, element: <Funcionario /> },
       { path: '/contrato-locacao', exact: true, element: <Locacao /> },
       { path: '/visitas', exact: true, element: <Visita /> },
+      { path: '/visitas/novo', exact: true, element: <VisitaFormPage /> },
       { path: '/fechamentos', exact: true, element: <Fechamento /> },
       { path: '/fechamento/:fechamentoId', exact: true, element: <FechamentoDetail /> },
       {

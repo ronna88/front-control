@@ -19,6 +19,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import el from 'date-fns/locale/pt-BR';
 import './styles.css';
 import { format, parseISO } from 'date-fns';
+import VisitaProdutos from './VisitaProdutos';
 registerLocale('pt-br', el);
 
 const VisitaForm = ({
@@ -59,7 +60,8 @@ const VisitaForm = ({
   }
 
   const handleSave = () => {
-    console.log(form);
+    console.log('Formulário:', form);
+    console.log('Produtos: ', form.produtos);
 
     if (new Date(form.visitaFinal) < new Date(form.visitaInicio)) {
       toast.error('A data final deve ser maior que a data inicial!');
@@ -292,6 +294,7 @@ const VisitaForm = ({
                     inputProps={{
                       step: 0.01,
                     }}
+                    disabled
                   />
                 </FormControl>
 
@@ -336,6 +339,12 @@ const VisitaForm = ({
                   name="visitaDescricao"
                   placeholder="Descrição"
                 />
+
+                <div>
+                  <InputLabel id="visitaProdutos">Produtos</InputLabel>
+                  {/* Implementar component de seleção de produtos */}
+                  <VisitaProdutos form={form} setForm={setForm} />
+                </div>
               </div>
             </div>
             <Button sx={{ margin: '20px' }} variant="contained" onClick={handleSave}>

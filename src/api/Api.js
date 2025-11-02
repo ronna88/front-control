@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-const urlBase = `https://${process.env.REACT_APP_URL}`;
-// const urlBase = `http://localhost:7000`;
+// const urlBase = `https://${process.env.REACT_APP_URL}`;
+const urlBase = `http://localhost:7000`;
 
 // ================ EMPRESA API
 export async function getEmpresaData(page, size, sort, direction) {
@@ -191,6 +191,14 @@ export async function saveVisitaData(form) {
   if (form.visitaTotalAbono === '') {
     form.visitaTotalAbono = 0.0;
   }
+
+  // Ajustar valorTotal dos produtos no campo já existente
+  const valorTotalProdutos = form.produtos.reduce(
+    (total, produto) => total + produto.quantidade * produto.preco,
+    0,
+  );
+  form.visitaValorProdutos = parseFloat(valorTotalProdutos.toFixed(2));
+
   if (form.visitaId) {
     console.log('Editar Visita');
     return await axios.put(`${urlBase}/visita/${form.visitaId}`, form);

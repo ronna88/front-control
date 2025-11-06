@@ -192,12 +192,15 @@ export async function saveVisitaData(form) {
     form.visitaTotalAbono = 0.0;
   }
 
-  // Ajustar valorTotal dos produtos no campo já existente
+  if (form.produtos && form.produtos.length > 0) {
+  // Ajustar valorTotal dos produtos no campo já existente - somente se o array de produtos existir
   const valorTotalProdutos = form.produtos.reduce(
     (total, produto) => total + produto.quantidade * produto.preco,
     0,
   );
   form.visitaValorProdutos = parseFloat(valorTotalProdutos.toFixed(2));
+  }
+  
 
   if (form.visitaId) {
     console.log('Editar Visita');

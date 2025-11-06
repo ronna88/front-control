@@ -204,6 +204,7 @@ export async function saveVisitaData(form) {
 
   if (form.visitaId) {
     console.log('Editar Visita');
+    console.log(form);
     return await axios.put(`${urlBase}/visita/${form.visitaId}`, form);
   } else {
     console.log('Nova Visita');

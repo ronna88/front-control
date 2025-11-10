@@ -4,14 +4,14 @@ import TextField from '@mui/material/TextField';
 import BlankCard from '../../../components/shared/BlankCard';
 import Button from '@mui/material/Button';
 import {savePJData, deletePJ, getEmpresaData} from '../../../api/Api';
-import { useNavigate } from "react-router-dom";
-import { FormControlLabel, FormGroup, Typography, Checkbox } from '@mui/material';
+// import { useNavigate } from "react-router-dom";
+import { FormControlLabel, Typography, Checkbox } from '@mui/material';
 import { toast } from 'react-toastify';
 import EmpresaSelect from '../EmpresaSelect';
 
 const PJForm = ({handleOpen, handleClose, setRows,
     setLoading, edit, setEdit, erase, setErase, selectedPJ, setSelectedPJ}) => {
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
         const [form, setForm] = useState({
             clienteNome: '',
             clienteRazaoSocial: '',
@@ -28,7 +28,6 @@ const PJForm = ({handleOpen, handleClose, setRows,
             empresa: '',
             isFechamentoSeparado: false,
     })
-    const [checked, setChecked] = useState(false);
     const [empresa, setEmpresa] = useState('')
     const [listaEmpresas, setListaEmpresas] = useState([])
     

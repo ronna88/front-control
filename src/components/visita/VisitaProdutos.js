@@ -16,6 +16,8 @@ const VisitaProdutos = ({ form, setForm }) => {
   const [produtos, setProdutos] = useState([]);
   const [totalGeral, setTotalGeral] = useState(0);
 
+  console.log(totalGeral)
+
   useEffect(() => {
     setForm({ ...form, produtos });
   }, [produtos]);

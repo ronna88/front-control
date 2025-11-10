@@ -205,13 +205,15 @@ const FechamentoTable = ({
       }
 
       const dataAtual = new Date();
-      const dataFormatada = dataAtual
+      /*const dataFormatada = dataAtual
         .toISOString()
         .replace(/T/, '_')
         .replace(/:/g, '-')
         .split('.')[0];
-
-      const mesAtual = dataAtual.toLocaleString('default', { month: 'long' });
+*/
+      const dataFormatada = dataAtual.toLocaleDateString('pt-BR').replace(/\//g, '.');
+      
+      const mesAtual = dataAtual.toLocaleString('pt-BR', { month: 'long' }).charAt(0).toUpperCase() + dataAtual.toLocaleString('pt-BR', { month: 'long' }).slice(1);
 
       let localClienteNome = '';
 

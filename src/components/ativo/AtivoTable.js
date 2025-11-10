@@ -137,6 +137,7 @@ const AtivoTable = ({rows, setRows, loading, setLoading, edit, setEdit,
         }
     } else {
         setLoadingKey(prevKey => prevKey + 1);
+        console.log('Loading key changed:', loadingKey);
     }
 }, [rows]);
 
@@ -205,6 +206,8 @@ const AtivoTable = ({rows, setRows, loading, setLoading, edit, setEdit,
         backgroundColor: '#FA896B',
         color: "#fff"
     }
+
+    console.log(':', setSort);
 
     return (
         <>

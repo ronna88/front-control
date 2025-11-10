@@ -118,6 +118,9 @@ const ContratoTable = ({rows, setRows, loading, setLoading, edit, setEdit,
         setSelectedContrato()
         setAtivos([])}
     // const [cliente, setCliente] = useState();
+
+    console.log(loadingKey);
+    console.log(setSort);
     
     useEffect(() => {
         if(rows.length === 0){

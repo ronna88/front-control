@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Chart from 'react-apexcharts';
 import { useTheme } from '@mui/material/styles';
-import { Stack, Typography, Avatar, Fab } from '@mui/material';
-import { IconArrowDownRight, IconCurrencyDollar } from '@tabler/icons';
+import { Stack, Typography, Fab } from '@mui/material';
+import { IconCurrencyDollar } from '@tabler/icons';
 import DashboardCard from '../../../components/shared/DashboardCard';
 
 const MonthlyEarnings = ({ valorServicos, valorProdutos }) => {
@@ -10,7 +10,7 @@ const MonthlyEarnings = ({ valorServicos, valorProdutos }) => {
   const theme = useTheme();
   const secondary = theme.palette.secondary.main;
   const secondarylight = '#f5fcff';
-  const errorlight = '#fdede8';
+  // const errorlight = '#fdede8';
 
   // chart
   const optionscolumnchart = {
@@ -65,7 +65,7 @@ const MonthlyEarnings = ({ valorServicos, valorProdutos }) => {
     >
       <>
         {valorServicos == null ? (
-          valorProdutos == 0 ? (
+          valorProdutos === 0 ? (
             <Typography variant="h3" fontWeight="700" mt="-20px">
               Carregando...
             </Typography>
@@ -80,7 +80,7 @@ const MonthlyEarnings = ({ valorServicos, valorProdutos }) => {
         ) : null}
 
         {valorProdutos == null ? (
-          valorServicos == 0 ? (
+          valorServicos === 0 ? (
             <Typography variant="h3" fontWeight="700" mt="-20px">
               Carregando...
             </Typography>

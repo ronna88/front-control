@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Table, TableBody, TableCell, TableFooter, TableHead, TableRow } from '@mui/material';
-import Chip from '@mui/material/Chip';
+// import Chip from '@mui/material/Chip';
 import TablePagination from '@mui/material/TablePagination';
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -117,8 +117,8 @@ const VisitaTable = ({
 }) => {
   const [selectedVisita, setSelectedVisita] = useState();
 
-  const [sort, setSort] = useState('visitaDescricao');
-  const [loadingKey, setLoadingKey] = useState(0);
+  // const [sort, setSort] = useState('visitaDescricao');
+  // const [loadingKey, setLoadingKey] = useState(0);
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
@@ -285,6 +285,7 @@ const VisitaTable = ({
     handleOpen();
   }
 
+  /*
   const ativo = {
     px: '4px',
     backgroundColor: '#5d87ff',
@@ -296,6 +297,7 @@ const VisitaTable = ({
     color: '#fff',
   };
 
+  */
   function getFuncionarios(visita) {
     let nomeFuncionarios = '';
     for (let i = 0; i < visita.funcionarios.length; i++) {

@@ -113,6 +113,9 @@ const LocalTablePF = ({rowsPF, setRowsPF, loadingPF, setLoadingPF, editPF, setEd
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     const [selectedLocal, setSelectedLocal] = useState();
+
+    console.log(setSort);
+    console.log(loadingKey);
     
     useEffect(()=> {
         getLocaisData(

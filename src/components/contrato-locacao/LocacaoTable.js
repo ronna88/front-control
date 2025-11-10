@@ -93,7 +93,7 @@ TablePaginationActions.propTypes = {
 const LocacaoTable = ({ rows, setRows, loading, setLoading, edit, setEdit, erase, setErase }) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(15);
-  const [sort, setSort] = useState('');
+  // const [sort, setSort] = useState('');
   const [loadingKey, setLoadingKey] = useState(0);
   const [open, setOpen] = useState(false);
   const [statusChange, setStatusChange] = useState(false);
@@ -102,6 +102,8 @@ const LocacaoTable = ({ rows, setRows, loading, setLoading, edit, setEdit, erase
   const handleClose = () => setOpen(false);
   const handleCloseStatus = () => setStatusChange(false);
   const [selectedLocacao, setSelectedLocacao] = useState();
+
+  console.log(loadingKey);
 
   const contratoEmBranco = {
     descricao: 'Sem dados',

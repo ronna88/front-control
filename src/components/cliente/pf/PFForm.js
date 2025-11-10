@@ -4,14 +4,14 @@ import TextField from '@mui/material/TextField';
 import BlankCard from '../../../components/shared/BlankCard';
 import Button from '@mui/material/Button';
 import {savePFData, deletePF, getEmpresaData} from '../../../api/Api';
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { Typography } from '@mui/material';
 import { toast } from 'react-toastify';
 import EmpresaSelect from '../EmpresaSelect';
 
 const PFForm = ({handleOpen, handleClose, setRows,
     setLoading, edit, setEdit, erase, setErase, selectedPF, setSelectedPF}) => {
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
         const [form, setForm] = useState({
             clienteNome: '',
             clienteCPF: '',

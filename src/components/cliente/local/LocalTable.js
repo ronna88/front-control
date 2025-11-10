@@ -61,6 +61,8 @@ function TablePaginationActions(props) {
         onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
     };
 
+
+
     return (
         <Box sx={{ flexShrink: 0, ml: 2.5 }}>
             <IconButton
@@ -113,6 +115,9 @@ const LocalTable = ({rows, setRows, loading, setLoading, edit, setEdit,
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     const [selectedLocal, setSelectedLocal] = useState();
+
+    console.log(setSort);
+    console.log(loadingKey);
     
     useEffect(()=> {
         getLocaisData(

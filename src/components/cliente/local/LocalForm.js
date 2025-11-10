@@ -3,15 +3,15 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import BlankCard from '../../../components/shared/BlankCard';
 import Button from '@mui/material/Button';
-import {saveLocalData, deleteLocal, getEmpresaData} from '../../../api/Api';
-import { useNavigate } from "react-router-dom";
+import {saveLocalData, deleteLocal} from '../../../api/Api';
+// import { useNavigate } from "react-router-dom";
 import { Typography } from '@mui/material';
 import { toast } from 'react-toastify';
 
 const LocalForm = ({handleOpen, handleClose, setRows,
     setLoading, edit, setEdit, erase, setErase, selectedLocal,
     setSelectedLocal, PJSelected, setPJSelected}) => {
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
         const [form, setForm] = useState({
             localNome: '',
     })

@@ -13,6 +13,8 @@ const Fechamento = () => {
   const [fechamentosCarregados, setFechamentosCarregados] = useState(false);
   const [fechamentos, setFechamentos] = useState();
   const [edit, setEdit] = useState(false);
+
+  console.log(setCarregado)
   
 
   useEffect(()=>{

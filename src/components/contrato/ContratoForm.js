@@ -4,17 +4,17 @@ import TextField from '@mui/material/TextField';
 import BlankCard from '../../components/shared/BlankCard';
 import Button from '@mui/material/Button';
 import {saveContratoData, deleteContrato} from '../../api/Api';
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { Typography } from '@mui/material';
 import { toast } from 'react-toastify';
 import ClienteSelect from '../../components/cliente/ClienteSelect';
-import AtivoSelect from '../../components/ativo/AtivoSelect';
+// import AtivoSelect from '../../components/ativo/AtivoSelect';
 
 const ContratoForm = ({handleOpen, handleClose, setRows,
     setLoading, edit, setEdit, erase, setErase, selectedContrato, setSelectedContrato,
     listaClientes, setListaClientes,
     cliente, setCliente }) => {
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
         const [form, setForm] = useState({
             contratoDescricao: '',
             contratoValorVisita: '',
@@ -65,15 +65,16 @@ const ContratoForm = ({handleOpen, handleClose, setRows,
     }
     
     //Single Select
-    const handleOnChangeCliente = (event) => {
+    /* const handleOnChangeCliente = (event) => {
         setForm({...form, cliente: event.target.value});
     }
+    */
     
     // MultiSelect
-    const handleOnChangeAtivo = (event) => {
+    /*const handleOnChangeAtivo = (event) => {
         setForm({...form, listaAtivos: [event.target.value]});
     }
-    
+    */
     
     const handleSim = (contrato) => {
         deleteContrato(contrato.contratoId)

@@ -11,7 +11,6 @@ import Funcionario from '../views/funcionario/Funcionario';
 import Visita from '../views/visita/Visita';
 import Fechamento from '../views/fechamento/Fechamento';
 import Ferias from 'src/views/ferias/Ferias';
-import { element } from 'prop-types';
 import MonthlyEarnings from 'src/views/dashboard/components/MonthlyEarnings';
 import Locacao from 'src/views/contrato-locacao/Locacao';
 import VisitaFormPage from 'src/views/visita-form/Visita-form';

@@ -51,7 +51,7 @@ const VisitaFilterNew = ({
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const [funcionarioSelecionado, setFuncionarioSelecionado] = useState();
+  // const [funcionarioSelecionado, setFuncionarioSelecionado] = useState();
   const [form, setForm] = useState({
     visitaInicio: '',
     visitaFinal: '',
@@ -66,8 +66,8 @@ const VisitaFilterNew = ({
     produtos: [],
   });
 
-  const [dataInicio, setDataInicio] = useState();
-  const [dataFinal, setDataFinal] = useState();
+  // const [dataInicio, setDataInicio] = useState();
+  // const [dataFinal, setDataFinal] = useState();
 
   const handleChangeInicio = (event) => {
     setFiltro({ ...filtro, visitaInicio: event.target.value });

@@ -1,4 +1,4 @@
-import react, { useState, useEffect }  from 'react'
+import { useState, useEffect }  from 'react'
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
@@ -14,6 +14,7 @@ const LocalSelect = ({form, setForm}) => {
     
     const handleChange = (event) => {
         setLocal(event.target.value)
+       
         const tempLocal = event.target.value
         setForm({...form, local: tempLocal})
     }
@@ -25,6 +26,7 @@ const LocalSelect = ({form, setForm}) => {
                 getLocaisData(form?.cliente)
                     .then((response) => {
                         setListaLocais(response.data.content);
+                         console.log('Local selecionado: ' + local)
                         })
                     .catch((error) => {
                         console.log('Error: ' + error);

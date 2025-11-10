@@ -24,8 +24,8 @@ const FechamentoFilterNew = ({
     fechamentoFinal: '',
   });
 
-  const [dataInicio, setDataInicio] = useState();
-  const [dataFinal, setDataFinal] = useState();
+  // const [dataInicio, setDataInicio] = useState();
+  // const [dataFinal, setDataFinal] = useState();
 
   const handleChangeInicio = (event) => {
     setForm({ ...form, fechamentoInicio: event.target.value });

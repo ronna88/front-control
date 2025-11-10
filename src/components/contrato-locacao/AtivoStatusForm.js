@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
+// import TextField from '@mui/material/TextField';
 import BlankCard from '../shared/BlankCard';
 import Button from '@mui/material/Button';
-import { saveAtivoStatusData, deleteAtivo } from '../../api/Api';
-import { useNavigate } from 'react-router-dom';
-import { MenuItem, Select, Typography } from '@mui/material';
+import { saveAtivoStatusData } from '../../api/Api';
+// import { useNavigate } from 'react-router-dom';
+import { MenuItem, Select } from '@mui/material';
 import { toast } from 'react-toastify';
 
 const AtivoStatusForm = ({
@@ -20,7 +20,7 @@ const AtivoStatusForm = ({
   selectedAtivo,
   setSelectedAtivo,
 }) => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [form, setForm] = useState({
     ativoDescricao: '',
     ativoPatrimonio: '',
@@ -59,6 +59,7 @@ const AtivoStatusForm = ({
     setForm({ ...form, ativoStatus: event.target.value });
   };
 
+  /*
   const handleSim = (ativo) => {
     deleteAtivo(ativo.ativoId)
       .then((response) => {
@@ -81,6 +82,7 @@ const AtivoStatusForm = ({
     setLoading(true);
     handleClose();
   };
+  */
 
   useEffect(() => {
     if (selectedAtivo) {

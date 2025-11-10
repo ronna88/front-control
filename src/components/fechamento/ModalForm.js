@@ -2,11 +2,11 @@ import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import { Button, Grid, InputLabel, TextField, ToggleButton, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
-import ClienteSelect from '../cliente/ClienteSelect';
-import LocalSelect from '../cliente/LocalSelect';
+// import ClienteSelect from '../cliente/ClienteSelect';
+// import LocalSelect from '../cliente/LocalSelect';
 import { toast } from 'react-toastify';
 import { saveFechamento } from 'src/api/Api';
-import { Label } from '@mui/icons-material';
+// import { Label } from '@mui/icons-material';
 
 
    const style = {
@@ -28,7 +28,7 @@ import { Label } from '@mui/icons-material';
     };
 
 const ModalForm = ({open, handleClose, edit, setEdit, form, listaClientes, setForm, setFechamentosCarregados}) => {
-    const [listaLocais, setListaLocais] = useState()
+    // const [listaLocais, setListaLocais] = useState()
     const [clientesSelecionados, setClientesSelecionados] = useState([]);
 
     useEffect(()=>{

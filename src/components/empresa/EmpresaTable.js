@@ -100,6 +100,9 @@ const EmpresaTable = ({ rows, setRows, loading, setLoading, edit, setEdit, erase
   const handleClose = () => setOpen(false);
   const [selectedEmpresa, setSelectedEmpresa] = useState();
 
+  console.log(setSort);
+  console.log(loadingKey);
+
   useEffect(() => {
     if (rows.length === 0) {
       getEmpresaData(page, rowsPerPage, sort)

@@ -1,16 +1,16 @@
 import {useState, useEffect} from 'react';
 import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
+// import TextField from '@mui/material/TextField';
 import BlankCard from '../../components/shared/BlankCard';
 import Button from '@mui/material/Button';
-import {saveAtivoStatusData, deleteAtivo} from '../../api/Api';
-import { useNavigate } from "react-router-dom";
-import { MenuItem, Select, Typography } from '@mui/material';
+import {saveAtivoStatusData} from '../../api/Api';
+// import { useNavigate } from "react-router-dom";
+import { MenuItem, Select } from '@mui/material';
 import { toast } from 'react-toastify';
 
 const AtivoStatusForm = ({handleOpen, handleClose, setRows,
     setLoading, edit, setEdit, erase, setErase, selectedAtivo, setSelectedAtivo}) => {
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
         const [form, setForm] = useState({
             ativoDescricao: '',
             ativoPatrimonio: '',
@@ -49,6 +49,7 @@ const AtivoStatusForm = ({handleOpen, handleClose, setRows,
         setForm({...form, ativoStatus: event.target.value});
     }
     
+    /*
     const handleSim = (ativo) => {
         deleteAtivo(ativo.ativoId)
             .then((response) => {
@@ -62,7 +63,7 @@ const AtivoStatusForm = ({handleOpen, handleClose, setRows,
                 console.log(error);
                 toast.error(`${error.response.data}`)
             })
-    }
+    } 
 
     const handleNao = () => {
         console.log('close')
@@ -70,7 +71,7 @@ const AtivoStatusForm = ({handleOpen, handleClose, setRows,
         setSelectedAtivo()
         setLoading(true)
         handleClose()
-    }
+    }*/ 
 
     useEffect(()=> {
         if (selectedAtivo) {

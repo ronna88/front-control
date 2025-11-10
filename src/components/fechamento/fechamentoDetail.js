@@ -30,7 +30,7 @@ const FechamentoDetail = () => {
     <div className="container-print">
       <div className="print-header">
         <div className="headerImg">
-          <img src="https://suxberger.com.br/imagens/cabe%C3%A7alhoFechamentoSux.jpg" />
+          <img src="https://suxberger.com.br/imagens/cabe%C3%A7alhoFechamentoSux.jpg" alt='Logo Suxberger'/>
         </div>
       </div>
       <div>

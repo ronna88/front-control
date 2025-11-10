@@ -4,7 +4,7 @@ import TextField from '@mui/material/TextField';
 import BlankCard from '../../components/shared/BlankCard';
 import Button from '@mui/material/Button';
 import { saveFuncionarioData, deleteFuncionario } from '../../api/Api';
-import { useNavigate } from 'react-router-dom';
+//import { useNavigate } from 'react-router-dom';
 import { InputLabel, Typography } from '@mui/material';
 import { toast } from 'react-toastify';
 import { format, parse } from 'date-fns';
@@ -21,7 +21,7 @@ const FuncionarioForm = ({
   selectedFuncionario,
   setSelectedFuncionario,
 }) => {
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
   const [form, setForm] = useState({
     funcionarioNome: '',
     funcionarioNascimento: '',

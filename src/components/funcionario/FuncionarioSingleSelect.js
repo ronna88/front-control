@@ -1,10 +1,10 @@
-import react, { useEffect, useState } from 'react'
+// import react, { useEffect, useState } from 'react'
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
 const FuncionarioSingleSelect = ({ listaFuncionarios, filtro, setFiltro }) => {
-    const [carregado, setCarregado] = useState(false)
+    // const [carregado, setCarregado] = useState(false)
 
     const handleChange = (event) => {
         setFiltro({...filtro, funcionario:event.target.value})

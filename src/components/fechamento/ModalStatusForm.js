@@ -4,10 +4,10 @@ import { Button, Typography } from '@mui/material';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { editStatusFechamento } from 'src/api/Api';
-import { Label } from '@mui/icons-material';
+// import { Label } from '@mui/icons-material';
 
 const style = {
   position: 'absolute',

@@ -113,6 +113,9 @@ const FuncionarioTable = ({rows, setRows, loading, setLoading, edit, setEdit,
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     const [selectedFuncionario, setSelectedFuncionario] = useState();
+
+    console.log(loadingKey)
+    console.log(setSort)
     
     useEffect(() => {
         if(rows.length === 0){

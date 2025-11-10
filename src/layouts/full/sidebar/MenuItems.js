@@ -13,7 +13,6 @@ import {
   IconUsers,
   IconClipboardList,
   IconReportMoney,
-  IconBadge4k,
   IconBeach,
   IconPrinter,
 } from '@tabler/icons';

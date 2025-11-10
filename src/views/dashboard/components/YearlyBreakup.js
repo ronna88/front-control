@@ -6,7 +6,6 @@ import { IconArrowUpLeft, IconArrowDownRight } from '@tabler/icons';
 
 import DashboardCard from '../../../components/shared/DashboardCard';
 import { getAnaliseVisitas } from 'src/api/Api';
-import { get } from 'lodash';
 
 // TODO: colocar para pegar os dados das visitas do backend do mês atual e do mês anterior, para fazer a comparação e mostrar no gráfico
 // o total de visitas
@@ -146,7 +145,6 @@ const YearlyBreakup = () => {
               ></Avatar>
               <Typography variant="subtitle2" color="textSecondary">
                 {periodoMesAnterior.periodoInicio.toLocaleString('default', {
-                  month: 'long',
                   month: 'long',
                 })}
               </Typography>

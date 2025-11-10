@@ -27,9 +27,10 @@ import IconButton from '@mui/material/IconButton';
 import ModalForm from './ModalForm';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
-import { format, toZonedTime, formatInTimeZone, utcToZonedTime } from 'date-fns-tz';
+import { formatInTimeZone } from 'date-fns-tz';
 import ModalStatusForm from './ModalStatusForm';
 
+/*
 const style = {
   position: 'absolute',
   top: '50%',
@@ -45,6 +46,7 @@ const style = {
   flexDirection: 'column',
   gap: '3px',
 };
+*/
 
 function TablePaginationActions(props) {
   const theme = useTheme();
@@ -132,6 +134,8 @@ const FechamentoTable = ({
     fechamentoStatus: '',
   });
   const navigate = useNavigate();
+
+  console.log(setSort)
 
   useEffect(() => {
     if (!fechamentosCarregados) {

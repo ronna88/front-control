@@ -6,7 +6,7 @@ import FormControl from '@mui/material/FormControl';
 import BlankCard from '../../components/shared/BlankCard';
 import Button from '@mui/material/Button';
 import { saveVisitaData, deleteVisita, getLocaisData } from '../../api/Api';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { Typography } from '@mui/material';
@@ -14,7 +14,7 @@ import { toast } from 'react-toastify';
 import ClienteSelect from '../../components/cliente/ClienteSelect';
 import LocalSelect from '../../components/cliente/LocalSelect';
 import FuncionarioSelect from '../../components/funcionario/FuncionarioSelect';
-import DatePicker, { registerLocale } from 'react-datepicker';
+import { registerLocale } from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import el from 'date-fns/locale/pt-BR';
 import './styles.css';
@@ -37,13 +37,13 @@ const VisitaForm = ({
   carregado,
   setCarregado,
 }) => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [date, setDate] = useState(new Date());
   const [finalDate, setFinalDate] = useState(new Date());
   const [listaLocais, setListaLocais] = useState();
   const [funcionariosSelecionados, setFuncionariosSelecionados] = useState([]);
   // const [carregado, setCarregado] = useState(false)
-  const [remoto, setRemoto] = useState();
+  // const [remoto, setRemoto] = useState();
 
   const style = {
     display: 'flex',
@@ -152,7 +152,7 @@ const VisitaForm = ({
   }, [date, finalDate]);
 
   useEffect(() => {
-    if (form.cliente != '-1' && form.cliente != '') {
+    if (form.cliente !== '-1' && form.cliente !== '') {
       getLocaisData(form.cliente)
         .then((response) => {
           console.log(response.data.content);
@@ -259,7 +259,7 @@ const VisitaForm = ({
                   form={form}
                 />
 
-                {form.cliente != '' && form.cliente != '-1' && listaLocais?.length > 0 ? (
+                {form.cliente !== '' && form.cliente !== '-1' && listaLocais?.length > 0 ? (
                   <LocalSelect form={form} setForm={setForm} />
                 ) : (
                   ''

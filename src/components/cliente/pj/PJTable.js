@@ -113,6 +113,9 @@ const PJTable = ({rows, setRows, loading, setLoading, edit, setEdit,
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     const [selectedPJ, setSelectedPJ] = useState();
+
+    console.log(setSort);
+    console.log(loadingKey);
     
     useEffect(() => {
         if(rows.length === 0){

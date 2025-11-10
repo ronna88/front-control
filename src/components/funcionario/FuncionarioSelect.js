@@ -1,4 +1,4 @@
-import react, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
@@ -8,6 +8,7 @@ const FuncionarioSelect = ({ listaFuncionarios, form, setForm, setFuncionariosSe
     var fTemp = []
 
     const [carregado, setCarregado] = useState(false)
+    console.log(setCarregado)
 
     /*const handleChange = (event) => {
         fTemp = []
@@ -23,7 +24,8 @@ const FuncionarioSelect = ({ listaFuncionarios, form, setForm, setFuncionariosSe
       console.log(form.funcionario)
     } */
 
-    const value = []
+    // const value = []
+
     const handleChangeMultiple = (event) => {
         const { options } = event.target
         const value = []

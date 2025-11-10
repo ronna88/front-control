@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Select, MenuItem } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
+// import { useTheme } from '@mui/material/styles';
 import DashboardCard from '../../../components/shared/DashboardCard';
 import Chart from 'react-apexcharts';
 import { getVisitasPorMes } from '../../../api/Api';
@@ -72,8 +72,8 @@ const HorasPorFuncionarioPorDiaOverview = ({ year }) => {
     return { series, categories };
   };
 
-  const theme = useTheme();
-  const primary = theme.palette.primary.main;
+  // const theme = useTheme();
+  //const primary = theme.palette.primary.main;
 
   // Define a custom color palette
   const colors = [

@@ -1,16 +1,16 @@
-import react from 'react'
+// import react from 'react'
 import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
+// import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import Chip from '@mui/material/Chip';
-import Box from '@mui/material/Box';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import {useState, useEffect} from 'react';
+// import Chip from '@mui/material/Chip';
+// import Box from '@mui/material/Box';
+// import OutlinedInput from '@mui/material/OutlinedInput';
+import {useEffect} from 'react';
 
 
 const AtivoSelect = ({listaAtivos, ativos, setAtivos, setRows, setForm, form, selectedContrato}) => {
-    const [listaCarregada, setListaCarregada] = useState(true)
+    // const [listaCarregada, setListaCarregada] = useState(true)
 
     const handleChange = (event) => {
         const { options } = event.target;

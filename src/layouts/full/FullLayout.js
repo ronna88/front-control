@@ -10,7 +10,6 @@ const MainWrapper = styled('div')(() => ({
   display: 'flex',
   minHeight: '100vh',
   width: '100%',
-  width: '100%',
   '@media print': {
     display: 'block', // Para remover layout flex na impressão
   },

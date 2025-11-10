@@ -183,7 +183,7 @@ const VisitaForm = ({
 
   return (
     <BlankCard>
-      <Box sx={style}>
+      <Box sx={{ ...style, maxHeight: '70vh', overflowY: 'auto', paddingRight: '8px' }}>
         {erase ? (
           <>
             <Typography variant="h3" component="h3" sx={{ marginBottom: '10px' }}>
@@ -202,7 +202,7 @@ const VisitaForm = ({
           <>
             <div className="formContainer">
               <div className="col-1">
-                {/*
+                {/* 
                 <InputLabel id='visitaValorProdutosLabel' sx={{ paddingLeft: '10px', zIndex: '1' }}>Início</InputLabel>
                 <div className="datePicker">
                   <DatePicker

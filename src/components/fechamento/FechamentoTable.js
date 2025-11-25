@@ -135,7 +135,7 @@ const FechamentoTable = ({
   });
   const navigate = useNavigate();
 
-  console.log(setSort)
+  console.log(setSort);
 
   useEffect(() => {
     if (!fechamentosCarregados) {
@@ -214,10 +214,18 @@ const FechamentoTable = ({
         .replace(/T/, '_')
         .replace(/:/g, '-')
         .split('.')[0];
+        
 */
+      const dataMesAnterior = new Date(dataAtual.getFullYear(), dataAtual.getMonth() - 1, 1);
       const dataFormatada = dataAtual.toLocaleDateString('pt-BR').replace(/\//g, '.');
-      
-      const mesAtual = dataAtual.toLocaleString('pt-BR', { month: 'long' }).charAt(0).toUpperCase() + dataAtual.toLocaleString('pt-BR', { month: 'long' }).slice(1);
+      const mesRef =
+        dataMesAnterior.toLocaleString('pt-BR', { month: 'long' }).charAt(0).toUpperCase() +
+        dataMesAnterior.toLocaleString('pt-BR', { month: 'long' }).slice(1);
+
+      // eslint-disable-next-line no-unused-vars
+      const mesAtual =
+        dataAtual.toLocaleString('pt-BR', { month: 'long' }).charAt(0).toUpperCase() +
+        dataAtual.toLocaleString('pt-BR', { month: 'long' }).slice(1);
 
       let localClienteNome = '';
 
@@ -228,7 +236,7 @@ const FechamentoTable = ({
       }
 
       // tenta obter o nome do arquivo a partir do header Content-Disposition (se fornecido)
-      let filename = `${dataFormatada} Fechamento ${mesAtual} ${fechamento.cliente?.clienteNome} ${localClienteNome}.pdf`;
+      let filename = `${dataFormatada} Fechamento ${mesRef} ${fechamento.cliente?.clienteNome} ${localClienteNome}.pdf`;
       const disposition = res.headers.get('content-disposition');
       if (disposition) {
         const matchFilename = disposition.match(/filename\*=UTF-8''(.+)|filename="?([^"]+)"?/);

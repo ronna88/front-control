@@ -16,7 +16,7 @@ const VisitaProdutos = ({ form, setForm }) => {
   const [produtos, setProdutos] = useState([]);
   const [totalGeral, setTotalGeral] = useState(0);
 
-  console.log(totalGeral)
+  console.log(totalGeral);
 
   useEffect(() => {
     setForm({ ...form, produtos });
@@ -30,7 +30,14 @@ const VisitaProdutos = ({ form, setForm }) => {
     if (form.visitaValorProdutos) {
       setTotalGeral(parseFloat(form.visitaValorProdutos));
     }
+
+    console.log('form on load:', form);
   }, []);
+
+  useEffect(() => {
+    console.log('produtos updated:', produtos);
+    console.log('form before update:', form);
+  }, [form.produtos]);
 
   const adicionarProduto = () => {
     const novoProduto = {
@@ -42,13 +49,21 @@ const VisitaProdutos = ({ form, setForm }) => {
     setProdutos([...produtos, novoProduto]);
   };
 
-  const removerProduto = (id) => {
-    setProdutos(produtos.filter((produto) => produto.id !== id));
+  const removerProduto = (nome) => {
+    setProdutos(produtos.filter((produto) => produto.nome !== nome));
   };
 
-  const atualizarProduto = (id, campo, valor) => {
+  const atualizarProduto = (nome, campo, valor) => {
+    // TODO: Verificar se o nome do produto já existe antes de atualizar
+    const buscaPorNome = produtos.filter((produto) => produto.nome === nome);
+
+    if (campo === 'nome' && buscaPorNome.length > 1) {
+      alert('Já existe um produto com esse nome. Por favor, escolha outro nome.');
+      return;
+    }
+
     setProdutos(
-      produtos.map((produto) => (produto.id === id ? { ...produto, [campo]: valor } : produto)),
+      produtos.map((produto) => (produto.nome === nome ? { ...produto, [campo]: valor } : produto)),
     );
   };
 
@@ -74,7 +89,7 @@ const VisitaProdutos = ({ form, setForm }) => {
       </Stack>
 
       {produtos.length === 0 ? (
-        <Card>
+        <Card key={new Date().getTime()}>
           <CardContent>
             <Typography variant="body2" color="text.secondary" align="center">
               Nenhum produto adicionado. Clique em "Adicionar Produto" para começar.
@@ -87,8 +102,14 @@ const VisitaProdutos = ({ form, setForm }) => {
             <Card key={produto.id} sx={{ mb: 2 }}>
               <CardContent>
                 <Stack direction="row" justifyContent="space-between" alignItems="center" mb={2}>
-                  <Typography variant="h6">Produto {index + 1}</Typography>
-                  <IconButton color="error" onClick={() => removerProduto(produto.id)} size="small">
+                  <Typography variant="h6">
+                    Produto {index + 1} {' - '} {produto.nome}
+                  </Typography>
+                  <IconButton
+                    color="error"
+                    onClick={() => removerProduto(produto.nome)}
+                    size="small"
+                  >
                     <IconTrash />
                   </IconButton>
                 </Stack>
@@ -99,7 +120,7 @@ const VisitaProdutos = ({ form, setForm }) => {
                       fullWidth
                       label="Nome do Produto"
                       value={produto.nome}
-                      onChange={(e) => atualizarProduto(produto.id, 'nome', e.target.value)}
+                      onChange={(e) => atualizarProduto(produto.nome, 'nome', e.target.value)}
                       variant="outlined"
                     />
                   </Grid>
@@ -111,7 +132,11 @@ const VisitaProdutos = ({ form, setForm }) => {
                       type="number"
                       value={produto.quantidade}
                       onChange={(e) =>
-                        atualizarProduto(produto.id, 'quantidade', parseFloat(e.target.value) || 0)
+                        atualizarProduto(
+                          produto.nome,
+                          'quantidade',
+                          parseFloat(e.target.value) || 0,
+                        )
                       }
                       variant="outlined"
                       inputProps={{ min: 0, step: 1 }}
@@ -121,11 +146,11 @@ const VisitaProdutos = ({ form, setForm }) => {
                   <Grid item xs={12} md={2}>
                     <TextField
                       fullWidth
-                      label="Preço Unitário"
+                      label={`${produto.nome} - Preço Unitário`}
                       type="number"
                       value={produto.preco}
                       onChange={(e) =>
-                        atualizarProduto(produto.id, 'preco', parseFloat(e.target.value) || 0)
+                        atualizarProduto(produto.nome, 'preco', parseFloat(e.target.value) || 0)
                       }
                       variant="outlined"
                       inputProps={{ min: 0, step: 0.01 }}

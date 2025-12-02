@@ -196,6 +196,11 @@ const FechamentoTable = ({
         const text = await res.text();
         console.error('Erro ao gerar PDF:', text);
         toast.error('Erro ao gerar PDF!');
+
+        const t = JSON.parse(text);
+        if (t.message) {
+          toast.error(t.message);
+        }
         return;
       }
 
